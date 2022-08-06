@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataLayer
+namespace BusinessLayer
 {
-    public class DL
+    public class Class1
     {
     }
 }

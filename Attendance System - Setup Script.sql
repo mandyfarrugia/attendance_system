@@ -1,4 +1,62 @@
+if exists(select * from sys.databases where name = 'attendance_system')
+begin
+	alter table dbo.StudentAttendance
+	drop constraint sa_pk;
+
+	alter table dbo.StudentAttendance
+	drop constraint sa_sid_fk;
+
+	alter table dbo.StudentAttendance
+	drop constraint sa_lid_fk;
+
+	drop table dbo.StudentAttendance;
+
+	alter table dbo.Lesson
+	drop constraint le_tid_fk;
+
+	alter table dbo.Lesson
+	drop constraint le_gid_fk;
+
+	alter table dbo.Lesson
+	drop constraint le_lid_pk;
+
+	drop table dbo.Lesson;
+
+	alter table dbo.Student
+	drop constraint st_gid_fk;
+
+	alter table dbo.Student
+	drop constraint st_sid_pk;
+
+	drop table dbo.Student;
+
+	alter table dbo.[Group]
+	drop constraint gr_cid_fk;
+
+	alter table dbo.[Group]
+	drop constraint gr_gid_pk;
+
+	drop table dbo.[Group];
+
+	alter table dbo.Course
+	drop constraint co_cid_pk;
+
+	drop table dbo.Course;
+
+	alter table dbo.Teacher
+	drop constraint te_tid_pk;
+
+	drop table dbo.Teacher;
+
+	use master;
+	
+	drop database attendance_system;
+end
+
 create database attendance_system;
+go
+
+use attendance_system;
 go
 
 create table dbo.Teacher (

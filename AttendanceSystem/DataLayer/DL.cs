@@ -10,5 +10,13 @@ namespace DataLayer
     public class DL
     {
         public static AttendanceSystemEntities ctx = new AttendanceSystemEntities();
+
+        public Teacher VerifyIfTeacherUsernameExists(string username)
+        {
+            Teacher matchingTeacher = new List<Teacher>(from teacher in ctx.Teacher
+                                                        where teacher.Username == username
+                                                        select teacher).SingleOrDefault();
+            return matchingTeacher;
+        }
     }
 }

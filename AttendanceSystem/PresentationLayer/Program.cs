@@ -9,6 +9,8 @@ namespace PresentationLayer
 {
     public class Program
     {
+        static BL businessLayer = new BL();
+
         public static void Main(string[] args)
         {
             DisplayLoginMenu();

@@ -9,5 +9,6 @@ namespace BusinessLayer
 {
     public class BL
     {
+        static DL dataLayer = new DL();
     }
 }

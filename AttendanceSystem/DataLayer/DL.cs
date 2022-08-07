@@ -9,5 +9,6 @@ namespace DataLayer
 {
     public class DL
     {
+        public static AttendanceSystemEntities ctx = new AttendanceSystemEntities();
     }
 }

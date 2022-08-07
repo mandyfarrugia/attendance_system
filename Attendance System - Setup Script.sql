@@ -61,7 +61,8 @@ go
 
 create table dbo.Teacher (
 	TeacherID integer
-		constraint te_tid_pk primary key,
+		constraint te_tid_pk primary key
+		identity(1,1),
 	Username nvarchar(50) not null,
 	[Password] nvarchar(50) not null,
 	[Name] nvarchar(50) not null,
@@ -71,13 +72,15 @@ create table dbo.Teacher (
 
 create table dbo.Course (
 	CourseID integer
-		constraint co_cid_pk primary key,
+		constraint co_cid_pk primary key
+		identity(1,1),
 	Course nvarchar(50) not null
 );
 
 create table dbo.[Group] (
 	GroupID integer
-		constraint gr_gid_pk primary key,
+		constraint gr_gid_pk primary key
+		identity(1,1),
 	[Name] nvarchar(50) not null,
 	CourseID integer not null
 		constraint gr_cid_fk foreign key references dbo.Course(CourseID)
@@ -85,7 +88,8 @@ create table dbo.[Group] (
 
 create table dbo.Student (
 	StudentID integer
-		constraint st_sid_pk primary key,
+		constraint st_sid_pk primary key
+		identity(1,1),
 	[Name] nvarchar(50) not null,
 	Surname nvarchar(50) not null,
 	Email nvarchar(50) not null,
@@ -95,7 +99,8 @@ create table dbo.Student (
 
 create table dbo.Lesson (
 	LessonID integer
-		constraint le_lid_pk primary key,
+		constraint le_lid_pk primary key
+		identity(1,1),
 	GroupID integer not null
 		constraint le_gid_fk foreign key references dbo.[Group](GroupID),
 	[DateTime] datetime not null,
@@ -104,7 +109,8 @@ create table dbo.Lesson (
 );
 
 create table dbo.StudentAttendance (
-	AttendanceID integer,
+	AttendanceID integer
+		identity(1,1),
 	LessonID integer
 		constraint sa_lid_fk foreign key references dbo.Lesson(LessonID),
 	Presence bit not null,

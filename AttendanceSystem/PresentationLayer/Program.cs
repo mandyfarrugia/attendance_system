@@ -176,7 +176,17 @@ namespace PresentationLayer
 
         private static void AddCourse()
         {
-
+            ClearConsole();
+            Console.WriteLine("Add New Course\n==============");
+            string courseTitle = string.Empty;
+            do
+            {
+                Console.Write("Course Title: ");
+                courseTitle = Console.ReadLine();
+                if (courseTitle.Equals(string.Empty))
+                    DisplayMessage("Course title cannot be empty!", MessageType.Error);
+            }
+            while (courseTitle.Equals(string.Empty));
         }
 
         private static void AddNewStudent() 

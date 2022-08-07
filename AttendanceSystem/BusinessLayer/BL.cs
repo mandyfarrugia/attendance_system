@@ -30,6 +30,16 @@ namespace BusinessLayer
             return loggedInTeacherID;
         }
 
+        public void AddNewGroup(string groupName)
+        {
+            //Group group = new Group(groupName);
+        }
+
+        public void AddCourse(string courseTitle)
+        {
+            Course course = new Course(courseTitle);
+        }
+
         public void AddNewTeacher(string username, string password, string name, string surname, string email)
         {
             Teacher teacher = new Teacher(username, password, name, surname, email);

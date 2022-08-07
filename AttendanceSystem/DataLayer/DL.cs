@@ -43,6 +43,12 @@ namespace DataLayer
             ctx.SaveChanges();
         }
 
+        public void AddNewCourse(Course course)
+        {
+            ctx.Course.Add(course);
+            ctx.SaveChanges();
+        }
+
         public void AddNewTeacher(Teacher teacher)
         {
             ctx.Teacher.Add(teacher);

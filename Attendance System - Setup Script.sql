@@ -74,7 +74,7 @@ create table dbo.Course (
 	CourseID integer
 		constraint co_cid_pk primary key
 		identity(1,1),
-	Course nvarchar(50) not null
+	CourseTitle nvarchar(50) not null
 );
 
 create table dbo.[Group] (

@@ -161,7 +161,7 @@ namespace PresentationLayer
 
         }
 
-        private static void AddStudent() 
+        private static void AddNewStudent() 
         {
 
         }

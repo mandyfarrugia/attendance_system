@@ -97,7 +97,7 @@ namespace PresentationLayer
         {
             get
             {
-                List<string> options = new List<string>() { "Add attendance", "Add a new group", "Add a new teacher", "Check a student's attendance percentage",
+                List<string> options = new List<string>() { "Add attendance", "Add a new group", "Add course", "Add new student", "Add a new teacher", "Check a student's attendance percentage",
                                                             "Get all attendances submitted on a particular day", "Edit student" };
                 return options;
             }
@@ -127,15 +127,20 @@ namespace PresentationLayer
                             AddNewGroup();
                             break;
                         case 3:
-                            AddNewTeacher();
-                            break;
+                            AddCourse();
                         case 4:
-                            CheckStudentAttendancePercentage();
+                            AddNewStudent();
                             break;
                         case 5:
-                            GetAllAttendancesOnParticularDay();
+                            AddNewTeacher();
                             break;
                         case 6:
+                            CheckStudentAttendancePercentage();
+                            break;
+                        case 7:
+                            GetAllAttendancesOnParticularDay();
+                            break;
+                        case 8:
                             EditStudent();
                             break;
                         default:
@@ -155,12 +160,52 @@ namespace PresentationLayer
 
         private static void AddNewGroup()
         {
+            
+        }
+
+        private static void AddCourse()
+        {
+
+        }
+
+        private static void AddNewStudent() 
+        {
 
         }
 
         private static void AddNewTeacher()
         {
+            ClearConsole();
+            Console.WriteLine("Add New Teacher\n===============");
 
+            string username = string.Empty;
+            do
+            {
+                Console.Write("Username: ");
+                username = Console.ReadLine();
+
+                if(username.Equals(string.Empty))
+                    DisplayMessage("Username cannot be empty!", MessageType.Error);
+            }
+            while (username.Equals(string.Empty));
+
+            string password = string.Empty;
+            do
+            {
+                Console.Write("Password: ");
+                password = Console.ReadLine();
+
+                if (password.Equals(string.Empty))
+                    DisplayMessage("Password cannot be empty!", MessageType.Error);
+            }
+            while (password.Equals(string.Empty));
+
+            Console.Write("Name: ");
+            string name = Console.ReadLine();
+            Console.Write("Surname: ");
+            string surname = Console.ReadLine();
+            Console.Write("Email: ");
+            string email = Console.ReadLine();
         }
 
         private static void CheckStudentAttendancePercentage()
@@ -202,6 +247,7 @@ namespace PresentationLayer
         {
             ChangeForegroundColour(messageType);
             Console.WriteLine(message);
+            Console.ResetColor();
         }
 
         private static void ClearConsole()

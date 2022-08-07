@@ -18,5 +18,13 @@ namespace DataLayer
                                                         select teacher).SingleOrDefault();
             return matchingTeacher;
         }
+
+        public Teacher VerifyIfTeacherPasswordIsCorrect(string username, string password)
+        {
+            Teacher matchingTeacher = new List<Teacher>(from teacher in ctx.Teacher
+                                                        where teacher.Username == username && teacher.Password == password
+                                                        select teacher).SingleOrDefault();
+            return matchingTeacher;
+        }
     }
 }

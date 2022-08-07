@@ -65,6 +65,17 @@ namespace PresentationLayer
             Console.WriteLine("Login\n=====");
             Console.Write("Username: ");
             string username = Console.ReadLine();
+            if (businessLayer.VerifyIfTeacherUsernameExists(username))
+            {
+                Console.Write("Password: ");
+                string password = Console.ReadLine();
+                if(businessLayer.VerifyIfTeacherPasswordIsCorrect(username, password))
+                    Console.WriteLine("Correct credentials!");
+                else
+                    Console.WriteLine("Incorrect credentials!");
+            }
+            else
+                Console.WriteLine("The entered ID does not exist in our system.");
         }
 
         private enum MessageType { Warning, Error, Success }

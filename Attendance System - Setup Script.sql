@@ -1,4 +1,4 @@
-if exists(select * from sys.databases where name = 'attendance_system')
+if exists(select * from sys.databases where name = 'AttendanceSystem')
 begin
 	alter table dbo.StudentAttendance
 	drop constraint sa_pk;
@@ -50,13 +50,13 @@ begin
 
 	use master;
 	
-	drop database attendance_system;
+	drop database AttendanceSystem;
 end
 
-create database attendance_system;
+create database AttendanceSystem;
 go
 
-use attendance_system;
+use AttendanceSystem;
 go
 
 create table dbo.Teacher (

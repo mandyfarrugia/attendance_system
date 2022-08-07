@@ -10,7 +10,7 @@ namespace Domain
     {
         public Teacher(string username, string password, string name, string surname, string email)
         {
-
+            
         }
     }
 }

@@ -40,7 +40,7 @@ namespace PresentationLayer
                     switch (choice)
                     {
                         case 1:
-                            Console.WriteLine("You have selected the first option!");
+                            Login();
                             break;
                         case 2:
                             Console.WriteLine("Goodbye!");
@@ -54,6 +54,14 @@ namespace PresentationLayer
                     Console.WriteLine("Incorrect input format! Please try again!");
             }
             while (choice != 2 || !isInputFormatCorrect);
+        }
+
+        private static void Login()
+        {
+            ClearConsole();
+            Console.WriteLine("Login\n=====");
+            Console.Write("Username: ");
+            string username = Console.ReadLine();
         }
 
         private enum MessageType { Warning, Error, Success }
@@ -80,6 +88,11 @@ namespace PresentationLayer
         {
             ChangeForegroundColour(messageType);
             Console.WriteLine(message);
+        }
+
+        private static void ClearConsole()
+        {
+            Console.Clear();
         }
     }
 }

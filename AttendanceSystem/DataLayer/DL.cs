@@ -36,5 +36,11 @@ namespace DataLayer
                                                     select teacher).FirstOrDefault();
             return matchingTeacher.TeacherID;
         }
+
+        public void AddNewTeacher(Teacher teacher)
+        {
+            ctx.Teacher.Add(teacher);
+            ctx.SaveChanges();
+        }
     }
 }

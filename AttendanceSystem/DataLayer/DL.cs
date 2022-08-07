@@ -37,6 +37,12 @@ namespace DataLayer
             return matchingTeacher.TeacherID;
         }
 
+        public void AddNewGroup(Group group)
+        {
+            ctx.Group.Add(group);
+            ctx.SaveChanges();
+        }
+
         public void AddNewTeacher(Teacher teacher)
         {
             ctx.Teacher.Add(teacher);

@@ -161,7 +161,17 @@ namespace PresentationLayer
 
         private static void AddNewGroup()
         {
-            
+            ClearConsole();
+            Console.WriteLine("Add New Group\n=============");
+            string groupName = string.Empty;
+            do
+            {
+                Console.Write("Group Name: ");
+                groupName = Console.ReadLine();
+                if (groupName.Equals(string.Empty))
+                    DisplayMessage("Group name cannot be empty!", MessageType.Error);
+            }
+            while (groupName.Equals(string.Empty));
         }
 
         private static void AddCourse()

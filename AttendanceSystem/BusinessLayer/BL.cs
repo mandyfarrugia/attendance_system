@@ -18,10 +18,22 @@ namespace BusinessLayer
             return matchingTeacher != null;
         }
 
+        //public bool VerifyIfTeacherPasswordIsCorrect(string username, string password)
+        //{
+        //    Teacher matchingTeacher = dataLayer.VerifyIfTeacherPasswordIsCorrect(username, password);
+        //    return matchingTeacher != null;
+        //}
+
         public bool VerifyIfTeacherPasswordIsCorrect(string username, string password)
         {
-            Teacher matchingTeacher = dataLayer.VerifyIfTeacherPasswordIsCorrect(username, password);
-            return matchingTeacher != null;
+            bool credentialsMatch = dataLayer.VerifyIfTeacherPasswordIsCorrect(username, password);
+            return credentialsMatch;
+        }
+
+        public int GetTeacherID(string username, string password)
+        {
+            int loggedInTeacherID = dataLayer.GetTeacherID(username, password);
+            return loggedInTeacherID;
         }
     }
 }

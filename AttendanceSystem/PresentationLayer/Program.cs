@@ -10,6 +10,7 @@ namespace PresentationLayer
     public class Program
     {
         static BL businessLayer = new BL();
+        static int teacherID = 0;
 
         public static void Main(string[] args)
         {
@@ -17,7 +18,7 @@ namespace PresentationLayer
             Console.ReadLine();
         }
 
-        private static List<string> MenuOptions
+        private static List<string> LoginMenuOptions
         {
             get 
             {
@@ -28,12 +29,12 @@ namespace PresentationLayer
 
         private static void DisplayLoginMenu()
         {
-            List<string> loginMenuOptions = MenuOptions;
+            List<string> loginMenuOptions = LoginMenuOptions;
             bool isInputFormatCorrect = false;
             int choice = 0;
-            Console.WriteLine("Main Menu\n=========");
             do
             {
+                Console.WriteLine("Main Menu\n=========");
                 for (int optionPos = 0; optionPos < loginMenuOptions.Count; optionPos++)
                     Console.WriteLine($"{optionPos + 1}. {loginMenuOptions[optionPos]}");
                 Console.Write("Enter choice: ");
@@ -50,6 +51,8 @@ namespace PresentationLayer
                             break;
                         default:
                             Console.WriteLine("Invalid choice!");
+                            Console.ReadKey();
+                            ClearConsole();
                             break;
                     }
                 }
@@ -70,12 +73,73 @@ namespace PresentationLayer
                 Console.Write("Password: ");
                 string password = Console.ReadLine();
                 if(businessLayer.VerifyIfTeacherPasswordIsCorrect(username, password))
-                    Console.WriteLine("Correct credentials!");
+                {
+                    Console.WriteLine("Correct credentials, logging you in!");
+                    teacherID = businessLayer.GetTeacherID(username, password);
+                    DisplayTeacherMenu();
+                }
                 else
+                {
                     Console.WriteLine("Incorrect credentials!");
+                    Console.ReadKey();
+                    ClearConsole();
+                }
             }
             else
+            {
                 Console.WriteLine("The entered ID does not exist in our system.");
+                Console.ReadKey();
+                ClearConsole();
+            }
+        }
+
+        private static List<string> TeacherMenuOptions
+        {
+            get
+            {
+                List<string> options = new List<string>() { "Add attendance", "Add a new group", "Add a new teacher", "Check a student's attendance percentage",
+                                                            "Get all attendances submitted on a particular day", "Edit student" };
+                return options;
+            }
+        }
+
+        private static void DisplayTeacherMenu()
+        {
+            ClearConsole();
+            List<string> teacherMenuOptions = TeacherMenuOptions;
+            bool isInputFormatCorrect = false;
+            int choice = 0;
+            Console.WriteLine("Teacher's Menu\n==============");
+            do
+            {
+                for (int optionPos = 0; optionPos < teacherMenuOptions.Count; optionPos++)
+                    Console.WriteLine($"{optionPos + 1}. {teacherMenuOptions[optionPos]}");
+                Console.Write("Enter choice: ");
+                isInputFormatCorrect = int.TryParse(Console.ReadLine(), out choice);
+                if (isInputFormatCorrect)
+                {
+                    switch (choice)
+                    {
+                        case 1:
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            break;
+                        case 4:
+                            break;
+                        case 5:
+                            break;
+                        case 6:
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else
+                    Console.WriteLine("Incorrect input format! Please try again!");
+            }
+            while (choice != 2 || !isInputFormatCorrect);
         }
 
         private enum MessageType { Warning, Error, Success }

@@ -19,12 +19,22 @@ namespace DataLayer
             return matchingTeacher;
         }
 
-        public Teacher VerifyIfTeacherPasswordIsCorrect(string username, string password)
+        public bool VerifyIfTeacherPasswordIsCorrect(string username, string password)
         {
             Teacher matchingTeacher = new List<Teacher>(from teacher in ctx.Teacher
                                                         where teacher.Username == username && teacher.Password == password
-                                                        select teacher).SingleOrDefault();
-            return matchingTeacher;
+                                                        select teacher).FirstOrDefault();
+            if(matchingTeacher != null)
+                return matchingTeacher.TeacherID != 0;
+            return false;
+        }
+
+        public int GetTeacherID(string username, string password)
+        {
+            Teacher matchingTeacher = new List<Teacher>(from teacher in ctx.Teacher
+                                                    where teacher.Username == username && teacher.Password == password
+                                                    select teacher).FirstOrDefault();
+            return matchingTeacher.TeacherID;
         }
     }
 }

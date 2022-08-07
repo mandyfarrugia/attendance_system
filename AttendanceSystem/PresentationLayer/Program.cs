@@ -121,6 +121,7 @@ namespace PresentationLayer
                     switch (choice)
                     {
                         case 1:
+                            AddAttendance();
                             break;
                         case 2:
                             break;
@@ -140,6 +141,36 @@ namespace PresentationLayer
                     Console.WriteLine("Incorrect input format! Please try again!");
             }
             while (choice != 2 || !isInputFormatCorrect);
+        }
+
+        private static void AddAttendance()
+        {
+
+        }
+
+        private static void AddNewGroup()
+        {
+
+        }
+
+        private static void AddNewTeacher()
+        {
+
+        }
+
+        private static void CheckStudentAttendancePercentage()
+        {
+
+        }
+
+        private static void GetAllAttendancesOnParticularDay()
+        {
+
+        }
+
+        private static void EditStudent()
+        {
+
         }
 
         private enum MessageType { Warning, Error, Success }

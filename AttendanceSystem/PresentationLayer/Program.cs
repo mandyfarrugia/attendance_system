@@ -97,7 +97,7 @@ namespace PresentationLayer
         {
             get
             {
-                List<string> options = new List<string>() { "Add attendance", "Add a new group", "Add a new teacher", "Check a student's attendance percentage",
+                List<string> options = new List<string>() { "Add attendance", "Add a new group", "Add new student", "Add a new teacher", "Check a student's attendance percentage",
                                                             "Get all attendances submitted on a particular day", "Edit student" };
                 return options;
             }
@@ -127,15 +127,18 @@ namespace PresentationLayer
                             AddNewGroup();
                             break;
                         case 3:
-                            AddNewTeacher();
+                            AddNewStudent();
                             break;
                         case 4:
-                            CheckStudentAttendancePercentage();
+                            AddNewTeacher();
                             break;
                         case 5:
-                            GetAllAttendancesOnParticularDay();
+                            CheckStudentAttendancePercentage();
                             break;
                         case 6:
+                            GetAllAttendancesOnParticularDay();
+                            break;
+                        case 7:
                             EditStudent();
                             break;
                         default:
@@ -154,6 +157,11 @@ namespace PresentationLayer
         }
 
         private static void AddNewGroup()
+        {
+
+        }
+
+        private static void AddStudent() 
         {
 
         }

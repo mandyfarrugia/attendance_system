@@ -128,6 +128,7 @@ namespace PresentationLayer
                             break;
                         case 3:
                             AddCourse();
+                            break;
                         case 4:
                             AddNewStudent();
                             break;

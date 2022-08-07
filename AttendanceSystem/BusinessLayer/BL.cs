@@ -18,12 +18,6 @@ namespace BusinessLayer
             return matchingTeacher != null;
         }
 
-        //public bool VerifyIfTeacherPasswordIsCorrect(string username, string password)
-        //{
-        //    Teacher matchingTeacher = dataLayer.VerifyIfTeacherPasswordIsCorrect(username, password);
-        //    return matchingTeacher != null;
-        //}
-
         public bool VerifyIfTeacherPasswordIsCorrect(string username, string password)
         {
             bool credentialsMatch = dataLayer.VerifyIfTeacherPasswordIsCorrect(username, password);
@@ -34,6 +28,12 @@ namespace BusinessLayer
         {
             int loggedInTeacherID = dataLayer.GetTeacherID(username, password);
             return loggedInTeacherID;
+        }
+
+        public void AddNewTeacher(string username, string password, string name, string surname, string email)
+        {
+            Teacher teacher = new Teacher(username, password, name, surname, email);
+            dataLayer.AddNewTeacher(teacher);
         }
     }
 }

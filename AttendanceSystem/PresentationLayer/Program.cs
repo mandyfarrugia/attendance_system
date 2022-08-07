@@ -124,14 +124,19 @@ namespace PresentationLayer
                             AddAttendance();
                             break;
                         case 2:
+                            AddNewGroup();
                             break;
                         case 3:
+                            AddNewTeacher();
                             break;
                         case 4:
+                            CheckStudentAttendancePercentage();
                             break;
                         case 5:
+                            GetAllAttendancesOnParticularDay();
                             break;
                         case 6:
+                            EditStudent();
                             break;
                         default:
                             break;

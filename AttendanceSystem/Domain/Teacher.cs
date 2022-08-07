@@ -17,7 +17,7 @@ namespace Domain
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Teacher()
         {
-            this.Lessons = new HashSet<Lesson>();
+            this.Lesson = new HashSet<Lesson>();
         }
     
         public int TeacherID { get; set; }
@@ -28,6 +28,6 @@ namespace Domain
         public string Email { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Lesson> Lessons { get; set; }
+        public virtual ICollection<Lesson> Lesson { get; set; }
     }
 }

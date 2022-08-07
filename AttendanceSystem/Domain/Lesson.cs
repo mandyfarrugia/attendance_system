@@ -17,7 +17,7 @@ namespace Domain
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Lesson()
         {
-            this.StudentAttendances = new HashSet<StudentAttendance>();
+            this.StudentAttendance = new HashSet<StudentAttendance>();
         }
     
         public int LessonID { get; set; }
@@ -28,6 +28,6 @@ namespace Domain
         public virtual Group Group { get; set; }
         public virtual Teacher Teacher { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<StudentAttendance> StudentAttendances { get; set; }
+        public virtual ICollection<StudentAttendance> StudentAttendance { get; set; }
     }
 }

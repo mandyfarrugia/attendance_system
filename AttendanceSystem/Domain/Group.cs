@@ -17,8 +17,8 @@ namespace Domain
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Group()
         {
-            this.Lessons = new HashSet<Lesson>();
-            this.Students = new HashSet<Student>();
+            this.Lesson = new HashSet<Lesson>();
+            this.Student = new HashSet<Student>();
         }
     
         public int GroupID { get; set; }
@@ -27,8 +27,8 @@ namespace Domain
     
         public virtual Course Course { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Lesson> Lessons { get; set; }
+        public virtual ICollection<Lesson> Lesson { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Student> Students { get; set; }
+        public virtual ICollection<Student> Student { get; set; }
     }
 }

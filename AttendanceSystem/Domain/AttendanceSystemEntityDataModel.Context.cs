@@ -25,11 +25,11 @@ namespace Domain
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Course> Courses { get; set; }
-        public virtual DbSet<Group> Groups { get; set; }
-        public virtual DbSet<Lesson> Lessons { get; set; }
-        public virtual DbSet<Student> Students { get; set; }
-        public virtual DbSet<StudentAttendance> StudentAttendances { get; set; }
-        public virtual DbSet<Teacher> Teachers { get; set; }
+        public virtual DbSet<Course> Course { get; set; }
+        public virtual DbSet<Group> Group { get; set; }
+        public virtual DbSet<Lesson> Lesson { get; set; }
+        public virtual DbSet<Student> Student { get; set; }
+        public virtual DbSet<StudentAttendance> StudentAttendance { get; set; }
+        public virtual DbSet<Teacher> Teacher { get; set; }
     }
 }

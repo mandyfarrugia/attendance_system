@@ -4,19 +4,19 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="AttendanceSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="AttendanceSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Course">
           <Key>
             <PropertyRef Name="CourseID" />
           </Key>
-          <Property Name="CourseID" Type="int" Nullable="false" />
-          <Property Name="Course" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CourseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CourseTitle" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Group">
           <Key>
             <PropertyRef Name="GroupID" />
           </Key>
-          <Property Name="GroupID" Type="int" Nullable="false" />
+          <Property Name="GroupID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="CourseID" Type="int" Nullable="false" />
         </EntityType>
@@ -24,7 +24,7 @@
           <Key>
             <PropertyRef Name="LessonID" />
           </Key>
-          <Property Name="LessonID" Type="int" Nullable="false" />
+          <Property Name="LessonID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="GroupID" Type="int" Nullable="false" />
           <Property Name="DateTime" Type="datetime" Nullable="false" />
           <Property Name="TeacherID" Type="int" Nullable="false" />
@@ -33,7 +33,7 @@
           <Key>
             <PropertyRef Name="StudentID" />
           </Key>
-          <Property Name="StudentID" Type="int" Nullable="false" />
+          <Property Name="StudentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Surname" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -45,7 +45,7 @@
             <PropertyRef Name="LessonID" />
             <PropertyRef Name="StudentID" />
           </Key>
-          <Property Name="AttendanceID" Type="int" Nullable="false" />
+          <Property Name="AttendanceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="LessonID" Type="int" Nullable="false" />
           <Property Name="Presence" Type="bit" Nullable="false" />
           <Property Name="StudentID" Type="int" Nullable="false" />
@@ -54,7 +54,7 @@
           <Key>
             <PropertyRef Name="TeacherID" />
           </Key>
-          <Property Name="TeacherID" Type="int" Nullable="false" />
+          <Property Name="TeacherID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -165,8 +165,7 @@
             <End Role="Student" EntitySet="Student" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AttendanceSystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -174,44 +173,44 @@
           <Key>
             <PropertyRef Name="CourseID" />
           </Key>
-          <Property Name="CourseID" Type="Int32" Nullable="false" />
-          <Property Name="Course1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Groups" Relationship="Self.gr_cid_fk" FromRole="Course" ToRole="Group" />
+          <Property Name="CourseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Group" Relationship="Self.gr_cid_fk" FromRole="Course" ToRole="Group" />
+          <Property Name="CourseTitle" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Group">
           <Key>
             <PropertyRef Name="GroupID" />
           </Key>
-          <Property Name="GroupID" Type="Int32" Nullable="false" />
+          <Property Name="GroupID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="CourseID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Course" Relationship="Self.gr_cid_fk" FromRole="Group" ToRole="Course" />
-          <NavigationProperty Name="Lessons" Relationship="Self.le_gid_fk" FromRole="Group" ToRole="Lesson" />
-          <NavigationProperty Name="Students" Relationship="Self.st_gid_fk" FromRole="Group" ToRole="Student" />
+          <NavigationProperty Name="Lesson" Relationship="Self.le_gid_fk" FromRole="Group" ToRole="Lesson" />
+          <NavigationProperty Name="Student" Relationship="Self.st_gid_fk" FromRole="Group" ToRole="Student" />
         </EntityType>
         <EntityType Name="Lesson">
           <Key>
             <PropertyRef Name="LessonID" />
           </Key>
-          <Property Name="LessonID" Type="Int32" Nullable="false" />
+          <Property Name="LessonID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="GroupID" Type="Int32" Nullable="false" />
           <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="TeacherID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Group" Relationship="Self.le_gid_fk" FromRole="Lesson" ToRole="Group" />
           <NavigationProperty Name="Teacher" Relationship="Self.le_tid_fk" FromRole="Lesson" ToRole="Teacher" />
-          <NavigationProperty Name="StudentAttendances" Relationship="Self.sa_lid_fk" FromRole="Lesson" ToRole="StudentAttendance" />
+          <NavigationProperty Name="StudentAttendance" Relationship="Self.sa_lid_fk" FromRole="Lesson" ToRole="StudentAttendance" />
         </EntityType>
         <EntityType Name="Student">
           <Key>
             <PropertyRef Name="StudentID" />
           </Key>
-          <Property Name="StudentID" Type="Int32" Nullable="false" />
+          <Property Name="StudentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="GroupID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Group" Relationship="Self.st_gid_fk" FromRole="Student" ToRole="Group" />
-          <NavigationProperty Name="StudentAttendances" Relationship="Self.sa_sid_fk" FromRole="Student" ToRole="StudentAttendance" />
+          <NavigationProperty Name="StudentAttendance" Relationship="Self.sa_sid_fk" FromRole="Student" ToRole="StudentAttendance" />
         </EntityType>
         <EntityType Name="StudentAttendance">
           <Key>
@@ -219,7 +218,7 @@
             <PropertyRef Name="LessonID" />
             <PropertyRef Name="StudentID" />
           </Key>
-          <Property Name="AttendanceID" Type="Int32" Nullable="false" />
+          <Property Name="AttendanceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="LessonID" Type="Int32" Nullable="false" />
           <Property Name="Presence" Type="Boolean" Nullable="false" />
           <Property Name="StudentID" Type="Int32" Nullable="false" />
@@ -230,13 +229,13 @@
           <Key>
             <PropertyRef Name="TeacherID" />
           </Key>
-          <Property Name="TeacherID" Type="Int32" Nullable="false" />
+          <Property Name="TeacherID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Lessons" Relationship="Self.le_tid_fk" FromRole="Teacher" ToRole="Lesson" />
+          <NavigationProperty Name="Lesson" Relationship="Self.le_tid_fk" FromRole="Teacher" ToRole="Lesson" />
         </EntityType>
         <Association Name="gr_cid_fk">
           <End Role="Course" Type="Self.Course" Multiplicity="1" />
@@ -311,35 +310,35 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="AttendanceSystemEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Courses" EntityType="Self.Course" />
-          <EntitySet Name="Groups" EntityType="Self.Group" />
-          <EntitySet Name="Lessons" EntityType="Self.Lesson" />
-          <EntitySet Name="Students" EntityType="Self.Student" />
-          <EntitySet Name="StudentAttendances" EntityType="Self.StudentAttendance" />
-          <EntitySet Name="Teachers" EntityType="Self.Teacher" />
+          <EntitySet Name="Course" EntityType="Self.Course" />
+          <EntitySet Name="Group" EntityType="Self.Group" />
+          <EntitySet Name="Lesson" EntityType="Self.Lesson" />
+          <EntitySet Name="Student" EntityType="Self.Student" />
+          <EntitySet Name="StudentAttendance" EntityType="Self.StudentAttendance" />
+          <EntitySet Name="Teacher" EntityType="Self.Teacher" />
           <AssociationSet Name="gr_cid_fk" Association="Self.gr_cid_fk">
-            <End Role="Course" EntitySet="Courses" />
-            <End Role="Group" EntitySet="Groups" />
+            <End Role="Course" EntitySet="Course" />
+            <End Role="Group" EntitySet="Group" />
           </AssociationSet>
           <AssociationSet Name="le_gid_fk" Association="Self.le_gid_fk">
-            <End Role="Group" EntitySet="Groups" />
-            <End Role="Lesson" EntitySet="Lessons" />
+            <End Role="Group" EntitySet="Group" />
+            <End Role="Lesson" EntitySet="Lesson" />
           </AssociationSet>
           <AssociationSet Name="st_gid_fk" Association="Self.st_gid_fk">
-            <End Role="Group" EntitySet="Groups" />
-            <End Role="Student" EntitySet="Students" />
+            <End Role="Group" EntitySet="Group" />
+            <End Role="Student" EntitySet="Student" />
           </AssociationSet>
           <AssociationSet Name="le_tid_fk" Association="Self.le_tid_fk">
-            <End Role="Teacher" EntitySet="Teachers" />
-            <End Role="Lesson" EntitySet="Lessons" />
+            <End Role="Teacher" EntitySet="Teacher" />
+            <End Role="Lesson" EntitySet="Lesson" />
           </AssociationSet>
           <AssociationSet Name="sa_lid_fk" Association="Self.sa_lid_fk">
-            <End Role="Lesson" EntitySet="Lessons" />
-            <End Role="StudentAttendance" EntitySet="StudentAttendances" />
+            <End Role="Lesson" EntitySet="Lesson" />
+            <End Role="StudentAttendance" EntitySet="StudentAttendance" />
           </AssociationSet>
           <AssociationSet Name="sa_sid_fk" Association="Self.sa_sid_fk">
-            <End Role="Student" EntitySet="Students" />
-            <End Role="StudentAttendance" EntitySet="StudentAttendances" />
+            <End Role="Student" EntitySet="Student" />
+            <End Role="StudentAttendance" EntitySet="StudentAttendance" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -348,15 +347,15 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="AttendanceSystemModelStoreContainer" CdmEntityContainer="AttendanceSystemEntities">
-          <EntitySetMapping Name="Courses">
+          <EntitySetMapping Name="Course">
             <EntityTypeMapping TypeName="AttendanceSystemModel.Course">
               <MappingFragment StoreEntitySet="Course">
+                <ScalarProperty Name="CourseTitle" ColumnName="CourseTitle" />
                 <ScalarProperty Name="CourseID" ColumnName="CourseID" />
-                <ScalarProperty Name="Course1" ColumnName="Course" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Groups">
+          <EntitySetMapping Name="Group">
             <EntityTypeMapping TypeName="AttendanceSystemModel.Group">
               <MappingFragment StoreEntitySet="Group">
                 <ScalarProperty Name="GroupID" ColumnName="GroupID" />
@@ -365,7 +364,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Lessons">
+          <EntitySetMapping Name="Lesson">
             <EntityTypeMapping TypeName="AttendanceSystemModel.Lesson">
               <MappingFragment StoreEntitySet="Lesson">
                 <ScalarProperty Name="LessonID" ColumnName="LessonID" />
@@ -375,7 +374,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Students">
+          <EntitySetMapping Name="Student">
             <EntityTypeMapping TypeName="AttendanceSystemModel.Student">
               <MappingFragment StoreEntitySet="Student">
                 <ScalarProperty Name="StudentID" ColumnName="StudentID" />
@@ -386,7 +385,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="StudentAttendances">
+          <EntitySetMapping Name="StudentAttendance">
             <EntityTypeMapping TypeName="AttendanceSystemModel.StudentAttendance">
               <MappingFragment StoreEntitySet="StudentAttendance">
                 <ScalarProperty Name="AttendanceID" ColumnName="AttendanceID" />
@@ -396,7 +395,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Teachers">
+          <EntitySetMapping Name="Teacher">
             <EntityTypeMapping TypeName="AttendanceSystemModel.Teacher">
               <MappingFragment StoreEntitySet="Teacher">
                 <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
@@ -422,7 +421,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />

@@ -17,13 +17,13 @@ namespace Domain
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Course()
         {
-            this.Groups = new HashSet<Group>();
+            this.Group = new HashSet<Group>();
         }
     
         public int CourseID { get; set; }
-        public string Course1 { get; set; }
+        public string CourseTitle { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Group> Groups { get; set; }
+        public virtual ICollection<Group> Group { get; set; }
     }
 }

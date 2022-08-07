@@ -50,15 +50,67 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttendanceSystemEntityDataModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AttendanceSystemEntityDataModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AttendanceSystemEntityDataModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AttendanceSystemEntityDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AttendanceSystemEntityDataModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AttendanceSystemEntityDataModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Course.cs">
+      <DependentUpon>AttendanceSystemEntityDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Group.cs">
+      <DependentUpon>AttendanceSystemEntityDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Lesson.cs">
+      <DependentUpon>AttendanceSystemEntityDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Student.cs">
+      <DependentUpon>AttendanceSystemEntityDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StudentAttendance.cs">
+      <DependentUpon>AttendanceSystemEntityDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Teacher.cs">
+      <DependentUpon>AttendanceSystemEntityDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="TypeEdit.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
+    <EntityDeploy Include="AttendanceSystemEntityDataModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>AttendanceSystemEntityDataModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="AttendanceSystemEntityDataModel.edmx.diagram">
+      <DependentUpon>AttendanceSystemEntityDataModel.edmx</DependentUpon>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AttendanceSystemEntityDataModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AttendanceSystemEntityDataModel.edmx</DependentUpon>
+      <LastGenOutput>AttendanceSystemEntityDataModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="AttendanceSystemEntityDataModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AttendanceSystemEntityDataModel.edmx</DependentUpon>
+      <LastGenOutput>AttendanceSystemEntityDataModel.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

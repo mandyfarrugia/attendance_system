@@ -168,7 +168,37 @@ namespace PresentationLayer
 
         private static void AddNewTeacher()
         {
+            ClearConsole();
+            Console.WriteLine("Add New Teacher\n===============");
 
+            string username = string.Empty;
+            do
+            {
+                Console.Write("Username: ");
+                username = Console.ReadLine();
+
+                if(username.Equals(string.Empty))
+                    DisplayMessage("Username cannot be empty!", MessageType.Error);
+            }
+            while (username.Equals(string.Empty));
+
+            string password = string.Empty;
+            do
+            {
+                Console.Write("Password: ");
+                password = Console.ReadLine();
+
+                if (password.Equals(string.Empty))
+                    DisplayMessage("Password cannot be empty!", MessageType.Error);
+            }
+            while (password.Equals(string.Empty));
+
+            Console.Write("Name: ");
+            string name = Console.ReadLine();
+            Console.Write("Surname: ");
+            string surname = Console.ReadLine();
+            Console.Write("Email: ");
+            string email = Console.ReadLine();
         }
 
         private static void CheckStudentAttendancePercentage()
@@ -210,6 +240,7 @@ namespace PresentationLayer
         {
             ChangeForegroundColour(messageType);
             Console.WriteLine(message);
+            Console.ResetColor();
         }
 
         private static void ClearConsole()

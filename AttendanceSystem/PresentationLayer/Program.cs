@@ -127,7 +127,7 @@ namespace PresentationLayer
                             AddNewGroup();
                             break;
                         case 3:
-                            AddCourse();
+                            AddNewCourse();
                             break;
                         case 4:
                             AddNewStudent();
@@ -174,7 +174,7 @@ namespace PresentationLayer
             while (groupName.Equals(string.Empty));
         }
 
-        private static void AddCourse()
+        private static void AddNewCourse()
         {
             ClearConsole();
             Console.WriteLine("Add New Course\n==============");
@@ -187,6 +187,7 @@ namespace PresentationLayer
                     DisplayMessage("Course title cannot be empty!", MessageType.Error);
             }
             while (courseTitle.Equals(string.Empty));
+            businessLayer.AddNewCourse(courseTitle);
         }
 
         private static void AddNewStudent() 

@@ -35,9 +35,10 @@ namespace BusinessLayer
             //Group group = new Group(groupName);
         }
 
-        public void AddCourse(string courseTitle)
+        public void AddNewCourse(string courseTitle)
         {
             Course course = new Course(courseTitle);
+            dataLayer.AddNewCourse(course);
         }
 
         public void AddNewTeacher(string username, string password, string name, string surname, string email)

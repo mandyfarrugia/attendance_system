@@ -36,14 +36,21 @@ namespace BusinessLayer
             return loggedInTeacherID;
         }
 
-        public void AddNewGroup(string groupName)
+        public void AddNewGroup(string groupName, int courseID)
         {
-            //Group group = new Group(groupName);
+            Group group = new Group(groupName, courseID);
+            dataLayer.AddNewGroup(group);
         }
 
         public List<Group> FetchAllGroups()
         {
             return dataLayer.FetchAllGroups();
+        }
+
+        public bool CheckIfCourseExistsById(int courseID)
+        {
+            Course course = dataLayer.CheckIfCourseExistsById(courseID);
+            return course != null;
         }
 
         public List<Course> FetchAllCourses()

@@ -53,13 +53,12 @@ namespace PresentationLayer
                             break;
                         default:
                             Console.WriteLine("Invalid choice!");
-                            Console.ReadKey();
                             ClearConsole();
                             break;
                     }
                 }
                 else
-                    Console.WriteLine("Incorrect input format! Please try again!");
+                    DisplayMessage("Incorrect input format! Please try again!", MessageType.Error);
             }
             while (choice != 3 || !isInputFormatCorrect);
         }
@@ -189,8 +188,21 @@ namespace PresentationLayer
             List<Course> courses = businessLayer.FetchAllCourses();
             foreach(Course course in courses)
                 Console.WriteLine($"{course.CourseID}. {course.CourseTitle}");
-            Console.Write("Select course: ");
-            bool inputFormatMatch = int.TryParse(Console.ReadLine(), out courseToSelect);
+            bool inputFormatMatch = false;
+            do
+            {
+                Console.Write("Select course: ");
+                inputFormatMatch = int.TryParse(Console.ReadLine(), out courseToSelect);
+                if (inputFormatMatch)
+                {
+                    if (businessLayer.CheckIfCourseExistsById(courseToSelect))
+                        businessLayer.AddNewGroup(groupName, courseToSelect);
+                    DisplayMessage("Group added successfully!", MessageType.Success);
+                }
+                else
+                    DisplayMessage("Incorrect input format! Please try again!", MessageType.Error);
+            }
+            while (!businessLayer.CheckIfCourseExistsById(courseToSelect) || !inputFormatMatch);
         }
 
         private static void AddNewCourse()
@@ -340,7 +352,6 @@ namespace PresentationLayer
                 DisplayMessage("No changes have been inflicted.", MessageType.Warning);
             else
                 DisplayMessage(updates, MessageType.Success);
-            Console.ReadKey();
         }
 
         private static void Logout()
@@ -375,6 +386,7 @@ namespace PresentationLayer
             ChangeForegroundColour(messageType);
             Console.WriteLine(message);
             Console.ResetColor();
+            Console.ReadKey();
         }
 
         private static void ClearConsole()

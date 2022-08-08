@@ -219,6 +219,7 @@ namespace PresentationLayer
             }
             while (courseTitle.Equals(string.Empty));
             businessLayer.AddNewCourse(courseTitle);
+            DisplayMessage("Course added successfully!", MessageType.Success, true);
         }
 
         private static void AddNewStudent() 

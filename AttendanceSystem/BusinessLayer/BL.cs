@@ -48,9 +48,9 @@ namespace BusinessLayer
             dataLayer.AddNewGroup(group);
         }
 
-        public List<Group> FetchAllGroups()
+        public List<Group> GetAllGroups()
         {
-            return dataLayer.FetchAllGroups();
+            return dataLayer.GetAllGroups();
         }
 
         public bool VerifyIfGroupExists(int groupID)
@@ -59,15 +59,26 @@ namespace BusinessLayer
             return group != null;
         }
 
-        public bool CheckIfCourseExistsById(int courseID)
+        public bool VerifyIfCourseExistsById(int courseID)
         {
-            Course course = dataLayer.CheckIfCourseExistsById(courseID);
+            Course course = dataLayer.VerifyIfCourseExistsById(courseID);
             return course != null;
         }
 
-        public List<Course> FetchAllCourses()
+        public List<Course> GetAllCourses()
         {
-            return dataLayer.FetchAllCourses();
+            return dataLayer.GetAllCourses();
+        }
+
+        public List<Student> GetAllStudents()
+        {
+            return dataLayer.GetAllStudents();
+        }
+
+        public bool VerifyIfStudentExists(int studentID)
+        {
+            Student student = dataLayer.VerifyIfStudentExists(studentID);
+            return student != null;
         }
 
         public void AddNewCourse(string courseTitle)
@@ -92,6 +103,11 @@ namespace BusinessLayer
         {
             string updates = dataLayer.EditTeacher(teacherID, newUsername, newPassword, newName, newSurname, newEmail);
             return updates;
+        }
+
+        public string EditStudent(string name, string surname, string email, int groupID)
+        {
+            return string.Empty;
         }
     }
 }

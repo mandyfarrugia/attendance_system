@@ -184,7 +184,7 @@ namespace PresentationLayer
             while (groupName.Equals(string.Empty));
 
             int courseToSelect = 0;
-            List<Course> courses = businessLayer.FetchAllCourses();
+            List<Course> courses = businessLayer.GetAllCourses();
             foreach(Course course in courses)
                 Console.WriteLine($"{course.CourseID}. {course.CourseTitle}");
             bool inputFormatMatch = false;
@@ -194,14 +194,14 @@ namespace PresentationLayer
                 inputFormatMatch = int.TryParse(Console.ReadLine(), out courseToSelect);
                 if (inputFormatMatch)
                 {
-                    if (businessLayer.CheckIfCourseExistsById(courseToSelect))
+                    if (businessLayer.VerifyIfCourseExistsById(courseToSelect))
                         businessLayer.AddNewGroup(groupName, courseToSelect);
                     DisplayMessage("Group added successfully!", MessageType.Success, true);
                 }
                 else
                     DisplayMessage("Incorrect input format! Please try again!", MessageType.Error, true);
             }
-            while (!businessLayer.CheckIfCourseExistsById(courseToSelect) || !inputFormatMatch);
+            while (!businessLayer.VerifyIfCourseExistsById(courseToSelect) || !inputFormatMatch);
         }
 
         private static void AddNewCourse()
@@ -261,15 +261,26 @@ namespace PresentationLayer
             }
             while (email.Equals(string.Empty) || businessLayer.VerifyIfStudentEmailExists(email));
 
-            int groupID = 0;
+            int groupToSelect = 0;
             bool inputFormatMatch = false;
-            List<Group> groups = businessLayer.FetchAllGroups();
+            List<Group> groups = businessLayer.GetAllGroups();
             foreach(Group group in groups)
                 Console.WriteLine($"{group.GroupID}. {group.Name}");
-            Console.Write("Select a group: ");
-            inputFormatMatch = int.TryParse(Console.ReadLine(), out groupID);
+            do
+            {
+                Console.Write("Select a group: ");
+                inputFormatMatch = int.TryParse(Console.ReadLine(), out groupToSelect);
+                if(inputFormatMatch)
+                {
+                    if (!businessLayer.VerifyIfGroupExists(groupToSelect))
+                        DisplayMessage("Group does not exist!", MessageType.Error, true);
+                }
+                else
+                    DisplayMessage("Incorrect input format! Please try again!", MessageType.Error, true);
+            }
+            while (!inputFormatMatch || !businessLayer.VerifyIfGroupExists(groupToSelect));
 
-            businessLayer.AddNewStudent(name, surname, email, groupID);
+            businessLayer.AddNewStudent(name, surname, email, groupToSelect);
         }
 
         private static void AddNewTeacher()
@@ -351,7 +362,62 @@ namespace PresentationLayer
 
         private static void EditStudent()
         {
+            ClearConsole();
+            Console.WriteLine("Edit Teacher\n============");
+            bool inputFormatMatch = false;
+            foreach (Student student in businessLayer.GetAllStudents())
+                Console.WriteLine($"{student.StudentID}. {student.Name} {student.Surname}");
+            do
+            {
 
+            }
+            while (!inputFormatMatch);
+
+            DisplayMessage("If you do not want to change a field, press ENTER to skip.\n", MessageType.Warning, false);
+
+            string name = string.Empty;
+            Console.Write("Name: ");
+            name = Console.ReadLine();
+
+            string surname = string.Empty;
+            Console.Write("Surname: ");
+            surname = Console.ReadLine();
+
+            string email = string.Empty;
+            do
+            {
+                Console.Write("Email: ");
+                email = Console.ReadLine();
+
+                if (businessLayer.VerifyIfStudentEmailExists(email))
+                    DisplayMessage("Email already exists!", MessageType.Error, true);
+            }
+            while (businessLayer.VerifyIfStudentEmailExists(email));
+
+            int groupToSelect = 0;
+            inputFormatMatch = false;
+            List<Group> groups = businessLayer.GetAllGroups();
+            foreach (Group group in groups)
+                Console.WriteLine($"{group.GroupID}. {group.Name}");
+            do
+            {
+                Console.Write("Select a group: ");
+                inputFormatMatch = int.TryParse(Console.ReadLine(), out groupToSelect);
+                if (inputFormatMatch)
+                {
+                    if (!businessLayer.VerifyIfGroupExists(groupToSelect))
+                        DisplayMessage("Group does not exist!", MessageType.Error, true);
+                }
+                else
+                    DisplayMessage("Incorrect input format! Please try again!", MessageType.Error, true);
+            }
+            while (!inputFormatMatch || !businessLayer.VerifyIfGroupExists(groupToSelect));
+
+            string updates = businessLayer.EditStudent(name, surname, email, groupToSelect);
+            if (updates.Equals(string.Empty))
+                DisplayMessage("No changes have been inflicted.", MessageType.Warning, true);
+            else
+                DisplayMessage(updates, MessageType.Success, true);
         }
 
         private static void EditTeacher()

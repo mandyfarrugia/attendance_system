@@ -124,18 +124,38 @@ namespace DataLayer
             }
         }
 
-        public List<Course> FetchAllCourses()
+        public string EditStudent(string name, string surname, string email, int groupID)
+        {
+            return string.Empty;
+        }
+
+        public List<Course> GetAllCourses()
         {
             List<Course> allCourses = new List<Course>(from course in ctx.Course
                                                        select course);
             return allCourses;
         }
 
-        public List<Group> FetchAllGroups()
+        public List<Group> GetAllGroups()
         {
             List<Group> allGroups = new List<Group>(from grp in ctx.Group
                                                     select grp);
             return allGroups;
+        }
+
+        public List<Student> GetAllStudents()
+        {
+            List<Student> allStudents = new List<Student>(from student in ctx.Student
+                                                          select student);
+            return allStudents;
+        }
+
+        public Student VerifyIfStudentExists(int studentID)
+        {
+            Student matchingStudent = new List<Student>(from student in ctx.Student
+                                                        where student.StudentID == studentID
+                                                        select student).FirstOrDefault();
+            return matchingStudent;
         }
 
         public Group VerifyIfGroupExists(int groupID)
@@ -146,7 +166,7 @@ namespace DataLayer
             return matchingGroup;
         }
 
-        public Course CheckIfCourseExistsById(int courseID)
+        public Course VerifyIfCourseExistsById(int courseID)
         {
             Course matchingCourse = new List<Course>(from course in ctx.Course
                                                      where course.CourseID == courseID

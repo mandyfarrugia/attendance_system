@@ -10,7 +10,7 @@ namespace Domain
     {
         public Course(string courseTitle)
         {
-            this.CourseTitle = CourseTitle;
+            this.CourseTitle = courseTitle;
         }
     }
 

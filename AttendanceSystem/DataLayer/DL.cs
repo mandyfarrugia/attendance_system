@@ -40,9 +40,17 @@ namespace DataLayer
         public int GetTeacherID(string username, string password)
         {
             Teacher matchingTeacher = new List<Teacher>(from teacher in ctx.Teacher
-                                                    where teacher.Username == username && teacher.Password == password
-                                                    select teacher).FirstOrDefault();
+                                                        where teacher.Username == username && teacher.Password == password
+                                                        select teacher).FirstOrDefault();
             return matchingTeacher.TeacherID;
+        }
+
+        public Course GetCourseByTitle(string courseTitle)
+        {
+            Course matchingCourse = new List<Course>(from course in ctx.Course
+                                                     where course.CourseTitle == courseTitle
+                                                     select course).FirstOrDefault();
+            return matchingCourse;
         }
 
         public void AddNewGroup(Group group)

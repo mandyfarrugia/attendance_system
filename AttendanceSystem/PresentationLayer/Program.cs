@@ -195,7 +195,7 @@ namespace PresentationLayer
                     DisplayMessage("Course title cannot be empty!", MessageType.Error);
             }
             while (courseTitle.Equals(string.Empty));
-            //businessLayer.AddNewCourse(courseTitle);
+            businessLayer.AddNewCourse(courseTitle);
         }
 
         private static void AddNewStudent() 

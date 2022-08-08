@@ -36,9 +36,26 @@ namespace BusinessLayer
             return loggedInTeacherID;
         }
 
-        public void AddNewGroup(string groupName)
+        public void AddNewGroup(string groupName, int courseID)
         {
-            //Group group = new Group(groupName);
+            Group group = new Group(groupName, courseID);
+            dataLayer.AddNewGroup(group);
+        }
+
+        public List<Group> FetchAllGroups()
+        {
+            return dataLayer.FetchAllGroups();
+        }
+
+        public bool CheckIfCourseExistsById(int courseID)
+        {
+            Course course = dataLayer.CheckIfCourseExistsById(courseID);
+            return course != null;
+        }
+
+        public List<Course> FetchAllCourses()
+        {
+            return dataLayer.FetchAllCourses();
         }
 
         public void AddNewCourse(string courseTitle)
@@ -51,6 +68,12 @@ namespace BusinessLayer
         {
             Teacher teacher = new Teacher(username, password, name, surname, email);
             dataLayer.AddNewTeacher(teacher);
+        }
+
+        public string EditTeacher(int teacherID, string newUsername, string newPassword, string newName, string newSurname, string newEmail)
+        {
+            string updates = dataLayer.EditTeacher(teacherID, newUsername, newPassword, newName, newSurname, newEmail);
+            return updates;
         }
     }
 }

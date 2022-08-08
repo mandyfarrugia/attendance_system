@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity.Infrastructure;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -55,42 +56,88 @@ namespace DataLayer
 
         public string EditTeacher(int teacherID, string newUsername, string newPassword, string newName, string newSurname, string newEmail)
         {
-            string result = string.Empty;
-            Teacher teacherToEdit = this.GetTeacherById(teacherID);
-            if (teacherToEdit != null)
+            try
             {
-                if (!newUsername.Equals(string.Empty))
+                int editCount = 0;
+                string result = string.Empty;
+                Teacher teacherToEdit = this.GetTeacherById(teacherID);
+                if (teacherToEdit != null)
                 {
-                    string oldUsername = teacherToEdit.Username;
-                    result += $"The username {oldUsername} has been changed to {newUsername}.\n";
-                    teacherToEdit.Username = newUsername;
+                    string fullName = $"{teacherToEdit.Name} {teacherToEdit.Surname}";
+                    if (!newUsername.Equals(string.Empty))
+                    {
+                        string oldUsername = teacherToEdit.Username;
+                        result += $"The username {oldUsername} has been changed to {newUsername}.\n";
+                        teacherToEdit.Username = newUsername;
+                        editCount++;
+                    }
+                    if (!newPassword.Equals(string.Empty))
+                    {
+                        string oldPassword = teacherToEdit.Password;
+                        result += $"The password {oldPassword} has been changed to {newPassword}.\n";
+                        teacherToEdit.Password = newPassword;
+                        editCount++;
+                    }
+                    if (!newName.Equals(string.Empty))
+                    {
+                        string oldName = teacherToEdit.Name;
+                        result += $"The name {oldName} has been changed to {newName}.\n";
+                        teacherToEdit.Name = newName;
+                        editCount++;
+                    }
+                    if (!newSurname.Equals(string.Empty))
+                    {
+                        string oldSurname = teacherToEdit.Surname;
+                        result += $"The surname {oldSurname} has been changed to {newSurname}.\n";
+                        teacherToEdit.Surname = newSurname;
+                        editCount++;
+                    }
+                    if (!newEmail.Equals(string.Empty))
+                    {
+                        string oldEmail = teacherToEdit.Email;
+                        result += $"The email {oldEmail} has been changed to {newEmail}.\n";
+                        teacherToEdit.Email = newEmail;
+                        editCount++;
+                    }
+
+                    if(editCount != 0)
+                        result += $"A total of {((editCount == 1) ? $"{editCount} change has" : $"{editCount} changes have")} been inflicted on {fullName}.";
+
+                    ctx.SaveChanges();
                 }
-                if (!newPassword.Equals(string.Empty))
-                {
-                    string oldPassword = teacherToEdit.Password;
-                    result += $"The password {oldPassword} has been changed to {newPassword}.";
-                    teacherToEdit.Password = newPassword;
-                }
-                if (!newName.Equals(string.Empty))
-                {
-                    string oldName = teacherToEdit.Name;
-                    result += $"The name {oldName} has been changed to {newName}.";
-                    teacherToEdit.Name = newName;
-                }
-                if (!newSurname.Equals(string.Empty))
-                {
-                    string oldSurname = teacherToEdit.Surname;
-                    result += $"The surname {oldSurname} has been changed to {newSurname}.";
-                    teacherToEdit.Surname = newSurname;
-                }
-                if (!newEmail.Equals(string.Empty))
-                {
-                    string oldEmail = teacherToEdit.Email;
-                    result += $"The email {oldEmail} has been changed to {newEmail}.";
-                    teacherToEdit.Email = newEmail;
-                }
+                else
+                    result = "Could not find any teacher with the corresponding ID!";
+
+                return result;
             }
-            return result;
+            catch(DbUpdateException ex)
+            {
+                return ex.Message;
+            }
+        }
+
+        public List<Course> FetchAllCourses()
+        {
+            List<Course> allCourses = new List<Course>(from course in ctx.Course
+                                                       select course);
+            return allCourses;
+        }
+
+        public List<Group> FetchAllGroups()
+        {
+            List<Group> allGroups = new List<Group>(from grp in ctx.Group
+                                                    select grp);
+            return allGroups;
+        }
+
+
+
+        public Course CheckIfCourseExistsById(int courseID)
+        {
+            Course matchingCourse = new List<Course>(from course in ctx.Course
+                                                     where course.CourseID == courseID
+                                                     select course).FirstOrDefault();
+            return matchingCourse;
         }
 
         public Course GetCourseByTitle(string courseTitle)

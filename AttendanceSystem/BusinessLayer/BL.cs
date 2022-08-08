@@ -53,6 +53,12 @@ namespace BusinessLayer
             return dataLayer.FetchAllGroups();
         }
 
+        public bool VerifyIfGroupExists(int groupID)
+        {
+            Group group = dataLayer.VerifyIfGroupExists(groupID);
+            return group != null;
+        }
+
         public bool CheckIfCourseExistsById(int courseID)
         {
             Course course = dataLayer.CheckIfCourseExistsById(courseID);

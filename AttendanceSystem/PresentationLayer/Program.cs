@@ -81,8 +81,7 @@ namespace PresentationLayer
                 }
                 else
                 {
-                    Console.WriteLine("Incorrect credentials!");
-                    Console.ReadKey();
+                    DisplayMessage("Incorrect credentials!", MessageType.Error, true);
                     ClearConsole();
                 }
             }
@@ -257,7 +256,7 @@ namespace PresentationLayer
 
                 if (email.Equals(string.Empty))
                     DisplayMessage("Surname cannot be empty!", MessageType.Error, false);
-                else if (businessLayer.VerifyIfTeacherEmailExists(email))
+                else if (businessLayer.VerifyIfStudentEmailExists(email))
                     DisplayMessage("Email already exists!", MessageType.Error, false);
             }
             while (email.Equals(string.Empty) || businessLayer.VerifyIfStudentEmailExists(email));
@@ -266,9 +265,9 @@ namespace PresentationLayer
             bool inputFormatMatch = false;
             List<Group> groups = businessLayer.FetchAllGroups();
             foreach(Group group in groups)
-                Console.WriteLine($"{group.CourseID}. {group.Course}");
+                Console.WriteLine($"{group.CourseID}. {group.Name}");
             Console.Write("Select a group: ");
-            bool inputFormatMatch = int.TryParse(Console.ReadLine(), out groupID);
+            inputFormatMatch = int.TryParse(Console.ReadLine(), out groupID);
 
             businessLayer.AddNewStudent(name, surname, email, groupID);
         }

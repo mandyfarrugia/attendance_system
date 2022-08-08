@@ -106,15 +106,36 @@ namespace DataLayer
                     ctx.SaveChanges();
                 }
                 else
-                {
                     result = "Could not find any teacher with the corresponding ID!";
-                }
+
                 return result;
             }
             catch(DbUpdateException ex)
             {
                 return ex.Message;
             }
+        }
+
+        public List<Course> FetchAllCourses()
+        {
+            List<Course> allCourses = new List<Course>(from course in ctx.Course
+                                                       select course);
+            return allCourses;
+        }
+
+        public List<Group> FetchAllGroups()
+        {
+            List<Group> allGroups = new List<Group>(from grp in ctx.Group
+                                                    select grp);
+            return allGroups;
+        }
+
+        public List<Group> GetGroupByCourse(int courseID)
+        {
+            List<Group> allGroups = new List<Group>(from grp in ctx.Group
+                                                    where grp.CourseID == courseID
+                                                    select grp);
+            return allGroups;
         }
 
         public Course GetCourseByTitle(string courseTitle)

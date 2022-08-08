@@ -1,9 +1,7 @@
-﻿using System;
+﻿using BusinessLayer;
+using Domain;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BusinessLayer;
 
 namespace PresentationLayer
 {
@@ -186,6 +184,13 @@ namespace PresentationLayer
                     DisplayMessage("Group name cannot be empty!", MessageType.Error);
             }
             while (groupName.Equals(string.Empty));
+
+            int courseToSelect = 0;
+            List<Course> courses = businessLayer.FetchAllCourses();
+            foreach(Course course in courses)
+                Console.WriteLine($"{course.CourseID}. {course.CourseTitle}");
+            Console.Write("Select course: ");
+            bool inputFormatMatch = int.TryParse(Console.ReadLine(), out courseToSelect);
         }
 
         private static void AddNewCourse()

@@ -41,6 +41,16 @@ namespace BusinessLayer
             //Group group = new Group(groupName);
         }
 
+        public List<Group> FetchAllGroups()
+        {
+            return dataLayer.FetchAllGroups();
+        }
+
+        public List<Course> FetchAllCourses()
+        {
+            return dataLayer.FetchAllCourses();
+        }
+
         public void AddNewCourse(string courseTitle)
         {
             Course course = new Course(courseTitle);

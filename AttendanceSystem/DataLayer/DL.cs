@@ -101,8 +101,8 @@ namespace DataLayer
                     }
 
                     if(editCount != 0)
-                        result += $"A total of {editCount} changes have been inflicted on {fullName}.";
-              
+                        result += $"A total of {((editCount == 1) ? $"{editCount} change has" : $"{editCount} changes have")} been inflicted on {fullName}.";
+
                     ctx.SaveChanges();
                 }
                 else

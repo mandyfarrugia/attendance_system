@@ -22,7 +22,7 @@ namespace PresentationLayer
         {
             get 
             {
-                List<string> options = new List<string>() { "Login", "Exit" };
+                List<string> options = new List<string>() { "Login", "Register", "Exit" };
                 return options;
             }
         }
@@ -47,6 +47,9 @@ namespace PresentationLayer
                             Login();
                             break;
                         case 2:
+                            AddNewTeacher();
+                            break;
+                        case 3:
                             Console.WriteLine("Goodbye!");
                             break;
                         default:
@@ -59,7 +62,7 @@ namespace PresentationLayer
                 else
                     Console.WriteLine("Incorrect input format! Please try again!");
             }
-            while (choice != 2 || !isInputFormatCorrect);
+            while (choice != 3 || !isInputFormatCorrect);
         }
 
         private static void Login()
@@ -181,18 +184,15 @@ namespace PresentationLayer
         {
             ClearConsole();
             Console.WriteLine("Add New Course\n==============");
-            //string courseTitle = string.Empty;
-            //do
-            //{
-            //    Console.Write("Course Title: ");
-            //    courseTitle = Console.ReadLine();
-            //    if (courseTitle.Equals(string.Empty))
-            //        DisplayMessage("Course title cannot be empty!", MessageType.Error);
-            //}
-            //while (courseTitle.Equals(string.Empty));
-
-            Console.Write("Course Title: ");
-            string courseTitle = Console.ReadLine();
+            string courseTitle;
+            do
+            {
+                Console.Write("Course Title: ");
+                courseTitle = Console.ReadLine();
+                if (courseTitle.Equals(string.Empty))
+                    DisplayMessage("Course title cannot be empty!", MessageType.Error);
+            }
+            while (courseTitle.Equals(string.Empty));
             businessLayer.AddNewCourse(courseTitle);
         }
 

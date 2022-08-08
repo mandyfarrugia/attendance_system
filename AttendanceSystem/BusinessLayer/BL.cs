@@ -52,5 +52,11 @@ namespace BusinessLayer
             Teacher teacher = new Teacher(username, password, name, surname, email);
             dataLayer.AddNewTeacher(teacher);
         }
+
+        public string EditTeacher(int teacherID, string newUsername, string newPassword, string newName, string newSurname, string newEmail)
+        {
+            string updates = dataLayer.EditTeacher(teacherID, newUsername, newPassword, newName, newSurname, newEmail);
+            return updates;
+        }
     }
 }

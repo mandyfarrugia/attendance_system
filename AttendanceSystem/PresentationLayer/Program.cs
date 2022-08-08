@@ -293,7 +293,43 @@ namespace PresentationLayer
 
         private static void EditTeacher()
         {
+            ClearConsole();
+            Console.WriteLine("Add New Teacher\n===============");
 
+            string username = string.Empty;
+            do
+            {
+                Console.Write("Username: ");
+                username = Console.ReadLine();
+                if (businessLayer.VerifyIfTeacherUsernameExists(username))
+                    DisplayMessage("Username already exists!", MessageType.Error);
+            }
+            while (businessLayer.VerifyIfTeacherUsernameExists(username));
+
+            string password = string.Empty;
+            Console.Write("Password: ");
+            password = Console.ReadLine();
+
+            string name = string.Empty;
+            Console.Write("Name: ");
+            name = Console.ReadLine();
+
+            string surname = string.Empty;
+            Console.Write("Surname: ");
+            surname = Console.ReadLine();
+
+            string email = string.Empty;
+            do
+            {
+                Console.Write("Email: ");
+                email = Console.ReadLine();
+
+                if (businessLayer.VerifyIfTeacherEmailExists(email))
+                    DisplayMessage("Email already exists!", MessageType.Error);
+            }
+            while (businessLayer.VerifyIfTeacherEmailExists(email));
+
+            businessLayer.EditTeacher(teacherID, username, password, name, surname, email);
         }
 
         private static void Logout()

@@ -265,7 +265,7 @@ namespace PresentationLayer
             bool inputFormatMatch = false;
             List<Group> groups = businessLayer.FetchAllGroups();
             foreach(Group group in groups)
-                Console.WriteLine($"{group.CourseID}. {group.Name}");
+                Console.WriteLine($"{group.GroupID}. {group.Name}");
             Console.Write("Select a group: ");
             inputFormatMatch = int.TryParse(Console.ReadLine(), out groupID);
 

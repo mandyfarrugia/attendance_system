@@ -46,19 +46,19 @@ namespace PresentationLayer
                             Login();
                             break;
                         case 2:
-                            AddNewTeacher();
+                            //AddNewTeacher();
                             break;
                         case 3:
                             Console.WriteLine("Goodbye!");
                             break;
                         default:
-                            Console.WriteLine("Invalid choice!");
+                            DisplayMessage("Invalid choice!", MessageType.Error, true);
                             ClearConsole();
                             break;
                     }
                 }
                 else
-                    DisplayMessage("Incorrect input format! Please try again!", MessageType.Error);
+                    DisplayMessage("Incorrect input format! Please try again!", MessageType.Error, true);
             }
             while (choice != 3 || !isInputFormatCorrect);
         }
@@ -75,7 +75,7 @@ namespace PresentationLayer
                 string password = Console.ReadLine();
                 if(businessLayer.VerifyIfTeacherPasswordIsCorrect(username, password))
                 {
-                    Console.WriteLine("Correct credentials, logging you in!");
+                    DisplayMessage("Correct credentials, logging you in!", MessageType.Success, true);
                     teacherID = businessLayer.GetTeacherID(username, password);
                     DisplayTeacherMenu();
                 }
@@ -358,7 +358,6 @@ namespace PresentationLayer
         {
             teacherID = 0;
             DisplayMessage("Logging you out...", MessageType.Warning, true);
-            Console.ReadKey();
         }
 
         private enum MessageType { Warning, Error, Success }
@@ -392,6 +391,7 @@ namespace PresentationLayer
         {
             ChangeForegroundColour(messageType);
             DisplayMessage(message, promptKeyPress);
+            Console.ResetColor();
         }
 
         private static void ClearConsole()

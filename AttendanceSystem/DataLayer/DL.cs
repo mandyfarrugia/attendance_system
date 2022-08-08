@@ -29,6 +29,14 @@ namespace DataLayer
             return false;
         }
 
+        public Teacher VerifyIfTeacherEmailExists(string email)
+        {
+            Teacher matchingTeacher = new List<Teacher>(from teacher in ctx.Teacher
+                                                        where teacher.Email == email
+                                                        select teacher).SingleOrDefault();
+            return matchingTeacher;
+        }
+
         public int GetTeacherID(string username, string password)
         {
             Teacher matchingTeacher = new List<Teacher>(from teacher in ctx.Teacher

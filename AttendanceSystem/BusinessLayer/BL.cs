@@ -18,6 +18,12 @@ namespace BusinessLayer
             return matchingTeacher != null;
         }
 
+        public bool VerifyIfTeacherEmailExists(string email)
+        {
+            Teacher matchingTeacher = dataLayer.VerifyIfTeacherEmailExists(email);
+            return matchingTeacher != null;
+        }
+
         public bool VerifyIfTeacherPasswordIsCorrect(string username, string password)
         {
             bool credentialsMatch = dataLayer.VerifyIfTeacherPasswordIsCorrect(username, password);

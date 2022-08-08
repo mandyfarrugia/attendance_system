@@ -45,6 +45,8 @@ namespace Domain
 
     public partial class StudentAttendance 
     {
+        public StudentAttendance() {}
+
         public StudentAttendance(int lessonID, bool presence, int studentID)
         {
             this.LessonID = lessonID;

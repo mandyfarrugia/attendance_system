@@ -365,10 +365,15 @@ namespace PresentationLayer
             ClearConsole();
             Console.WriteLine("Edit Teacher\n============");
             bool inputFormatMatch = false;
+            int studentToSelect = 0;
             foreach (Student student in businessLayer.GetAllStudents())
                 Console.WriteLine($"{student.StudentID}. {student.Name} {student.Surname}");
             do
             {
+                Console.Write("Choose a student: ");
+                inputFormatMatch = int.TryParse(Console.ReadLine(), out studentToSelect);
+
+
 
             }
             while (!inputFormatMatch);
@@ -413,7 +418,7 @@ namespace PresentationLayer
             }
             while (!inputFormatMatch || !businessLayer.VerifyIfGroupExists(groupToSelect));
 
-            string updates = businessLayer.EditStudent(name, surname, email, groupToSelect);
+            string updates = businessLayer.EditStudent(studentToSelect, name, surname, email, groupToSelect);
             if (updates.Equals(string.Empty))
                 DisplayMessage("No changes have been inflicted.", MessageType.Warning, true);
             else

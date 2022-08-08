@@ -124,9 +124,52 @@ namespace DataLayer
             }
         }
 
-        public string EditStudent(string name, string surname, string email, int groupID)
+        public string EditStudent(int studentID, string newName, string newSurname, string newEmail, int newGroupID)
         {
-            return string.Empty;
+            try
+            {
+                int editCount = 0;
+                string result = string.Empty;
+                Student studentToEdit = this.VerifyIfStudentExists(Student);
+                if (studentToEdit != null)
+                {
+                    string fullName = $"{studentToEdit.Name} {studentToEdit.Surname}";
+                    if (!newName.Equals(string.Empty))
+                    {
+                        string oldName = studentToEdit.Name;
+                        result += $"The name {oldName} has been changed to {newName}.\n";
+                        studentToEdit.Name = newName;
+                        editCount++;
+                    }
+                    if (!newSurname.Equals(string.Empty))
+                    {
+                        string oldSurname = studentToEdit.Surname;
+                        result += $"The surname {oldSurname} has been changed to {newSurname}.\n";
+                        studentToEdit.Surname = newSurname;
+                        editCount++;
+                    }
+                    if (!newEmail.Equals(string.Empty))
+                    {
+                        string oldEmail = studentToEdit.Email;
+                        result += $"The email {oldEmail} has been changed to {newEmail}.\n";
+                        studentToEdit.Email = newEmail;
+                        editCount++;
+                    }
+
+                    if (editCount != 0)
+                        result += $"A total of {((editCount == 1) ? $"{editCount} change has" : $"{editCount} changes have")} been inflicted on {fullName}.";
+
+                    ctx.SaveChanges();
+                }
+                else
+                    result = "Could not find any teacher with the corresponding ID!";
+
+                return result;
+            }
+            catch (DbUpdateException ex)
+            {
+                return ex.Message;
+            }
         }
 
         public List<Course> GetAllCourses()

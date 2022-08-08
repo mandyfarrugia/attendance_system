@@ -45,6 +45,54 @@ namespace DataLayer
             return matchingTeacher.TeacherID;
         }
 
+        public Teacher GetTeacherById(int teacherID)
+        {
+            Teacher matchingTeacher = new List<Teacher>(from teacher in ctx.Teacher
+                                                      where teacher.TeacherID == teacherID
+                                                      select teacher).FirstOrDefault();
+            return matchingTeacher;
+        }
+
+        public string EditTeacher(int teacherID, string newUsername, string newPassword, string newName, string newSurname, string newEmail)
+        {
+            string result = string.Empty;
+            Teacher teacherToEdit = this.GetTeacherById(teacherID);
+            if (teacherToEdit != null)
+            {
+                if (!newUsername.Equals(string.Empty))
+                {
+                    string oldUsername = teacherToEdit.Username;
+                    result += $"The username {oldUsername} has been changed to {newUsername}.\n";
+                    teacherToEdit.Username = newUsername;
+                }
+                if (!newPassword.Equals(string.Empty))
+                {
+                    string oldPassword = teacherToEdit.Password;
+                    result += $"The password {oldPassword} has been changed to {newPassword}.";
+                    teacherToEdit.Password = newPassword;
+                }
+                if (!newName.Equals(string.Empty))
+                {
+                    string oldName = teacherToEdit.Name;
+                    result += $"The name {oldName} has been changed to {newName}.";
+                    teacherToEdit.Name = newName;
+                }
+                if (!newSurname.Equals(string.Empty))
+                {
+                    string oldSurname = teacherToEdit.Surname;
+                    result += $"The surname {oldSurname} has been changed to {newSurname}.";
+                    teacherToEdit.Surname = newSurname;
+                }
+                if (!newEmail.Equals(string.Empty))
+                {
+                    string oldEmail = teacherToEdit.Email;
+                    result += $"The email {oldEmail} has been changed to {newEmail}.";
+                    teacherToEdit.Email = newEmail;
+                }
+            }
+            return result;
+        }
+
         public Course GetCourseByTitle(string courseTitle)
         {
             Course matchingCourse = new List<Course>(from course in ctx.Course

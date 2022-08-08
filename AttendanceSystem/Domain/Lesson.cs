@@ -19,7 +19,7 @@ namespace Domain
         {
             this.StudentAttendance = new HashSet<StudentAttendance>();
         }
-    
+
         public int LessonID { get; set; }
         public int GroupID { get; set; }
         public System.DateTime DateTime { get; set; }

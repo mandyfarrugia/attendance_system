@@ -10,7 +10,7 @@ namespace Domain
     {
         public Course(string courseTitle)
         {
-            this.CourseTitle = CourseTitle;
+            this.CourseTitle = courseTitle;
         }
     }
 
@@ -45,6 +45,8 @@ namespace Domain
 
     public partial class StudentAttendance 
     {
+        public StudentAttendance() {}
+
         public StudentAttendance(int lessonID, bool presence, int studentID)
         {
             this.LessonID = lessonID;

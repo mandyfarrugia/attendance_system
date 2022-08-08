@@ -18,6 +18,12 @@ namespace BusinessLayer
             return matchingTeacher != null;
         }
 
+        public bool VerifyIfTeacherEmailExists(string email)
+        {
+            Teacher matchingTeacher = dataLayer.VerifyIfTeacherEmailExists(email);
+            return matchingTeacher != null;
+        }
+
         public bool VerifyIfTeacherPasswordIsCorrect(string username, string password)
         {
             bool credentialsMatch = dataLayer.VerifyIfTeacherPasswordIsCorrect(username, password);
@@ -28,6 +34,17 @@ namespace BusinessLayer
         {
             int loggedInTeacherID = dataLayer.GetTeacherID(username, password);
             return loggedInTeacherID;
+        }
+
+        public void AddNewGroup(string groupName)
+        {
+            //Group group = new Group(groupName);
+        }
+
+        public void AddNewCourse(string courseTitle)
+        {
+            Course course = new Course(courseTitle);
+            dataLayer.AddNewCourse(course);
         }
 
         public void AddNewTeacher(string username, string password, string name, string surname, string email)

@@ -22,17 +22,12 @@ namespace DataLayer
 
         public bool VerifyIfTeacherPasswordIsCorrect(string username, string password)
         {
-            try
-            {
-                Teacher matchingTeacher = new List<Teacher>(from teacher in ctx.Teacher
-                                                            where teacher.Username == username && teacher.Password == password
-                                                            select teacher).FirstOrDefault();
+            Teacher matchingTeacher = new List<Teacher>(from teacher in ctx.Teacher
+                                                        where teacher.Username == username && teacher.Password == password
+                                                        select teacher).FirstOrDefault();
+            if(matchingTeacher != null)
                 return matchingTeacher.TeacherID != 0;
-            }
-            catch(NullReferenceException)
-            {
-                return false;
-            }
+            return false;
         }
 
         public Teacher VerifyIfTeacherEmailExists(string email)
@@ -63,40 +58,56 @@ namespace DataLayer
         {
             try
             {
+                int editCount = 0;
                 string result = string.Empty;
                 Teacher teacherToEdit = this.GetTeacherById(teacherID);
                 if (teacherToEdit != null)
                 {
+                    string fullName = $"{teacherToEdit.Name} {teacherToEdit.Surname}";
                     if (!newUsername.Equals(string.Empty))
                     {
                         string oldUsername = teacherToEdit.Username;
                         result += $"The username {oldUsername} has been changed to {newUsername}.\n";
                         teacherToEdit.Username = newUsername;
+                        editCount++;
                     }
                     if (!newPassword.Equals(string.Empty))
                     {
                         string oldPassword = teacherToEdit.Password;
-                        result += $"The password {oldPassword} has been changed to {newPassword}.";
+                        result += $"The password {oldPassword} has been changed to {newPassword}.\n";
                         teacherToEdit.Password = newPassword;
+                        editCount++;
                     }
                     if (!newName.Equals(string.Empty))
                     {
                         string oldName = teacherToEdit.Name;
-                        result += $"The name {oldName} has been changed to {newName}.";
+                        result += $"The name {oldName} has been changed to {newName}.\n";
                         teacherToEdit.Name = newName;
+                        editCount++;
                     }
                     if (!newSurname.Equals(string.Empty))
                     {
                         string oldSurname = teacherToEdit.Surname;
-                        result += $"The surname {oldSurname} has been changed to {newSurname}.";
+                        result += $"The surname {oldSurname} has been changed to {newSurname}.\n";
                         teacherToEdit.Surname = newSurname;
+                        editCount++;
                     }
                     if (!newEmail.Equals(string.Empty))
                     {
                         string oldEmail = teacherToEdit.Email;
-                        result += $"The email {oldEmail} has been changed to {newEmail}.";
+                        result += $"The email {oldEmail} has been changed to {newEmail}.\n";
                         teacherToEdit.Email = newEmail;
+                        editCount++;
                     }
+
+                    if(editCount != 0)
+                        result += $"A total of {editCount} changes have been inflicted on {fullName}.";
+              
+                    ctx.SaveChanges();
+                }
+                else
+                {
+                    result = "Could not find any teacher with the corresponding ID!";
                 }
                 return result;
             }

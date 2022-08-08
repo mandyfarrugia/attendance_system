@@ -294,7 +294,8 @@ namespace PresentationLayer
         private static void EditTeacher()
         {
             ClearConsole();
-            Console.WriteLine("Add New Teacher\n===============");
+            Console.WriteLine("Edit Teacher\n============");
+            DisplayMessage("If you do not want to change a field, press ENTER to skip.\n", MessageType.Warning);
 
             string username = string.Empty;
             do
@@ -329,7 +330,12 @@ namespace PresentationLayer
             }
             while (businessLayer.VerifyIfTeacherEmailExists(email));
 
-            businessLayer.EditTeacher(teacherID, username, password, name, surname, email);
+            string updates = businessLayer.EditTeacher(teacherID, username, password, name, surname, email);
+            if (updates.Equals(string.Empty))
+                DisplayMessage("No changes have been inflicted.", MessageType.Warning);
+            else
+                DisplayMessage(updates, MessageType.Success);
+            Console.ReadKey();
         }
 
         private static void Logout()

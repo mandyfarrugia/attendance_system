@@ -180,7 +180,7 @@ namespace PresentationLayer
                 Console.Write("Group Name: ");
                 groupName = Console.ReadLine();
                 if (groupName.Equals(string.Empty))
-                    DisplayMessage("Group name cannot be empty!", MessageType.Error);
+                    DisplayMessage("Group name cannot be empty!", MessageType.Error, false);
             }
             while (groupName.Equals(string.Empty));
 
@@ -197,10 +197,10 @@ namespace PresentationLayer
                 {
                     if (businessLayer.CheckIfCourseExistsById(courseToSelect))
                         businessLayer.AddNewGroup(groupName, courseToSelect);
-                    DisplayMessage("Group added successfully!", MessageType.Success);
+                    DisplayMessage("Group added successfully!", MessageType.Success, true);
                 }
                 else
-                    DisplayMessage("Incorrect input format! Please try again!", MessageType.Error);
+                    DisplayMessage("Incorrect input format! Please try again!", MessageType.Error, true);
             }
             while (!businessLayer.CheckIfCourseExistsById(courseToSelect) || !inputFormatMatch);
         }
@@ -215,7 +215,7 @@ namespace PresentationLayer
                 Console.Write("Course Title: ");
                 courseTitle = Console.ReadLine();
                 if (courseTitle.Equals(string.Empty))
-                    DisplayMessage("Course title cannot be empty!", MessageType.Error);
+                    DisplayMessage("Course title cannot be empty!", MessageType.Error, false);
             }
             while (courseTitle.Equals(string.Empty));
             businessLayer.AddNewCourse(courseTitle);
@@ -238,9 +238,9 @@ namespace PresentationLayer
                 username = Console.ReadLine();
 
                 if (username.Equals(string.Empty))
-                    DisplayMessage("Username cannot be empty!", MessageType.Error);
+                    DisplayMessage("Username cannot be empty!", MessageType.Error, false);
                 else if (businessLayer.VerifyIfTeacherUsernameExists(username))
-                    DisplayMessage("Username already exists!", MessageType.Error);
+                    DisplayMessage("Username already exists!", MessageType.Error, false);
             }
             while (username.Equals(string.Empty) || businessLayer.VerifyIfTeacherUsernameExists(username));
 
@@ -251,7 +251,7 @@ namespace PresentationLayer
                 password = Console.ReadLine();
 
                 if (password.Equals(string.Empty))
-                    DisplayMessage("Password cannot be empty!", MessageType.Error);
+                    DisplayMessage("Password cannot be empty!", MessageType.Error, false);
             }
             while (password.Equals(string.Empty));
 
@@ -262,7 +262,7 @@ namespace PresentationLayer
                 name = Console.ReadLine();
 
                 if (name.Equals(string.Empty))
-                    DisplayMessage("Name cannot be empty!", MessageType.Error);
+                    DisplayMessage("Name cannot be empty!", MessageType.Error, false);
             }
             while (name.Equals(string.Empty));
 
@@ -273,7 +273,7 @@ namespace PresentationLayer
                 surname = Console.ReadLine();
 
                 if (surname.Equals(string.Empty))
-                    DisplayMessage("Surname cannot be empty!", MessageType.Error);
+                    DisplayMessage("Surname cannot be empty!", MessageType.Error, false);
             }
             while (surname.Equals(string.Empty));
 
@@ -284,9 +284,9 @@ namespace PresentationLayer
                 email = Console.ReadLine();
 
                 if (email.Equals(string.Empty))
-                    DisplayMessage("Surname cannot be empty!", MessageType.Error);
+                    DisplayMessage("Surname cannot be empty!", MessageType.Error, false);
                 else if (businessLayer.VerifyIfTeacherEmailExists(email))
-                    DisplayMessage("Email already exists!", MessageType.Error);
+                    DisplayMessage("Email already exists!", MessageType.Error, false);
             }
             while (email.Equals(string.Empty) || businessLayer.VerifyIfTeacherEmailExists(email));
 
@@ -312,7 +312,7 @@ namespace PresentationLayer
         {
             ClearConsole();
             Console.WriteLine("Edit Teacher\n============");
-            DisplayMessage("If you do not want to change a field, press ENTER to skip.\n", MessageType.Warning);
+            DisplayMessage("If you do not want to change a field, press ENTER to skip.\n", MessageType.Warning, false);
 
             string username = string.Empty;
             do
@@ -320,7 +320,7 @@ namespace PresentationLayer
                 Console.Write("Username: ");
                 username = Console.ReadLine();
                 if (businessLayer.VerifyIfTeacherUsernameExists(username))
-                    DisplayMessage("Username already exists!", MessageType.Error);
+                    DisplayMessage("Username already exists!", MessageType.Error, false);
             }
             while (businessLayer.VerifyIfTeacherUsernameExists(username));
 
@@ -343,21 +343,21 @@ namespace PresentationLayer
                 email = Console.ReadLine();
 
                 if (businessLayer.VerifyIfTeacherEmailExists(email))
-                    DisplayMessage("Email already exists!", MessageType.Error);
+                    DisplayMessage("Email already exists!", MessageType.Error, true);
             }
             while (businessLayer.VerifyIfTeacherEmailExists(email));
 
             string updates = businessLayer.EditTeacher(teacherID, username, password, name, surname, email);
             if (updates.Equals(string.Empty))
-                DisplayMessage("No changes have been inflicted.", MessageType.Warning);
+                DisplayMessage("No changes have been inflicted.", MessageType.Warning, true);
             else
-                DisplayMessage(updates, MessageType.Success);
+                DisplayMessage(updates, MessageType.Success, true);
         }
 
         private static void Logout()
         {
             teacherID = 0;
-            DisplayMessage("Logging you out...", MessageType.Warning);
+            DisplayMessage("Logging you out...", MessageType.Warning, true);
             Console.ReadKey();
         }
 
@@ -381,12 +381,17 @@ namespace PresentationLayer
             Console.ForegroundColor = (ConsoleColor)foregroundColour;
         }
 
-        private static void DisplayMessage(string message, MessageType messageType)
+        private static void DisplayMessage(string message, bool promptKeyPress)
+        {
+            Console.WriteLine(message);
+            if (promptKeyPress)
+                Console.ReadKey();
+        }
+
+        private static void DisplayMessage(string message, MessageType messageType, bool promptKeyPress)
         {
             ChangeForegroundColour(messageType);
-            Console.WriteLine(message);
-            Console.ResetColor();
-            Console.ReadKey();
+            DisplayMessage(message, promptKeyPress);
         }
 
         private static void ClearConsole()

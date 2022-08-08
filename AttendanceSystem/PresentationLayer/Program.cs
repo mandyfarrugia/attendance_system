@@ -298,7 +298,9 @@ namespace PresentationLayer
 
         private static void Logout()
         {
-
+            teacherID = 0;
+            DisplayMessage("Logging you out...", MessageType.Warning);
+            Console.ReadKey();
         }
 
         private enum MessageType { Warning, Error, Success }

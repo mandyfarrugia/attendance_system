@@ -102,7 +102,7 @@ namespace PresentationLayer
             get
             {
                 List<string> options = new List<string>() { "Add attendance", "Add a new group", "Add course", "Add new student", "Add a new teacher", "Check a student's attendance percentage",
-                                                            "Get all attendances submitted on a particular day", "Edit student" };
+                                                            "Get all attendances submitted on a particular day", "Edit student", "Edit teacher", "Logout" };
                 return options;
             }
         }
@@ -149,6 +149,12 @@ namespace PresentationLayer
                         case 8:
                             EditStudent();
                             break;
+                        case 9:
+                            EditTeacher();
+                            break;
+                        case 10:
+                            Logout();
+                            break;
                         default:
                             Console.WriteLine("Invalid choice!");
                             Console.ReadKey();
@@ -159,7 +165,7 @@ namespace PresentationLayer
                 else
                     Console.WriteLine("Incorrect input format! Please try again!");
             }
-            while (choice != 2 || !isInputFormatCorrect);
+            while (choice != 10 || !isInputFormatCorrect);
         }
 
         private static void AddAttendance()
@@ -281,6 +287,16 @@ namespace PresentationLayer
         }
 
         private static void EditStudent()
+        {
+
+        }
+
+        private static void EditTeacher()
+        {
+
+        }
+
+        private static void Logout()
         {
 
         }

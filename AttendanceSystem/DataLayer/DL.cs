@@ -21,12 +21,17 @@ namespace DataLayer
 
         public bool VerifyIfTeacherPasswordIsCorrect(string username, string password)
         {
-            Teacher matchingTeacher = new List<Teacher>(from teacher in ctx.Teacher
-                                                        where teacher.Username == username && teacher.Password == password
-                                                        select teacher).FirstOrDefault();
-            if(matchingTeacher != null)
+            try
+            {
+                Teacher matchingTeacher = new List<Teacher>(from teacher in ctx.Teacher
+                                                            where teacher.Username == username && teacher.Password == password
+                                                            select teacher).FirstOrDefault();
                 return matchingTeacher.TeacherID != 0;
-            return false;
+            }
+            catch(NullReferenceException)
+            {
+                return false;
+            }
         }
 
         public Teacher VerifyIfTeacherEmailExists(string email)

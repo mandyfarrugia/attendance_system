@@ -63,25 +63,25 @@ create table dbo.Teacher (
 	TeacherID integer
 		constraint te_tid_pk primary key
 		identity(1,1),
-	Username nvarchar(50) not null,
-	[Password] nvarchar(50) not null,
-	[Name] nvarchar(50) not null,
-	Surname nvarchar(50) not null,
-	Email nvarchar(50) not null
+	Username nvarchar(max) not null,
+	[Password] nvarchar(max) not null,
+	[Name] nvarchar(max) not null,
+	Surname nvarchar(max) not null,
+	Email nvarchar(max) not null
 );
 
 create table dbo.Course (
 	CourseID integer
 		constraint co_cid_pk primary key
 		identity(1,1),
-	CourseTitle nvarchar(50) not null
+	CourseTitle nvarchar(max) not null
 );
 
 create table dbo.[Group] (
 	GroupID integer
 		constraint gr_gid_pk primary key
 		identity(1,1),
-	[Name] nvarchar(50) not null,
+	[Name] nvarchar(max) not null,
 	CourseID integer not null
 		constraint gr_cid_fk foreign key references dbo.Course(CourseID)
 );
@@ -90,9 +90,9 @@ create table dbo.Student (
 	StudentID integer
 		constraint st_sid_pk primary key
 		identity(1,1),
-	[Name] nvarchar(50) not null,
-	Surname nvarchar(50) not null,
-	Email nvarchar(50) not null,
+	[Name] nvarchar(max) not null,
+	Surname nvarchar(max) not null,
+	Email nvarchar(max) not null,
 	GroupID integer not null
 		constraint st_gid_fk foreign key references dbo.[Group](GroupID)
 );

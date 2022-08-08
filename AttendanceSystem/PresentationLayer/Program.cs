@@ -145,6 +145,9 @@ namespace PresentationLayer
                             EditStudent();
                             break;
                         default:
+                            Console.WriteLine("Invalid choice!");
+                            Console.ReadKey();
+                            ClearConsole();
                             break;
                     }
                 }
@@ -178,15 +181,18 @@ namespace PresentationLayer
         {
             ClearConsole();
             Console.WriteLine("Add New Course\n==============");
-            string courseTitle = string.Empty;
-            do
-            {
-                Console.Write("Course Title: ");
-                courseTitle = Console.ReadLine();
-                if (courseTitle.Equals(string.Empty))
-                    DisplayMessage("Course title cannot be empty!", MessageType.Error);
-            }
-            while (courseTitle.Equals(string.Empty));
+            //string courseTitle = string.Empty;
+            //do
+            //{
+            //    Console.Write("Course Title: ");
+            //    courseTitle = Console.ReadLine();
+            //    if (courseTitle.Equals(string.Empty))
+            //        DisplayMessage("Course title cannot be empty!", MessageType.Error);
+            //}
+            //while (courseTitle.Equals(string.Empty));
+
+            Console.Write("Course Title: ");
+            string courseTitle = Console.ReadLine();
             businessLayer.AddNewCourse(courseTitle);
         }
 
@@ -228,6 +234,8 @@ namespace PresentationLayer
             string surname = Console.ReadLine();
             Console.Write("Email: ");
             string email = Console.ReadLine();
+
+            businessLayer.AddNewTeacher(username, password, name, surname, email);
         }
 
         private static void CheckStudentAttendancePercentage()

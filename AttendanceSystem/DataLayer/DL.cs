@@ -130,12 +130,12 @@ namespace DataLayer
             return allGroups;
         }
 
-        public List<Group> GetGroupByCourse(int courseID)
+        public Group GetGroupByCourse(int courseID)
         {
-            List<Group> allGroups = new List<Group>(from grp in ctx.Group
+            Group group = new List<Group>(from grp in ctx.Group
                                                     where grp.CourseID == courseID
-                                                    select grp);
-            return allGroups;
+                                                    select grp).FirstOrDefault();
+            return group;
         }
 
         public Course GetCourseByTitle(string courseTitle)

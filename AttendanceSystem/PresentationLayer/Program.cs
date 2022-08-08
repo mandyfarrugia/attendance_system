@@ -224,7 +224,53 @@ namespace PresentationLayer
 
         private static void AddNewStudent() 
         {
+            ClearConsole();
+            Console.WriteLine("Add New Student\n===============");
 
+            string name = string.Empty;
+            do
+            {
+                Console.Write("Name: ");
+                name = Console.ReadLine();
+
+                if (name.Equals(string.Empty))
+                    DisplayMessage("Name cannot be empty!", MessageType.Error, false);
+            }
+            while (name.Equals(string.Empty));
+
+            string surname = string.Empty;
+            do
+            {
+                Console.Write("Surname: ");
+                surname = Console.ReadLine();
+
+                if (surname.Equals(string.Empty))
+                    DisplayMessage("Surname cannot be empty!", MessageType.Error, false);
+            }
+            while (surname.Equals(string.Empty));
+
+            string email = string.Empty;
+            do
+            {
+                Console.Write("Email: ");
+                email = Console.ReadLine();
+
+                if (email.Equals(string.Empty))
+                    DisplayMessage("Surname cannot be empty!", MessageType.Error, false);
+                else if (businessLayer.VerifyIfTeacherEmailExists(email))
+                    DisplayMessage("Email already exists!", MessageType.Error, false);
+            }
+            while (email.Equals(string.Empty) || businessLayer.VerifyIfStudentEmailExists(email));
+
+            int groupID = 0;
+            bool inputFormatMatch = false;
+            List<Group> groups = businessLayer.FetchAllGroups();
+            foreach(Group group in groups)
+                Console.WriteLine($"{group.CourseID}. {group.Course}");
+            Console.Write("Select a group: ");
+            bool inputFormatMatch = int.TryParse(Console.ReadLine(), out groupID);
+
+            businessLayer.AddNewStudent(name, surname, email, groupID);
         }
 
         private static void AddNewTeacher()

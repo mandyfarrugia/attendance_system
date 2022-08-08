@@ -36,6 +36,12 @@ namespace BusinessLayer
             return loggedInTeacherID;
         }
 
+        public bool VerifyIfStudentEmailExists(string email)
+        {
+            Student matchingStudent = dataLayer.VerifyIfStudentEmailExists(email);
+            return matchingStudent != null;
+        }
+
         public void AddNewGroup(string groupName, int courseID)
         {
             Group group = new Group(groupName, courseID);
@@ -68,6 +74,12 @@ namespace BusinessLayer
         {
             Teacher teacher = new Teacher(username, password, name, surname, email);
             dataLayer.AddNewTeacher(teacher);
+        }
+
+        public void AddNewStudent(string name, string surname, string email, int groupID)
+        {
+            Student student = new Student(name, surname, email, groupID);
+            dataLayer.AddNewStudent(student);
         }
 
         public string EditTeacher(int teacherID, string newUsername, string newPassword, string newName, string newSurname, string newEmail)

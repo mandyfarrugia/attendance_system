@@ -38,6 +38,14 @@ namespace DataLayer
             return matchingTeacher;
         }
 
+        public Student VerifyIfStudentEmailExists(string email)
+        {
+            Student matchingStudent = new List<Student>(from student in ctx.Student
+                                                        where student.Email == email
+                                                        select student).SingleOrDefault();
+            return matchingStudent;
+        }
+
         public int GetTeacherID(string username, string password)
         {
             Teacher matchingTeacher = new List<Teacher>(from teacher in ctx.Teacher
@@ -130,7 +138,13 @@ namespace DataLayer
             return allGroups;
         }
 
-
+        public Group VerifyIfGroupExists(int groupID)
+        {
+            Group matchingGroup = new List<Group>(from grp in ctx.Group
+                                                  where grp.GroupID == groupID
+                                                  select grp).FirstOrDefault();
+            return matchingGroup;
+        }
 
         public Course CheckIfCourseExistsById(int courseID)
         {
@@ -163,6 +177,12 @@ namespace DataLayer
         public void AddNewTeacher(Teacher teacher)
         {
             ctx.Teacher.Add(teacher);
+            ctx.SaveChanges();
+        }
+
+        public void AddNewStudent(Student student)
+        {
+            ctx.Student.Add(student);
             ctx.SaveChanges();
         }
     }

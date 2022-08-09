@@ -541,7 +541,7 @@ namespace PresentationLayer
                 if (!inputFormatMatch)
                     DisplayMessage("Incorrect input format!", MessageType.Error, true);
                 else if (!(groupUpdateConsent.Equals('Y') || groupUpdateConsent.Equals('y')) && !(groupUpdateConsent.Equals('N') || groupUpdateConsent.Equals('n')))
-                    DisplayMessage("You must enter either Y/y (Yes) or N/n.", MessageType.Error, true);
+                    DisplayMessage("You must enter either Y/y (Yes) or N/n!", MessageType.Error, true);
             }
             while (!inputFormatMatch || !(groupUpdateConsent.Equals('Y') || groupUpdateConsent.Equals('y')) && !(groupUpdateConsent.Equals('N') || groupUpdateConsent.Equals('n')));
 
@@ -608,7 +608,7 @@ namespace PresentationLayer
                 Console.Write("Email: ");
                 email = Console.ReadLine();
                 if (businessLayer.VerifyIfTeacherEmailExists(email))
-                    DisplayMessage("Email already exists!", MessageType.Error, true);
+                    DisplayMessage("Email already exists!", MessageType.Error, false);
             }
             while (businessLayer.VerifyIfTeacherEmailExists(email));
 

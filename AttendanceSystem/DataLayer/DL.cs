@@ -278,6 +278,22 @@ namespace DataLayer
             return students;
         }
 
+        public int GetLatestLessonID()
+        {
+            int latestLessonID = (from lesson in ctx.Lesson
+                                  orderby lesson.LessonID descending
+                                  select lesson.LessonID).FirstOrDefault();
+            return latestLessonID;
+        }
+
+        public List<Lesson> GetAllAttendancesOnParticularDay(int teacherID, DateTime dateStart, DateTime dateEnd)
+        {
+            List<Lesson> lessonsOnParticularDay = new List<Lesson>(from lesson in ctx.Lesson
+                                                                   where lesson.DateTime >= dateStart && lesson.DateTime < dateEnd && lesson.TeacherID == teacherID
+                                                                   select lesson);
+            return lessonsOnParticularDay;
+        }
+
         public void AddNewGroup(Group group)
         {
             ctx.Group.Add(group);
@@ -305,6 +321,12 @@ namespace DataLayer
         public void AddNewLesson(Lesson lesson)
         {
             ctx.Lesson.Add(lesson);
+            ctx.SaveChanges();
+        }
+
+        public void AddNewStudentAttendance(StudentAttendance studentAttendance)
+        {
+            ctx.StudentAttendance.Add(studentAttendance);
             ctx.SaveChanges();
         }
     }

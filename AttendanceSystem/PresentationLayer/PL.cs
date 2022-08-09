@@ -187,13 +187,39 @@ namespace PresentationLayer
 
                 if (businessLayer.VerifyIfGroupHasStudents(groupToSelect))
                 {
-                    DateTime 
+                    bool hasAttendanceBeenTaken;
+                    char presence;
+                    DateTime dateOfToday = DateTime.Now;
+                    businessLayer.AddNewLesson(groupToSelect, dateOfToday, teacherID);
 
-                    Console.WriteLine("\nStudent ID\tStudent Name\tStudent Surname\t\tPresence (P/A)\n==========\t============\t===============\t\t==============");
+                    Console.WriteLine("\nStudent ID\tStudent Name\tStudent Surname\t\t\tPresence (P/A)\n==========\t============\t===============\t\t==============");
                     List<Student> students = businessLayer.GetAllStudentsFromGroup(groupToSelect);
                     foreach (Student student in students)
                     {
-                        Console.Write($"{student.StudentID}\t\t{student.Name}\t\t{student.Surname}\n");
+                        hasAttendanceBeenTaken = false;
+                        do
+                        {
+                            Console.Write($"{student.StudentID}\t\t{student.Name}\t\t{student.Surname}\t\t");
+                            inputFormatMatch = char.TryParse(Console.ReadLine(), out presence);
+                            if (inputFormatMatch)
+                            {
+                                if (presence.Equals('p') || presence.Equals('P'))
+                                {
+                                    businessLayer.AddNewStudentAttendance(student.StudentID, true);
+                                    hasAttendanceBeenTaken = true;
+                                }
+                                else if (presence.Equals('a') || presence.Equals('A'))
+                                {
+                                    businessLayer.AddNewStudentAttendance(student.StudentID, false);
+                                    hasAttendanceBeenTaken = true;
+                                }
+                                else
+                                    DisplayMessage("You must only enter P/p or A/a!", MessageType.Error, true);
+                            }
+                            else
+                                DisplayMessage("Incorrect input format!", MessageType.Error, false);
+                        }
+                        while (!hasAttendanceBeenTaken);
                     }
                     Console.ReadLine();
                 }
@@ -403,8 +429,6 @@ namespace PresentationLayer
             string attendancePercentageResult = businessLayer.DisplayAttendancePercentageByStudentID(studentID);
             if(attendancePercentageResult.Contains("no attendance records"))
                 DisplayMessage(attendancePercentageResult, MessageType.Error, true);
-            else
-                Console.WriteLine(attendancePercentageResult);
         }
 
         private static void GetAllAttendancesOnParticularDay()
@@ -441,11 +465,23 @@ namespace PresentationLayer
             }
             while (!inputFormatMatch);
 
-            DateTime date = new DateTime(year, month, day);
-            if (date > DateTime.Now)
+            DateTime dateStart = new DateTime(year, month, day);
+            if (dateStart > DateTime.Now)
             {
                 DisplayMessage("Date cannot be future date!", MessageType.Error, true);
                 return;
+            }
+            else
+            {
+                DateTime dateEnd = dateStart.AddDays(1);
+                int attendancesOnParticularDayCount = businessLayer.GetAllAttendancesOnParticularDay(teacherID, dateStart, dateEnd);
+                string result = $"You have submitted ";
+                if (attendancesOnParticularDayCount != 0)
+                    result += (attendancesOnParticularDayCount == 1) ? "only one attendance " : $"{attendancesOnParticularDayCount} attendances";
+                else
+                    result += "no attendances ";
+                result += $"on { dateStart.ToShortDateString()}.";
+                DisplayMessage(result, true);
             }
         }
 

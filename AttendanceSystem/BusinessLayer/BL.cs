@@ -80,6 +80,11 @@ namespace BusinessLayer
             return dataLayer.GetAllStudentsFromGroup(groupID);
         }
 
+        public bool VerifyIfGroupHasStudents(int groupID)
+        {
+            return this.GetAllStudentsFromGroup(groupID).Count != 0;
+        }
+
         public string DisplayAllGroups()
         {
             string allGroups = string.Empty;

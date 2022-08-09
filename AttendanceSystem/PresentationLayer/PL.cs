@@ -184,6 +184,13 @@ namespace PresentationLayer
                         DisplayMessage("Cannot find group with said ID!", MessageType.Error, false);
                 }
                 while (!inputFormatMatch || !businessLayer.VerifyIfGroupExists(groupToSelect));
+
+                if (businessLayer.VerifyIfGroupHasStudents(groupToSelect))
+                {
+                    DisplayMessage("There are students in this group!", MessageType.Success, true);
+                }
+                else
+                    DisplayMessage("There are no students in this group!", MessageType.Error, true);
             }
             else
                 DisplayMessage(groups, MessageType.Error, true);

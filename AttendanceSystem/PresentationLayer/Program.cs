@@ -422,6 +422,10 @@ namespace PresentationLayer
                     DisplayMessage("Incorrect input format!", MessageType.Error, true);
             }
             while (!inputFormatMatch);
+
+            DateTime date = new DateTime(year, month, day);
+            if (date > DateTime.Now)
+                DisplayMessage("Date cannot be future date!", MessageType.Error, true);
         }
 
         private static void EditStudent()
@@ -547,7 +551,6 @@ namespace PresentationLayer
             {
                 Console.Write("Email: ");
                 email = Console.ReadLine();
-
                 if (businessLayer.VerifyIfTeacherEmailExists(email))
                     DisplayMessage("Email already exists!", MessageType.Error, true);
             }

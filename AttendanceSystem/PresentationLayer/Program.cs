@@ -170,9 +170,9 @@ namespace PresentationLayer
             int groupToSelect = 0;
             bool inputFormatMatch = false;
             string groups = businessLayer.DisplayAllGroups();
-            Console.WriteLine(groups);
             if (!groups.Contains("No groups"))
             {
+                Console.WriteLine(groups);
                 do
                 {
                     Console.Write("Select a group: ");
@@ -182,6 +182,8 @@ namespace PresentationLayer
                 }
                 while (!inputFormatMatch);
             }
+            else
+                DisplayMessage(groups, MessageType.Error, true);
         }
 
         private static void AddNewGroup()
@@ -389,7 +391,17 @@ namespace PresentationLayer
 
         private static void GetAllAttendancesOnParticularDay()
         {
-
+            ClearConsole();
+            int day, month, year;
+            day = month = year = 0;
+            bool inputFormatMatch = false;
+            Console.WriteLine("Submitted Attendances\n=====================");
+            do
+            {
+                Console.Write("Day: ");
+                inputFormatMatch = int.TryParse(Console.ReadLine(), out day);
+            }
+            while (!inputFormatMatch);
         }
 
         private static void EditStudent()

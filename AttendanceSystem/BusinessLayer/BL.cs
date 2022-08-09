@@ -75,6 +75,11 @@ namespace BusinessLayer
             return dataLayer.GetAllStudents();
         }
 
+        public List<StudentAttendance> GetAttendanceByStudentID(int studentID)
+        {
+            return null;
+        }
+
         public bool VerifyIfStudentExists(int studentID)
         {
             Student student = dataLayer.VerifyIfStudentExists(studentID);

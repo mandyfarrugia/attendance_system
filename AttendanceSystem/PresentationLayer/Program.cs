@@ -46,7 +46,7 @@ namespace PresentationLayer
                             Login();
                             break;
                         case 2:
-                            //AddNewTeacher();
+                            AddNewTeacher();
                             break;
                         case 3:
                             Console.WriteLine("Goodbye!");

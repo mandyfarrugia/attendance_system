@@ -206,6 +206,22 @@ namespace DataLayer
             return allStudents;
         }
 
+        public List<StudentAttendance> GetAttendanceByStudentID(int studentID)
+        {
+            List<StudentAttendance> studentAttendances = new List<StudentAttendance>(from studentAttendance in ctx.StudentAttendance
+                                                                                     where studentAttendance.StudentID == studentID
+                                                                                     select studentAttendance);
+            return studentAttendances;
+        }
+
+        public List<StudentAttendance> GetPresencesByStudentID(int studentID)
+        {
+            List<StudentAttendance> studentAttendances = new List<StudentAttendance>(from studentAttendance in ctx.StudentAttendance
+                                                                                     where studentAttendance.StudentID == studentID && studentAttendance.Presence == true
+                                                                                     select studentAttendance);
+            return studentAttendances;
+        }
+
         public Student VerifyIfStudentExists(int studentID)
         {
             Student matchingStudent = new List<Student>(from student in ctx.Student

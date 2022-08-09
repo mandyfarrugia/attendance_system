@@ -105,6 +105,11 @@ namespace BusinessLayer
             return updates;
         }
 
+        public string EditStudent(int studentID, string name, string surname, string email)
+        {
+            return dataLayer.EditStudent(studentID, name, surname, email);
+        }
+
         public string EditStudent(int studentID, string name, string surname, string email, int groupID)
         {
             return dataLayer.EditStudent(studentID, name, surname, email, groupID);

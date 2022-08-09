@@ -364,6 +364,7 @@ namespace PresentationLayer
         {
             ClearConsole();
             Console.WriteLine("Edit Teacher\n============");
+            string updates = string.Empty;
             bool inputFormatMatch = false;
             int studentToSelect = 0;
             foreach (Student student in businessLayer.GetAllStudents())
@@ -408,21 +409,44 @@ namespace PresentationLayer
             List<Group> groups = businessLayer.GetAllGroups();
             foreach (Group group in groups)
                 Console.WriteLine($"{group.GroupID}. {group.Name}");
+            char groupUpdateConsent;
             do
             {
-                Console.Write("Select a group: ");
-                inputFormatMatch = int.TryParse(Console.ReadLine(), out groupToSelect);
-                if (inputFormatMatch)
-                {
-                    if (!businessLayer.VerifyIfGroupExists(groupToSelect))
-                        DisplayMessage("Group does not exist!", MessageType.Error, true);
-                }
-                else
-                    DisplayMessage("Incorrect input format! Please try again!", MessageType.Error, true);
+                Console.Write("Would you like to change the class group?: ");
+                inputFormatMatch = char.TryParse(Console.ReadLine(), out groupUpdateConsent);
+                if (!inputFormatMatch)
+                    DisplayMessage("Incorrect input format!", MessageType.Error, true);
+                else if (!(groupUpdateConsent.Equals('Y') || groupUpdateConsent.Equals('y')) && !(groupUpdateConsent.Equals('N') || groupUpdateConsent.Equals('n')))
+                    DisplayMessage("You must enter either Y/y (Yes) or N/n.", MessageType.Error, true);
             }
-            while (!inputFormatMatch || !businessLayer.VerifyIfGroupExists(groupToSelect));
+            while (!inputFormatMatch || !(groupUpdateConsent.Equals('Y') || groupUpdateConsent.Equals('y')) && !(groupUpdateConsent.Equals('N') || groupUpdateConsent.Equals('n')));
 
-            string updates = businessLayer.EditStudent(studentToSelect, name, surname, email, groupToSelect);
+            if(inputFormatMatch)
+            {
+                if(groupUpdateConsent.Equals('y') || groupUpdateConsent.Equals('Y'))
+                {
+                    do
+                    {
+                        Console.Write("Select a group: ");
+                        inputFormatMatch = int.TryParse(Console.ReadLine(), out groupToSelect);
+                        if (inputFormatMatch)
+                        {
+                            if (!businessLayer.VerifyIfGroupExists(groupToSelect))
+                                DisplayMessage("Group does not exist!", MessageType.Error, true);
+                        }
+                        else
+                            DisplayMessage("Incorrect input format! Please try again!", MessageType.Error, true);
+                    }
+                    while (!inputFormatMatch || !businessLayer.VerifyIfGroupExists(groupToSelect));
+                    updates = businessLayer.EditStudent(studentToSelect, name, surname, email, groupToSelect);
+                }
+                else if(groupUpdateConsent.Equals('n') || groupUpdateConsent.Equals('N'))
+                {
+                    DisplayMessage("You chose not to update the group!", MessageType.Warning, true);
+                    updates = businessLayer.EditStudent(studentToSelect, name, surname, email);
+                }
+            }
+
             if (updates.Equals(string.Empty))
                 DisplayMessage("No changes have been inflicted.", MessageType.Warning, true);
             else

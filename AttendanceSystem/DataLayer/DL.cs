@@ -176,6 +176,7 @@ namespace DataLayer
                 studentToEdit.GroupID = newGroupID;
                 string newGroupName = this.GetGroupByID(studentToEdit.GroupID).Name;
                 result += $"The group {oldGroupName} has been changed into {newGroupName}.";
+                ctx.SaveChanges();
                 return result;
             }
             catch(DbUpdateException ex)

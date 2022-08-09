@@ -25,7 +25,7 @@ namespace DataLayer
             Teacher matchingTeacher = new List<Teacher>(from teacher in ctx.Teacher
                                                         where teacher.Username == username && teacher.Password == password
                                                         select teacher).FirstOrDefault();
-            if(matchingTeacher != null)
+            if (matchingTeacher != null)
                 return matchingTeacher.TeacherID != 0;
             return false;
         }
@@ -57,8 +57,8 @@ namespace DataLayer
         public Teacher GetTeacherByID(int teacherID)
         {
             Teacher matchingTeacher = new List<Teacher>(from teacher in ctx.Teacher
-                                                      where teacher.TeacherID == teacherID
-                                                      select teacher).FirstOrDefault();
+                                                        where teacher.TeacherID == teacherID
+                                                        select teacher).FirstOrDefault();
             return matchingTeacher;
         }
 
@@ -108,7 +108,7 @@ namespace DataLayer
                         editCount++;
                     }
 
-                    if(editCount != 0)
+                    if (editCount != 0)
                         result += $"A total of {((editCount == 1) ? $"{editCount} change has" : $"{editCount} changes have")} been inflicted on {fullName}.";
 
                     ctx.SaveChanges();
@@ -118,7 +118,7 @@ namespace DataLayer
 
                 return result;
             }
-            catch(DbUpdateException ex)
+            catch (DbUpdateException ex)
             {
                 return ex.Message;
             }
@@ -179,7 +179,7 @@ namespace DataLayer
                 ctx.SaveChanges();
                 return result;
             }
-            catch(DbUpdateException ex)
+            catch (DbUpdateException ex)
             {
                 return ex.Message;
             }
@@ -206,7 +206,7 @@ namespace DataLayer
             return allStudents;
         }
 
-        public List<StudentAttendance> GetAttendanceByStudentID(int studentID)
+        public List<StudentAttendance> GetAllAttendancesByStudentID(int studentID)
         {
             List<StudentAttendance> studentAttendances = new List<StudentAttendance>(from studentAttendance in ctx.StudentAttendance
                                                                                      where studentAttendance.StudentID == studentID
@@ -260,6 +260,14 @@ namespace DataLayer
                                                   where grp.GroupID == groupID
                                                   select grp).FirstOrDefault();
             return matchingGroup;
+        }
+
+        public Student GetStudentByID(int studentID)
+        {
+            Student matchingStudent = new List<Student>(from student in ctx.Student
+                                                        where student.StudentID == studentID
+                                                        select student).FirstOrDefault();
+            return matchingStudent;
         }
 
         public void AddNewGroup(Group group)

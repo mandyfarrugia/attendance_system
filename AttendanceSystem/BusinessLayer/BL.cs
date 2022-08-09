@@ -75,9 +75,18 @@ namespace BusinessLayer
             return dataLayer.GetAllStudents();
         }
 
-        public List<StudentAttendance> GetAttendanceByStudentID(int studentID)
+        public string DisplayAttendancePercentageByStudentID(int studentID)
         {
-            return null;
+            Student student = dataLayer.GetStudentByID(studentID);
+            string attendancePercentageResult = string.Empty;
+            List<StudentAttendance> totalPresencesList = dataLayer.GetPresencesByStudentID(studentID);
+            List<StudentAttendance> totalAttendancesList = dataLayer.GetAllAttendancesByStudentID(studentID);
+            int totalPresencesCount = totalPresencesList.Count;
+            int totalAttendancesCount = totalAttendancesList.Count;
+            int attendancePercentage = (totalPresencesCount / totalAttendancesCount) * 100;
+            attendancePercentageResult = $"Total Attendance Percentage for {student.Name} {student.Surname}\n===========================\n";
+            attendancePercentageResult += $"{totalPresencesCount}/{totalAttendancesCount} ({attendancePercentage}%)";
+            return attendancePercentageResult;
         }
 
         public bool VerifyIfStudentExists(int studentID)

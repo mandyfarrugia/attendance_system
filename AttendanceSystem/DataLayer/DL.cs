@@ -1,10 +1,8 @@
-﻿using System;
-using System.Data.Entity.Infrastructure;
+﻿using Domain;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain;
 
 namespace DataLayer
 {

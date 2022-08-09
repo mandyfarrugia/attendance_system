@@ -130,7 +130,7 @@ namespace DataLayer
             {
                 int editCount = 0;
                 string result = string.Empty;
-                Student studentToEdit = this.VerifyIfStudentExists(Student);
+                Student studentToEdit = this.VerifyIfStudentExists(studentID);
                 if (studentToEdit != null)
                 {
                     string fullName = $"{studentToEdit.Name} {studentToEdit.Surname}";
@@ -155,6 +155,7 @@ namespace DataLayer
                         studentToEdit.Email = newEmail;
                         editCount++;
                     }
+                    studentToEdit.GroupID = newGroupID;
 
                     if (editCount != 0)
                         result += $"A total of {((editCount == 1) ? $"{editCount} change has" : $"{editCount} changes have")} been inflicted on {fullName}.";

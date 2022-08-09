@@ -372,11 +372,15 @@ namespace PresentationLayer
             {
                 Console.Write("Choose a student: ");
                 inputFormatMatch = int.TryParse(Console.ReadLine(), out studentToSelect);
-
-
-
+                if(inputFormatMatch)
+                {
+                    if (!businessLayer.VerifyIfStudentExists(studentToSelect))
+                        DisplayMessage("The entered ID does not exist in our system!", MessageType.Error, true);
+                }
+                else
+                    DisplayMessage("Incorrect input format! Please try again!", MessageType.Error, true);
             }
-            while (!inputFormatMatch);
+            while (!inputFormatMatch || !businessLayer.VerifyIfStudentExists(studentToSelect));
 
             DisplayMessage("If you do not want to change a field, press ENTER to skip.\n", MessageType.Warning, false);
 

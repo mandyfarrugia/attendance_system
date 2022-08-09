@@ -187,13 +187,32 @@ namespace PresentationLayer
 
                 if (businessLayer.VerifyIfGroupHasStudents(groupToSelect))
                 {
-                    DateTime 
+                    bool hasAttendanceBeenTaken;
+                    char presence;
+                    DateTime dateOfToday = DateTime.Now;
+                    businessLayer.AddNewLesson(groupToSelect, dateOfToday, teacherID);
 
                     Console.WriteLine("\nStudent ID\tStudent Name\tStudent Surname\t\tPresence (P/A)\n==========\t============\t===============\t\t==============");
                     List<Student> students = businessLayer.GetAllStudentsFromGroup(groupToSelect);
                     foreach (Student student in students)
                     {
-                        Console.Write($"{student.StudentID}\t\t{student.Name}\t\t{student.Surname}\n");
+                        hasAttendanceBeenTaken = false;
+                        do
+                        {
+                            Console.Write($"{student.StudentID}\t\t{student.Name}\t\t{student.Surname}\t\t");
+                            inputFormatMatch = char.TryParse(Console.ReadLine(), out presence);
+                            if (inputFormatMatch)
+                            {
+                                if(presence.Equals('p'))
+                                {
+                                    businessLayer.AddStudentAttendance();
+                                    hasAttendanceBeenTaken = true;
+                                }
+                            }
+                            else
+                                DisplayMessage("Incorrect input format!", MessageType.Error, false);
+                        }
+                        while (!hasAttendanceBeenTaken);
                     }
                     Console.ReadLine();
                 }

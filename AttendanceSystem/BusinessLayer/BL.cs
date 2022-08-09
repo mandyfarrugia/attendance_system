@@ -170,6 +170,13 @@ namespace BusinessLayer
             dataLayer.AddNewLesson(lesson);
         }
 
+        public void AddNewStudentAttendance(int studentID, bool presence)
+        {
+            int latestLessonID = dataLayer.GetLatestLessonID();
+            StudentAttendance studentAttendance = new StudentAttendance(latestLessonID, presence, studentID);
+            dataLayer.AddNewStudentAttendance();
+        }
+
         public string EditStudent(int studentID, string name, string surname, string email)
         {
             return dataLayer.EditStudent(studentID, name, surname, email);

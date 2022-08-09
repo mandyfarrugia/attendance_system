@@ -307,5 +307,11 @@ namespace DataLayer
             ctx.Lesson.Add(lesson);
             ctx.SaveChanges();
         }
+
+        public void AddNewStudentAttendance(StudentAttendance studentAttendance)
+        {
+            ctx.StudentAttendance.Add(studentAttendance);
+            ctx.SaveChanges();
+        }
     }
 }

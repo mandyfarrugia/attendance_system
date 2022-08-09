@@ -169,17 +169,19 @@ namespace PresentationLayer
             ClearConsole();
             int groupToSelect = 0;
             bool inputFormatMatch = false;
-            List<Group> groups = businessLayer.GetAllGroups();
-            foreach (Group group in groups)
-                Console.WriteLine($"{group.GroupID}. {group.Name}");
-            do
+            string groups = businessLayer.DisplayAllGroups();
+            Console.WriteLine(groups);
+            if (!groups.Contains("No groups"))
             {
-                Console.Write("Select a group: ");
-                inputFormatMatch = int.TryParse(Console.ReadLine(), out groupToSelect);
-                if (!inputFormatMatch)
-                    DisplayMessage("Incorrect input format!", MessageType.Error, true);
+                do
+                {
+                    Console.Write("Select a group: ");
+                    inputFormatMatch = int.TryParse(Console.ReadLine(), out groupToSelect);
+                    if (!inputFormatMatch)
+                        DisplayMessage("Incorrect input format!", MessageType.Error, true);
+                }
+                while (!inputFormatMatch);
             }
-            while (!inputFormatMatch);
         }
 
         private static void AddNewGroup()

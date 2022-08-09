@@ -80,12 +80,31 @@ namespace BusinessLayer
             return dataLayer.GetAllStudentsFromGroup(groupID);
         }
 
+        public string DisplayAllGroups()
+        {
+            string allGroups = string.Empty;
+            List<Group> groups = this.GetAllGroups();
+            if (groups != null || groups.Count != 0)
+            {
+                for(int groupPos = 0; groupPos < groups.Count; groupPos++)
+                {
+                    if (groupPos == groups.Count - 1)
+                        allGroups += $"{groups[groupPos].GroupID}. {groups[groupPos].Name}";
+                    else
+                        allGroups += $"{groups[groupPos].GroupID}. {groups[groupPos].Name}\n";
+                }
+            }
+            else
+                allGroups = "No groups to show!";
+            return allGroups;
+        }
+
         public string DisplayAllStudentsFromGroup(int groupID)
         {
             string studentsFromGroup = string.Empty;
-            List<Student> allStudentsFromGroup = dataLayer.GetAllStudentsFromGroup(groupID);
+            List<Student> allStudentsFromGroup = this.GetAllStudentsFromGroup(groupID);
             foreach (Student studentFromGroup in allStudentsFromGroup)
-                studentsFromGroup += $"{studentFromGroup.StudentID}. {studentFromGroup.Name} {studentFromGroup.Surname}";
+                studentsFromGroup += $"{studentFromGroup.StudentID}. {studentFromGroup.Name} {studentFromGroup.Surname}\n";
             return studentsFromGroup;
         }
 

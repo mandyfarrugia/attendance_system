@@ -54,7 +54,7 @@ namespace DataLayer
             return matchingTeacher.TeacherID;
         }
 
-        public Teacher GetTeacherById(int teacherID)
+        public Teacher GetTeacherByID(int teacherID)
         {
             Teacher matchingTeacher = new List<Teacher>(from teacher in ctx.Teacher
                                                       where teacher.TeacherID == teacherID
@@ -68,7 +68,7 @@ namespace DataLayer
             {
                 int editCount = 0;
                 string result = string.Empty;
-                Teacher teacherToEdit = this.GetTeacherById(teacherID);
+                Teacher teacherToEdit = this.GetTeacherByID(teacherID);
                 if (teacherToEdit != null)
                 {
                     string fullName = $"{teacherToEdit.Name} {teacherToEdit.Surname}";
@@ -124,11 +124,10 @@ namespace DataLayer
             }
         }
 
-        public string EditStudent(int studentID, string newName, string newSurname, string newEmail, int newGroupID)
+        public string EditStudent(int studentID, string newName, string newSurname, string newEmail)
         {
             try
             {
-                int editCount = 0;
                 string result = string.Empty;
                 Student studentToEdit = this.VerifyIfStudentExists(studentID);
                 if (studentToEdit != null)
@@ -139,26 +138,19 @@ namespace DataLayer
                         string oldName = studentToEdit.Name;
                         result += $"The name {oldName} has been changed to {newName}.\n";
                         studentToEdit.Name = newName;
-                        editCount++;
                     }
                     if (!newSurname.Equals(string.Empty))
                     {
                         string oldSurname = studentToEdit.Surname;
                         result += $"The surname {oldSurname} has been changed to {newSurname}.\n";
                         studentToEdit.Surname = newSurname;
-                        editCount++;
                     }
                     if (!newEmail.Equals(string.Empty))
                     {
                         string oldEmail = studentToEdit.Email;
                         result += $"The email {oldEmail} has been changed to {newEmail}.\n";
                         studentToEdit.Email = newEmail;
-                        editCount++;
                     }
-                    studentToEdit.GroupID = newGroupID;
-
-                    if (editCount != 0)
-                        result += $"A total of {((editCount == 1) ? $"{editCount} change has" : $"{editCount} changes have")} been inflicted on {fullName}.";
 
                     ctx.SaveChanges();
                 }
@@ -168,6 +160,25 @@ namespace DataLayer
                 return result;
             }
             catch (DbUpdateException ex)
+            {
+                return ex.Message;
+            }
+        }
+
+        public string EditStudent(int studentID, string newName, string newSurname, string newEmail, int newGroupID)
+        {
+            try
+            {
+                Student studentToEdit = this.VerifyIfStudentExists(studentID);
+                int oldGroup = studentToEdit.GroupID;
+                string oldGroupName = this.GetGroupByID(oldGroup).Name;
+                string result = this.EditStudent(studentID, newName, newSurname, newEmail);
+                studentToEdit.GroupID = newGroupID;
+                string newGroupName = this.GetGroupByID(studentToEdit.GroupID).Name;
+                result += $"The group {oldGroupName} has been changed into {newGroupName}.";
+                return result;
+            }
+            catch(DbUpdateException ex)
             {
                 return ex.Message;
             }
@@ -224,6 +235,14 @@ namespace DataLayer
                                                      where course.CourseTitle == courseTitle
                                                      select course).FirstOrDefault();
             return matchingCourse;
+        }
+
+        public Group GetGroupByID(int groupID)
+        {
+            Group matchingGroup = new List<Group>(from grp in ctx.Group
+                                                  where grp.GroupID == groupID
+                                                  select grp).FirstOrDefault();
+            return matchingGroup;
         }
 
         public void AddNewGroup(Group group)

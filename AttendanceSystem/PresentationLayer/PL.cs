@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace PresentationLayer
 {
-    public class Program
+    public class PL
     {
         static BL businessLayer = new BL();
         static int teacherID = 0;
@@ -169,6 +169,7 @@ namespace PresentationLayer
             ClearConsole();
             int groupToSelect = 0;
             bool inputFormatMatch = false;
+            Console.WriteLine("New Attendance\n==============");
             string groups = businessLayer.DisplayAllGroups();
             if (!groups.Contains("No groups"))
             {
@@ -178,9 +179,11 @@ namespace PresentationLayer
                     Console.Write("Select a group: ");
                     inputFormatMatch = int.TryParse(Console.ReadLine(), out groupToSelect);
                     if (!inputFormatMatch)
-                        DisplayMessage("Incorrect input format!", MessageType.Error, true);
+                        DisplayMessage("Incorrect input format!", MessageType.Error, false);
+                    else if (!businessLayer.VerifyIfGroupExists(groupToSelect))
+                        DisplayMessage("Cannot find group with said ID!", MessageType.Error, false);
                 }
-                while (!inputFormatMatch);
+                while (!inputFormatMatch || !businessLayer.VerifyIfGroupExists(groupToSelect));
             }
             else
                 DisplayMessage(groups, MessageType.Error, true);
@@ -425,7 +428,10 @@ namespace PresentationLayer
 
             DateTime date = new DateTime(year, month, day);
             if (date > DateTime.Now)
+            {
                 DisplayMessage("Date cannot be future date!", MessageType.Error, true);
+                return;
+            }
         }
 
         private static void EditStudent()

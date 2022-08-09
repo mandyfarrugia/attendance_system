@@ -441,10 +441,7 @@ namespace PresentationLayer
                     updates = businessLayer.EditStudent(studentToSelect, name, surname, email, groupToSelect);
                 }
                 else if(groupUpdateConsent.Equals('n') || groupUpdateConsent.Equals('N'))
-                {
-                    DisplayMessage("You chose not to update the group!", MessageType.Warning, true);
                     updates = businessLayer.EditStudent(studentToSelect, name, surname, email);
-                }
             }
 
             if (updates.Equals(string.Empty))

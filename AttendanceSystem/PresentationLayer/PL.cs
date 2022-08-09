@@ -524,7 +524,7 @@ namespace PresentationLayer
                 email = Console.ReadLine();
 
                 if (businessLayer.VerifyIfStudentEmailExists(email))
-                    DisplayMessage("Email already exists!", MessageType.Error, true);
+                    DisplayMessage("Email already exists!", MessageType.Error, false);
             }
             while (businessLayer.VerifyIfStudentEmailExists(email));
 

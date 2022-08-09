@@ -39,6 +39,7 @@ namespace Domain
         {
             this.Name = name;
             this.Surname = surname;
+            this.Email = email;
             this.GroupID = groupID;
         }
     }

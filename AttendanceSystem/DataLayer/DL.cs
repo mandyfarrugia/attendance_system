@@ -25,7 +25,7 @@ namespace DataLayer
             Teacher matchingTeacher = new List<Teacher>(from teacher in ctx.Teacher
                                                         where teacher.Username == username && teacher.Password == password
                                                         select teacher).FirstOrDefault();
-            if(matchingTeacher != null)
+            if (matchingTeacher != null)
                 return matchingTeacher.TeacherID != 0;
             return false;
         }
@@ -38,6 +38,14 @@ namespace DataLayer
             return matchingTeacher;
         }
 
+        public Student VerifyIfStudentEmailExists(string email)
+        {
+            Student matchingStudent = new List<Student>(from student in ctx.Student
+                                                        where student.Email == email
+                                                        select student).SingleOrDefault();
+            return matchingStudent;
+        }
+
         public int GetTeacherID(string username, string password)
         {
             Teacher matchingTeacher = new List<Teacher>(from teacher in ctx.Teacher
@@ -46,11 +54,11 @@ namespace DataLayer
             return matchingTeacher.TeacherID;
         }
 
-        public Teacher GetTeacherById(int teacherID)
+        public Teacher GetTeacherByID(int teacherID)
         {
             Teacher matchingTeacher = new List<Teacher>(from teacher in ctx.Teacher
-                                                      where teacher.TeacherID == teacherID
-                                                      select teacher).FirstOrDefault();
+                                                        where teacher.TeacherID == teacherID
+                                                        select teacher).FirstOrDefault();
             return matchingTeacher;
         }
 
@@ -60,7 +68,7 @@ namespace DataLayer
             {
                 int editCount = 0;
                 string result = string.Empty;
-                Teacher teacherToEdit = this.GetTeacherById(teacherID);
+                Teacher teacherToEdit = this.GetTeacherByID(teacherID);
                 if (teacherToEdit != null)
                 {
                     string fullName = $"{teacherToEdit.Name} {teacherToEdit.Surname}";
@@ -100,7 +108,7 @@ namespace DataLayer
                         editCount++;
                     }
 
-                    if(editCount != 0)
+                    if (editCount != 0)
                         result += $"A total of {((editCount == 1) ? $"{editCount} change has" : $"{editCount} changes have")} been inflicted on {fullName}.";
 
                     ctx.SaveChanges();
@@ -110,29 +118,127 @@ namespace DataLayer
 
                 return result;
             }
-            catch(DbUpdateException ex)
+            catch (DbUpdateException ex)
             {
                 return ex.Message;
             }
         }
 
-        public List<Course> FetchAllCourses()
+        public string EditStudent(int studentID, string newName, string newSurname, string newEmail)
+        {
+            try
+            {
+                string result = string.Empty;
+                Student studentToEdit = this.VerifyIfStudentExists(studentID);
+                if (studentToEdit != null)
+                {
+                    string fullName = $"{studentToEdit.Name} {studentToEdit.Surname}";
+                    if (!newName.Equals(string.Empty))
+                    {
+                        string oldName = studentToEdit.Name;
+                        result += $"The name {oldName} has been changed to {newName}.\n";
+                        studentToEdit.Name = newName;
+                    }
+                    if (!newSurname.Equals(string.Empty))
+                    {
+                        string oldSurname = studentToEdit.Surname;
+                        result += $"The surname {oldSurname} has been changed to {newSurname}.\n";
+                        studentToEdit.Surname = newSurname;
+                    }
+                    if (!newEmail.Equals(string.Empty))
+                    {
+                        string oldEmail = studentToEdit.Email;
+                        result += $"The email {oldEmail} has been changed to {newEmail}.\n";
+                        studentToEdit.Email = newEmail;
+                    }
+
+                    ctx.SaveChanges();
+                }
+                else
+                    result = "Could not find any teacher with the corresponding ID!";
+
+                return result;
+            }
+            catch (DbUpdateException ex)
+            {
+                return ex.Message;
+            }
+        }
+
+        public string EditStudent(int studentID, string newName, string newSurname, string newEmail, int newGroupID)
+        {
+            try
+            {
+                Student studentToEdit = this.VerifyIfStudentExists(studentID);
+                int oldGroup = studentToEdit.GroupID;
+                string oldGroupName = this.GetGroupByID(oldGroup).Name;
+                string result = this.EditStudent(studentID, newName, newSurname, newEmail);
+                studentToEdit.GroupID = newGroupID;
+                string newGroupName = this.GetGroupByID(studentToEdit.GroupID).Name;
+                result += $"The group {oldGroupName} has been changed into {newGroupName}.";
+                ctx.SaveChanges();
+                return result;
+            }
+            catch (DbUpdateException ex)
+            {
+                return ex.Message;
+            }
+        }
+
+        public List<Course> GetAllCourses()
         {
             List<Course> allCourses = new List<Course>(from course in ctx.Course
                                                        select course);
             return allCourses;
         }
 
-        public List<Group> FetchAllGroups()
+        public List<Group> GetAllGroups()
         {
             List<Group> allGroups = new List<Group>(from grp in ctx.Group
                                                     select grp);
             return allGroups;
         }
 
+        public List<Student> GetAllStudents()
+        {
+            List<Student> allStudents = new List<Student>(from student in ctx.Student
+                                                          select student);
+            return allStudents;
+        }
 
+        public List<StudentAttendance> GetAllAttendancesByStudentID(int studentID)
+        {
+            List<StudentAttendance> studentAttendances = new List<StudentAttendance>(from studentAttendance in ctx.StudentAttendance
+                                                                                     where studentAttendance.StudentID == studentID
+                                                                                     select studentAttendance);
+            return studentAttendances;
+        }
 
-        public Course CheckIfCourseExistsById(int courseID)
+        public List<StudentAttendance> GetPresencesByStudentID(int studentID)
+        {
+            List<StudentAttendance> studentAttendances = new List<StudentAttendance>(from studentAttendance in ctx.StudentAttendance
+                                                                                     where studentAttendance.StudentID == studentID && studentAttendance.Presence == true
+                                                                                     select studentAttendance);
+            return studentAttendances;
+        }
+
+        public Student VerifyIfStudentExists(int studentID)
+        {
+            Student matchingStudent = new List<Student>(from student in ctx.Student
+                                                        where student.StudentID == studentID
+                                                        select student).FirstOrDefault();
+            return matchingStudent;
+        }
+
+        public Group VerifyIfGroupExists(int groupID)
+        {
+            Group matchingGroup = new List<Group>(from grp in ctx.Group
+                                                  where grp.GroupID == groupID
+                                                  select grp).FirstOrDefault();
+            return matchingGroup;
+        }
+
+        public Course VerifyIfCourseExistsById(int courseID)
         {
             Course matchingCourse = new List<Course>(from course in ctx.Course
                                                      where course.CourseID == courseID
@@ -146,6 +252,30 @@ namespace DataLayer
                                                      where course.CourseTitle == courseTitle
                                                      select course).FirstOrDefault();
             return matchingCourse;
+        }
+
+        public Group GetGroupByID(int groupID)
+        {
+            Group matchingGroup = new List<Group>(from grp in ctx.Group
+                                                  where grp.GroupID == groupID
+                                                  select grp).FirstOrDefault();
+            return matchingGroup;
+        }
+
+        public Student GetStudentByID(int studentID)
+        {
+            Student matchingStudent = new List<Student>(from student in ctx.Student
+                                                        where student.StudentID == studentID
+                                                        select student).FirstOrDefault();
+            return matchingStudent;
+        }
+
+        public List<Student> GetAllStudentsFromGroup(int groupID)
+        {
+            List<Student> students = new List<Student>(from student in ctx.Student
+                                                       where student.GroupID == groupID
+                                                       select student);
+            return students;
         }
 
         public void AddNewGroup(Group group)
@@ -163,6 +293,12 @@ namespace DataLayer
         public void AddNewTeacher(Teacher teacher)
         {
             ctx.Teacher.Add(teacher);
+            ctx.SaveChanges();
+        }
+
+        public void AddNewStudent(Student student)
+        {
+            ctx.Student.Add(student);
             ctx.SaveChanges();
         }
     }

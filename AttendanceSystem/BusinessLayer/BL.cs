@@ -36,26 +36,84 @@ namespace BusinessLayer
             return loggedInTeacherID;
         }
 
+        public bool VerifyIfStudentEmailExists(string email)
+        {
+            Student matchingStudent = dataLayer.VerifyIfStudentEmailExists(email);
+            return matchingStudent != null;
+        }
+
         public void AddNewGroup(string groupName, int courseID)
         {
             Group group = new Group(groupName, courseID);
             dataLayer.AddNewGroup(group);
         }
 
-        public List<Group> FetchAllGroups()
+        public List<Group> GetAllGroups()
         {
-            return dataLayer.FetchAllGroups();
+            return dataLayer.GetAllGroups();
         }
 
-        public bool CheckIfCourseExistsById(int courseID)
+        public bool VerifyIfGroupExists(int groupID)
         {
-            Course course = dataLayer.CheckIfCourseExistsById(courseID);
+            Group group = dataLayer.VerifyIfGroupExists(groupID);
+            return group != null;
+        }
+
+        public bool VerifyIfCourseExistsById(int courseID)
+        {
+            Course course = dataLayer.VerifyIfCourseExistsById(courseID);
             return course != null;
         }
 
-        public List<Course> FetchAllCourses()
+        public List<Course> GetAllCourses()
         {
-            return dataLayer.FetchAllCourses();
+            return dataLayer.GetAllCourses();
+        }
+
+        public List<Student> GetAllStudents()
+        {
+            return dataLayer.GetAllStudents();
+        }
+
+        public List<Student> GetAllStudentsFromGroup(int groupID)
+        {
+            return dataLayer.GetAllStudentsFromGroup(groupID);
+        }
+
+        public string DisplayAllStudentsFromGroup(int groupID)
+        {
+            string studentsFromGroup = string.Empty;
+            List<Student> allStudentsFromGroup = dataLayer.GetAllStudentsFromGroup(groupID);
+            foreach (Student studentFromGroup in allStudentsFromGroup)
+                studentsFromGroup += $"{studentFromGroup.StudentID}. {studentFromGroup.Name} {studentFromGroup.Surname}";
+            return studentsFromGroup;
+        }
+
+        public string DisplayAttendancePercentageByStudentID(int studentID)
+        {
+            try
+            {
+                Student student = dataLayer.GetStudentByID(studentID);
+                string attendancePercentageResult = string.Empty;
+                List<StudentAttendance> totalPresencesList = dataLayer.GetPresencesByStudentID(studentID);
+                List<StudentAttendance> totalAttendancesList = dataLayer.GetAllAttendancesByStudentID(studentID);
+                int totalPresencesCount = totalPresencesList.Count;
+                int totalAttendancesCount = totalAttendancesList.Count;
+                int attendancePercentage = (totalPresencesCount / totalAttendancesCount) * 100;
+                attendancePercentageResult = $"Total Attendance Percentage for {student.Name} {student.Surname}\n===========================\n";
+                attendancePercentageResult += $"{totalPresencesCount}/{totalAttendancesCount} ({attendancePercentage}%)";
+                return attendancePercentageResult;
+            }
+            catch(DivideByZeroException)
+            {
+                return "There are no attendance records for this student!";
+            }
+        }
+
+        public bool VerifyIfStudentExists(int studentID)
+        {
+            Student student = dataLayer.VerifyIfStudentExists(studentID);
+            return student != null;
         }
 
         public void AddNewCourse(string courseTitle)
@@ -70,10 +128,26 @@ namespace BusinessLayer
             dataLayer.AddNewTeacher(teacher);
         }
 
+        public void AddNewStudent(string name, string surname, string email, int groupID)
+        {
+            Student student = new Student(name, surname, email, groupID);
+            dataLayer.AddNewStudent(student);
+        }
+
         public string EditTeacher(int teacherID, string newUsername, string newPassword, string newName, string newSurname, string newEmail)
         {
             string updates = dataLayer.EditTeacher(teacherID, newUsername, newPassword, newName, newSurname, newEmail);
             return updates;
+        }
+
+        public string EditStudent(int studentID, string name, string surname, string email)
+        {
+            return dataLayer.EditStudent(studentID, name, surname, email);
+        }
+
+        public string EditStudent(int studentID, string name, string surname, string email, int groupID)
+        {
+            return dataLayer.EditStudent(studentID, name, surname, email, groupID);
         }
     }
 }

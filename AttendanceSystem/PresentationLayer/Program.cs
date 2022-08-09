@@ -352,7 +352,11 @@ namespace PresentationLayer
 
         private static void CheckStudentAttendancePercentage()
         {
-
+            string attendancePercentageResult = businessLayer.DisplayAttendancePercentageByStudentID(2);
+            if(attendancePercentageResult.Contains("no attendance records"))
+                DisplayMessage(attendancePercentageResult, MessageType.Error, true);
+            else
+                Console.WriteLine(attendancePercentageResult);
         }
 
         private static void GetAllAttendancesOnParticularDay()

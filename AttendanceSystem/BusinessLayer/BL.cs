@@ -77,16 +77,23 @@ namespace BusinessLayer
 
         public string DisplayAttendancePercentageByStudentID(int studentID)
         {
-            Student student = dataLayer.GetStudentByID(studentID);
-            string attendancePercentageResult = string.Empty;
-            List<StudentAttendance> totalPresencesList = dataLayer.GetPresencesByStudentID(studentID);
-            List<StudentAttendance> totalAttendancesList = dataLayer.GetAllAttendancesByStudentID(studentID);
-            int totalPresencesCount = totalPresencesList.Count;
-            int totalAttendancesCount = totalAttendancesList.Count;
-            int attendancePercentage = (totalPresencesCount / totalAttendancesCount) * 100;
-            attendancePercentageResult = $"Total Attendance Percentage for {student.Name} {student.Surname}\n===========================\n";
-            attendancePercentageResult += $"{totalPresencesCount}/{totalAttendancesCount} ({attendancePercentage}%)";
-            return attendancePercentageResult;
+            try
+            {
+                Student student = dataLayer.GetStudentByID(studentID);
+                string attendancePercentageResult = string.Empty;
+                List<StudentAttendance> totalPresencesList = dataLayer.GetPresencesByStudentID(studentID);
+                List<StudentAttendance> totalAttendancesList = dataLayer.GetAllAttendancesByStudentID(studentID);
+                int totalPresencesCount = totalPresencesList.Count;
+                int totalAttendancesCount = totalAttendancesList.Count;
+                int attendancePercentage = (totalPresencesCount / totalAttendancesCount) * 100;
+                attendancePercentageResult = $"Total Attendance Percentage for {student.Name} {student.Surname}\n===========================\n";
+                attendancePercentageResult += $"{totalPresencesCount}/{totalAttendancesCount} ({attendancePercentage}%)";
+                return attendancePercentageResult;
+            }
+            catch(DivideByZeroException)
+            {
+                return "There are no attendance records for this student!";
+            }
         }
 
         public bool VerifyIfStudentExists(int studentID)

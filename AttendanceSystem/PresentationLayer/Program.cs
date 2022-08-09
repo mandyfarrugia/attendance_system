@@ -352,7 +352,20 @@ namespace PresentationLayer
 
         private static void CheckStudentAttendancePercentage()
         {
-            string attendancePercentageResult = businessLayer.DisplayAttendancePercentageByStudentID(2);
+            ClearConsole();
+            int studentID = 0;
+            bool inputFormatMatch = false;
+            Console.WriteLine("Attendance Percentage\n=====================");
+            foreach (Student student in businessLayer.GetAllStudents())
+                Console.WriteLine($"{student.StudentID}. {student.Name} {student.Surname}");
+            do
+            {
+                Console.Write("Choose a student: ");
+                inputFormatMatch = int.TryParse(Console.ReadLine(), out studentID);
+            } 
+            while (!inputFormatMatch);
+
+            string attendancePercentageResult = businessLayer.DisplayAttendancePercentageByStudentID(studentID);
             if(attendancePercentageResult.Contains("no attendance records"))
                 DisplayMessage(attendancePercentageResult, MessageType.Error, true);
             else
@@ -387,7 +400,7 @@ namespace PresentationLayer
             }
             while (!inputFormatMatch || !businessLayer.VerifyIfStudentExists(studentToSelect));
 
-            DisplayMessage("If you do not want to change a field, press ENTER to skip.\n", MessageType.Warning, false);
+            DisplayMessage("\nIf you do not want to change a field, press ENTER to skip.\n", MessageType.Warning, false);
 
             string name = string.Empty;
             Console.Write("Name: ");

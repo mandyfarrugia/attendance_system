@@ -393,13 +393,33 @@ namespace PresentationLayer
         {
             ClearConsole();
             int day, month, year;
-            day = month = year = 0;
             bool inputFormatMatch = false;
             Console.WriteLine("Submitted Attendances\n=====================");
+
             do
             {
                 Console.Write("Day: ");
                 inputFormatMatch = int.TryParse(Console.ReadLine(), out day);
+                if (!inputFormatMatch)
+                    DisplayMessage("Incorrect input format!", MessageType.Error, true);
+            }
+            while (!inputFormatMatch);
+
+            do
+            {
+                Console.Write("Month: ");
+                inputFormatMatch = int.TryParse(Console.ReadLine(), out month);
+                if (!inputFormatMatch)
+                    DisplayMessage("Incorrect input format!", MessageType.Error, true);
+            }
+            while (!inputFormatMatch);
+
+            do
+            {
+                Console.Write("Year: ");
+                inputFormatMatch = int.TryParse(Console.ReadLine(), out year);
+                if (!inputFormatMatch)
+                    DisplayMessage("Incorrect input format!", MessageType.Error, true);
             }
             while (!inputFormatMatch);
         }

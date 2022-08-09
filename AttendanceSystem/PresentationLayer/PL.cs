@@ -429,8 +429,6 @@ namespace PresentationLayer
             string attendancePercentageResult = businessLayer.DisplayAttendancePercentageByStudentID(studentID);
             if(attendancePercentageResult.Contains("no attendance records"))
                 DisplayMessage(attendancePercentageResult, MessageType.Error, true);
-            else
-                DisplayMessage(attendancePercentageResult, true);
         }
 
         private static void GetAllAttendancesOnParticularDay()
@@ -477,7 +475,13 @@ namespace PresentationLayer
             {
                 DateTime dateEnd = dateStart.AddDays(1);
                 int attendancesOnParticularDayCount = businessLayer.GetAllAttendancesOnParticularDay(teacherID, dateStart, dateEnd);
-                DisplayMessage($"You have submitted {attendancesOnParticularDayCount} attendances on {dateStart.ToShortDateString()}.", true);
+                string result = $"You have submitted ";
+                if (attendancesOnParticularDayCount != 0)
+                    result += (attendancesOnParticularDayCount == 1) ? "only one attendance " : $"{attendancesOnParticularDayCount} attendances";
+                else
+                    result += "no attendances ";
+                result += $"on { dateStart.ToShortDateString()}.";
+                DisplayMessage(result, true);
             }
         }
 

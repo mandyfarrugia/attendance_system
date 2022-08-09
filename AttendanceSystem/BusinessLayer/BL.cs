@@ -121,7 +121,7 @@ namespace BusinessLayer
             List<StudentAttendance> totalAttendancesList = dataLayer.GetAllAttendancesByStudentID(studentID);
             double totalPresencesCount = totalPresencesList.Count;
             double totalAttendancesCount = totalAttendancesList.Count;
-            double attendancePercentage = totalPresencesCount / totalAttendancesCount * 100;
+            double attendancePercentage = Math.Round(totalPresencesCount / totalAttendancesCount * 100);
             attendancePercentageResult = $"\nTotal Attendance Percentage for {student.Name} {student.Surname}\n===========================\n";
             if (attendancePercentage > 0)
                 attendancePercentageResult += $"{totalPresencesCount}/{totalAttendancesCount} ({attendancePercentage}%)";

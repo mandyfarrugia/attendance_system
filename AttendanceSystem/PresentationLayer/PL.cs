@@ -221,7 +221,6 @@ namespace PresentationLayer
                         }
                         while (!hasAttendanceBeenTaken);
                     }
-                    Console.ReadLine();
                 }
                 else
                     DisplayMessage("There are no students in this group!", MessageType.Error, true);

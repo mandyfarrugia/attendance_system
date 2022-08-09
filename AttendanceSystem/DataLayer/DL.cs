@@ -270,6 +270,14 @@ namespace DataLayer
             return matchingStudent;
         }
 
+        public List<Student> GetAllStudentsFromGroup(int groupID)
+        {
+            List<Student> students = new List<Student>(from student in ctx.Student
+                                                       where student.GroupID == groupID
+                                                       select student);
+            return students;
+        }
+
         public void AddNewGroup(Group group)
         {
             ctx.Group.Add(group);

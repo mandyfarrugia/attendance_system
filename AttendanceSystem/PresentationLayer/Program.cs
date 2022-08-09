@@ -97,7 +97,7 @@ namespace PresentationLayer
         {
             get
             {
-                List<string> options = new List<string>() { "Add attendance", "Add a new group", "Add course", "Add new student", "Add a new teacher", "Check a student's attendance percentage",
+                List<string> options = new List<string>() { "Add attendance", "Add a new group", "Add a new course", "Add new student", "Add a new teacher", "Check a student's attendance percentage",
                                                             "Get all attendances submitted on a particular day", "Edit student", "Edit teacher", "Logout" };
                 return options;
             }
@@ -166,7 +166,20 @@ namespace PresentationLayer
 
         private static void AddAttendance()
         {
-
+            ClearConsole();
+            int groupToSelect = 0;
+            bool inputFormatMatch = false;
+            List<Group> groups = businessLayer.GetAllGroups();
+            foreach (Group group in groups)
+                Console.WriteLine($"{group.GroupID}. {group.Name}");
+            do
+            {
+                Console.Write("Select a group: ");
+                inputFormatMatch = int.TryParse(Console.ReadLine(), out groupToSelect);
+                if (!inputFormatMatch)
+                    DisplayMessage("Incorrect input format!", MessageType.Error, true);
+            }
+            while (!inputFormatMatch);
         }
 
         private static void AddNewGroup()

@@ -75,6 +75,20 @@ namespace BusinessLayer
             return dataLayer.GetAllStudents();
         }
 
+        public List<Student> GetAllStudentsFromGroup(int groupID)
+        {
+            return dataLayer.GetAllStudentsFromGroup(groupID);
+        }
+
+        public string DisplayAllStudentsFromGroup(int groupID)
+        {
+            string studentsFromGroup = string.Empty;
+            List<Student> allStudentsFromGroup = dataLayer.GetAllStudentsFromGroup(groupID);
+            foreach (Student studentFromGroup in allStudentsFromGroup)
+                studentsFromGroup += $"{studentFromGroup.StudentID}. {studentFromGroup.Name} {studentFromGroup.Surname}";
+            return studentsFromGroup;
+        }
+
         public string DisplayAttendancePercentageByStudentID(int studentID)
         {
             try

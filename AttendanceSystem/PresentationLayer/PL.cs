@@ -203,11 +203,18 @@ namespace PresentationLayer
                             inputFormatMatch = char.TryParse(Console.ReadLine(), out presence);
                             if (inputFormatMatch)
                             {
-                                if(presence.Equals('p'))
+                                if (presence.Equals('p') || presence.Equals('P'))
                                 {
-                                    businessLayer.AddStudentAttendance();
+                                    businessLayer.AddNewStudentAttendance(student.StudentID, true);
                                     hasAttendanceBeenTaken = true;
                                 }
+                                else if (presence.Equals('a') || presence.Equals('A'))
+                                {
+                                    businessLayer.AddNewStudentAttendance(student.StudentID, false);
+                                    hasAttendanceBeenTaken = true;
+                                }
+                                else
+                                    DisplayMessage("You must only enter P/p or A/a!", MessageType.Error, true);
                             }
                             else
                                 DisplayMessage("Incorrect input format!", MessageType.Error, false);

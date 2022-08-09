@@ -278,6 +278,14 @@ namespace DataLayer
             return students;
         }
 
+        public int GetLatestLessonID()
+        {
+            int latestLessonID = (from lesson in ctx.Lesson
+                                  orderby lesson.LessonID descending
+                                  select lesson.LessonID).FirstOrDefault();
+            return latestLessonID;
+        }
+
         public void AddNewGroup(Group group)
         {
             ctx.Group.Add(group);

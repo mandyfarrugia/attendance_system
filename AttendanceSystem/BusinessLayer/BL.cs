@@ -174,7 +174,7 @@ namespace BusinessLayer
         {
             int latestLessonID = dataLayer.GetLatestLessonID();
             StudentAttendance studentAttendance = new StudentAttendance(latestLessonID, presence, studentID);
-            dataLayer.AddNewStudentAttendance();
+            dataLayer.AddNewStudentAttendance(studentAttendance);
         }
 
         public string EditStudent(int studentID, string name, string surname, string email)

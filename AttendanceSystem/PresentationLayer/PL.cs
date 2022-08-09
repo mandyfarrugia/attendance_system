@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace PresentationLayer
 {
-    public class Program
+    public class PL
     {
         static BL businessLayer = new BL();
         static int teacherID = 0;
@@ -169,17 +169,39 @@ namespace PresentationLayer
             ClearConsole();
             int groupToSelect = 0;
             bool inputFormatMatch = false;
-            List<Group> groups = businessLayer.GetAllGroups();
-            foreach (Group group in groups)
-                Console.WriteLine($"{group.GroupID}. {group.Name}");
-            do
+            Console.WriteLine("New Attendance\n==============");
+            string groups = businessLayer.DisplayAllGroups();
+            if (!groups.Contains("No groups"))
             {
-                Console.Write("Select a group: ");
-                inputFormatMatch = int.TryParse(Console.ReadLine(), out groupToSelect);
-                if (!inputFormatMatch)
-                    DisplayMessage("Incorrect input format!", MessageType.Error, true);
+                Console.WriteLine(groups);
+                do
+                {
+                    Console.Write("Select a group: ");
+                    inputFormatMatch = int.TryParse(Console.ReadLine(), out groupToSelect);
+                    if (!inputFormatMatch)
+                        DisplayMessage("Incorrect input format!", MessageType.Error, false);
+                    else if (!businessLayer.VerifyIfGroupExists(groupToSelect))
+                        DisplayMessage("Cannot find group with said ID!", MessageType.Error, false);
+                }
+                while (!inputFormatMatch || !businessLayer.VerifyIfGroupExists(groupToSelect));
+
+                if (businessLayer.VerifyIfGroupHasStudents(groupToSelect))
+                {
+                    DateTime 
+
+                    Console.WriteLine("\nStudent ID\tStudent Name\tStudent Surname\t\tPresence (P/A)\n==========\t============\t===============\t\t==============");
+                    List<Student> students = businessLayer.GetAllStudentsFromGroup(groupToSelect);
+                    foreach (Student student in students)
+                    {
+                        Console.Write($"{student.StudentID}\t\t{student.Name}\t\t{student.Surname}\n");
+                    }
+                    Console.ReadLine();
+                }
+                else
+                    DisplayMessage("There are no students in this group!", MessageType.Error, true);
             }
-            while (!inputFormatMatch);
+            else
+                DisplayMessage(groups, MessageType.Error, true);
         }
 
         private static void AddNewGroup()
@@ -387,7 +409,44 @@ namespace PresentationLayer
 
         private static void GetAllAttendancesOnParticularDay()
         {
+            ClearConsole();
+            int day, month, year;
+            bool inputFormatMatch = false;
+            Console.WriteLine("Submitted Attendances\n=====================");
 
+            do
+            {
+                Console.Write("Day: ");
+                inputFormatMatch = int.TryParse(Console.ReadLine(), out day);
+                if (!inputFormatMatch)
+                    DisplayMessage("Incorrect input format!", MessageType.Error, true);
+            }
+            while (!inputFormatMatch);
+
+            do
+            {
+                Console.Write("Month: ");
+                inputFormatMatch = int.TryParse(Console.ReadLine(), out month);
+                if (!inputFormatMatch)
+                    DisplayMessage("Incorrect input format!", MessageType.Error, true);
+            }
+            while (!inputFormatMatch);
+
+            do
+            {
+                Console.Write("Year: ");
+                inputFormatMatch = int.TryParse(Console.ReadLine(), out year);
+                if (!inputFormatMatch)
+                    DisplayMessage("Incorrect input format!", MessageType.Error, true);
+            }
+            while (!inputFormatMatch);
+
+            DateTime date = new DateTime(year, month, day);
+            if (date > DateTime.Now)
+            {
+                DisplayMessage("Date cannot be future date!", MessageType.Error, true);
+                return;
+            }
         }
 
         private static void EditStudent()
@@ -513,7 +572,6 @@ namespace PresentationLayer
             {
                 Console.Write("Email: ");
                 email = Console.ReadLine();
-
                 if (businessLayer.VerifyIfTeacherEmailExists(email))
                     DisplayMessage("Email already exists!", MessageType.Error, true);
             }

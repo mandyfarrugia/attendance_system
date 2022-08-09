@@ -301,5 +301,11 @@ namespace DataLayer
             ctx.Student.Add(student);
             ctx.SaveChanges();
         }
+
+        public void AddNewLesson(Lesson lesson)
+        {
+            ctx.Lesson.Add(lesson);
+            ctx.SaveChanges();
+        }
     }
 }

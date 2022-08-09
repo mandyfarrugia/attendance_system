@@ -286,6 +286,14 @@ namespace DataLayer
             return latestLessonID;
         }
 
+        public List<Lesson> GetAllAttendancesOnParticularDay(int teacherID, DateTime dateStart, DateTime dateEnd)
+        {
+            List<Lesson> lessonsOnParticularDay = new List<Lesson>(from lesson in ctx.Lesson
+                                                                   where lesson.DateTime >= dateStart && lesson.DateTime < dateEnd && lesson.TeacherID == teacherID
+                                                                   select lesson);
+            return lessonsOnParticularDay;
+        }
+
         public void AddNewGroup(Group group)
         {
             ctx.Group.Add(group);

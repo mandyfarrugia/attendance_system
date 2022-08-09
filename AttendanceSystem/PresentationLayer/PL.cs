@@ -192,7 +192,7 @@ namespace PresentationLayer
                     DateTime dateOfToday = DateTime.Now;
                     businessLayer.AddNewLesson(groupToSelect, dateOfToday, teacherID);
 
-                    Console.WriteLine("\nStudent ID\tStudent Name\tStudent Surname\t\tPresence (P/A)\n==========\t============\t===============\t\t==============");
+                    Console.WriteLine("\nStudent ID\tStudent Name\tStudent Surname\t\t\tPresence (P/A)\n==========\t============\t===============\t\t==============");
                     List<Student> students = businessLayer.GetAllStudentsFromGroup(groupToSelect);
                     foreach (Student student in students)
                     {
@@ -430,7 +430,7 @@ namespace PresentationLayer
             if(attendancePercentageResult.Contains("no attendance records"))
                 DisplayMessage(attendancePercentageResult, MessageType.Error, true);
             else
-                Console.WriteLine(attendancePercentageResult);
+                DisplayMessage(attendancePercentageResult, true);
         }
 
         private static void GetAllAttendancesOnParticularDay()
@@ -467,11 +467,17 @@ namespace PresentationLayer
             }
             while (!inputFormatMatch);
 
-            DateTime date = new DateTime(year, month, day);
-            if (date > DateTime.Now)
+            DateTime dateStart = new DateTime(year, month, day);
+            if (dateStart > DateTime.Now)
             {
                 DisplayMessage("Date cannot be future date!", MessageType.Error, true);
                 return;
+            }
+            else
+            {
+                DateTime dateEnd = dateStart.AddDays(1);
+                int attendancesOnParticularDayCount = businessLayer.GetAllAttendancesOnParticularDay(teacherID, dateStart, dateEnd);
+                DisplayMessage($"You have submitted {attendancesOnParticularDayCount} attendances on {dateStart.ToShortDateString()}.", true);
             }
         }
 

@@ -115,23 +115,19 @@ namespace BusinessLayer
 
         public string DisplayAttendancePercentageByStudentID(int studentID)
         {
-            try
-            {
-                Student student = dataLayer.GetStudentByID(studentID);
-                string attendancePercentageResult = string.Empty;
-                List<StudentAttendance> totalPresencesList = dataLayer.GetPresencesByStudentID(studentID);
-                List<StudentAttendance> totalAttendancesList = dataLayer.GetAllAttendancesByStudentID(studentID);
-                int totalPresencesCount = totalPresencesList.Count;
-                int totalAttendancesCount = totalAttendancesList.Count;
-                int attendancePercentage = (totalPresencesCount / totalAttendancesCount) * 100;
-                attendancePercentageResult = $"Total Attendance Percentage for {student.Name} {student.Surname}\n===========================\n";
+            Student student = dataLayer.GetStudentByID(studentID);
+            string attendancePercentageResult = string.Empty;
+            List<StudentAttendance> totalPresencesList = dataLayer.GetPresencesByStudentID(studentID);
+            List<StudentAttendance> totalAttendancesList = dataLayer.GetAllAttendancesByStudentID(studentID);
+            double totalPresencesCount = totalPresencesList.Count;
+            double totalAttendancesCount = totalAttendancesList.Count;
+            double attendancePercentage = totalPresencesCount / totalAttendancesCount * 100;
+            attendancePercentageResult = $"\nTotal Attendance Percentage for {student.Name} {student.Surname}\n===========================\n";
+            if (attendancePercentage > 0)
                 attendancePercentageResult += $"{totalPresencesCount}/{totalAttendancesCount} ({attendancePercentage}%)";
-                return attendancePercentageResult;
-            }
-            catch(DivideByZeroException)
-            {
-                return "There are no attendance records for this student!";
-            }
+            else
+                attendancePercentageResult = "There are no attendance records for this student!";
+            return attendancePercentageResult;
         }
 
         public bool VerifyIfStudentExists(int studentID)
@@ -162,6 +158,13 @@ namespace BusinessLayer
         {
             string updates = dataLayer.EditTeacher(teacherID, newUsername, newPassword, newName, newSurname, newEmail);
             return updates;
+        }
+
+        public int GetAllAttendancesOnParticularDay(int teacherID, DateTime dateStart, DateTime dateEnd)
+        {
+            List<Lesson> allAttendancesOnParticularDay = dataLayer.GetAllAttendancesOnParticularDay(teacherID, dateStart, dateEnd);
+            int allAttendancesOnParticularDayCount = allAttendancesOnParticularDay.Count;
+            return allAttendancesOnParticularDayCount;
         }
 
         public void AddNewLesson(int groupID, DateTime dateOfToday, int teacherID)

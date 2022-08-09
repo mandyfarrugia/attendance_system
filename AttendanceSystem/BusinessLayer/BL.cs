@@ -164,6 +164,12 @@ namespace BusinessLayer
             return updates;
         }
 
+        public void AddNewLesson(int groupID, DateTime dateOfToday, int teacherID)
+        {
+            Lesson lesson = new Lesson(groupID, dateOfToday, teacherID);
+            dataLayer.AddNewLesson(lesson);
+        }
+
         public string EditStudent(int studentID, string name, string surname, string email)
         {
             return dataLayer.EditStudent(studentID, name, surname, email);

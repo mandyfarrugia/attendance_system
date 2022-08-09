@@ -187,7 +187,15 @@ namespace PresentationLayer
 
                 if (businessLayer.VerifyIfGroupHasStudents(groupToSelect))
                 {
-                    DisplayMessage("There are students in this group!", MessageType.Success, true);
+                    DateTime 
+
+                    Console.WriteLine("\nStudent ID\tStudent Name\tStudent Surname\t\tPresence (P/A)\n==========\t============\t===============\t\t==============");
+                    List<Student> students = businessLayer.GetAllStudentsFromGroup(groupToSelect);
+                    foreach (Student student in students)
+                    {
+                        Console.Write($"{student.StudentID}\t\t{student.Name}\t\t{student.Surname}\n");
+                    }
+                    Console.ReadLine();
                 }
                 else
                     DisplayMessage("There are no students in this group!", MessageType.Error, true);

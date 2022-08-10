@@ -251,10 +251,11 @@ namespace PresentationLayer
             {
                 Console.Write("Group Name: ");
                 groupName = Console.ReadLine();
-                if (groupName.Equals(string.Empty))
+                isFieldEmpty = groupName.Equals(string.Empty);
+                if (isFieldEmpty)
                     DisplayMessage("Group name cannot be empty!", MessageType.Error, false);
             }
-            while (groupName.Equals(string.Empty));
+            while (isFieldEmpty);
 
             List<Course> courses = businessLayer.GetAllCourses();
             foreach(Course course in courses)

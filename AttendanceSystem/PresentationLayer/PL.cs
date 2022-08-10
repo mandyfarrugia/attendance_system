@@ -447,6 +447,8 @@ namespace PresentationLayer
                     if (!doesStudentExist)
                         DisplayMessage("Student does not exist!", MessageType.Error, true);
                 }
+                else
+                    DisplayMessage("Incorrect input format", MessageType.Error, true);
             } 
             while (!inputFormatMatch || !doesStudentExist);
 

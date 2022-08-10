@@ -20,7 +20,6 @@ namespace PresentationLayer
         public static void Main(string[] args)
         {
             DisplayLoginMenu();
-            Console.ReadLine();
         }
 
         private static List<string> LoginMenuOptions
@@ -338,25 +337,25 @@ namespace PresentationLayer
             }
             while (isFieldEmpty || doesEmailExist);
 
-            inputFormatMatch = false;
-            List<Group> groups = businessLayer.GetAllGroups();
-            foreach(Group group in groups)
-                Console.WriteLine($"{group.GroupID}. {group.Name}");
+            bool doesGroupExist = false;
+            Console.WriteLine(businessLayer.DisplayAllGroups());
             do
             {
                 Console.Write("Select a group: ");
                 inputFormatMatch = int.TryParse(Console.ReadLine(), out groupToSelect);
                 if(inputFormatMatch)
                 {
-                    if (!businessLayer.VerifyIfGroupExists(groupToSelect))
+                    doesGroupExist = businessLayer.VerifyIfGroupExists(groupToSelect);
+                    if (!doesGroupExist)
                         DisplayMessage("Group does not exist!", MessageType.Error, true);
                 }
                 else
                     DisplayMessage("Incorrect input format! Please try again!", MessageType.Error, true);
             }
-            while (!inputFormatMatch || !businessLayer.VerifyIfGroupExists(groupToSelect));
+            while (!inputFormatMatch || !doesGroupExist);
 
             businessLayer.AddNewStudent(name, surname, email, groupToSelect);
+            DisplayMessage("Student added successfully!", MessageType.Success, true);
         }
 
         private static void AddNewTeacher()
@@ -652,7 +651,7 @@ namespace PresentationLayer
                     foregroundColour = ConsoleColor.Red;
                     break;
                 case MessageType.Success:
-                    foregroundColour = ConsoleColor.Green;
+                    foregroundColour = ConsoleColor.DarkGreen;
                     break;
                 case MessageType.Warning:
                     foregroundColour = ConsoleColor.DarkYellow;

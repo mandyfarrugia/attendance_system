@@ -174,17 +174,19 @@ namespace PresentationLayer
             string groups = businessLayer.DisplayAllGroups();
             if (!groups.Contains("No groups"))
             {
+                bool doesGroupExist;
                 Console.WriteLine(groups);
                 do
                 {
                     Console.Write("Select a group: ");
                     inputFormatMatch = int.TryParse(Console.ReadLine(), out groupToSelect);
+                    doesGroupExist = businessLayer.VerifyIfGroupExists(groupToSelect);
                     if (!inputFormatMatch)
                         DisplayMessage("Incorrect input format!", MessageType.Error, false);
-                    else if (!businessLayer.VerifyIfGroupExists(groupToSelect))
+                    else if (!doesGroupExist)
                         DisplayMessage("Cannot find group with said ID!", MessageType.Error, false);
                 }
-                while (!inputFormatMatch || !businessLayer.VerifyIfGroupExists(groupToSelect));
+                while (!inputFormatMatch || !doesGroupExist);
 
                 if (businessLayer.VerifyIfGroupHasStudents(groupToSelect))
                 {
@@ -367,17 +369,19 @@ namespace PresentationLayer
             ClearConsole();
             DisplayTitle("Add New Teacher");
             string username;
+            bool doesTeacherUsernameExist;
             do
             {
                 Console.Write("Username: ");
                 username = Console.ReadLine();
                 isFieldEmpty = username.Equals(string.Empty);
+                doesTeacherUsernameExist = businessLayer.VerifyIfTeacherUsernameExists(username);
                 if (isFieldEmpty)
                     DisplayMessage("Username cannot be empty!", MessageType.Error, false);
-                else if (businessLayer.VerifyIfTeacherUsernameExists(username))
+                else if (doesTeacherUsernameExist)
                     DisplayMessage("Username already exists!", MessageType.Error, false);
             }
-            while (isFieldEmpty || businessLayer.VerifyIfTeacherUsernameExists(username));
+            while (isFieldEmpty || doesTeacherUsernameExist);
 
             string password;
             do
@@ -418,12 +422,13 @@ namespace PresentationLayer
                 Console.Write("Email: ");
                 email = Console.ReadLine();
                 isFieldEmpty = email.Equals(string.Empty);
+                doesEmailExist = businessLayer.VerifyIfTeacherEmailExists(email);
                 if (isFieldEmpty)
-                    DisplayMessage("Surname cannot be empty!", MessageType.Error, false);
-                else if (businessLayer.VerifyIfTeacherEmailExists(email))
+                    DisplayMessage("Email cannot be empty!", MessageType.Error, false);
+                else if (doesEmailExist)
                     DisplayMessage("Email already exists!", MessageType.Error, false);
             }
-            while (isFieldEmpty || businessLayer.VerifyIfTeacherEmailExists(email));
+            while (isFieldEmpty || doesEmailExist);
 
             businessLayer.AddNewTeacher(username, password, name, surname, email);
             DisplayMessage("Teacher added successfully!", MessageType.Success, true);
@@ -434,8 +439,7 @@ namespace PresentationLayer
             ClearConsole();
             int studentID;
             DisplayTitle("Attendance Percentage");
-            foreach (Student student in businessLayer.GetAllStudents())
-                Console.WriteLine($"{student.StudentID}. {student.Name} {student.Surname}");
+            Console.WriteLine(businessLayer.DisplayAllStudents());
             bool doesStudentExist = false;
             do
             {

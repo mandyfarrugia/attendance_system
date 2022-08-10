@@ -194,22 +194,14 @@ namespace PresentationLayer
                     DateTime dateOfToday = DateTime.Now;
                     businessLayer.AddNewLesson(groupToSelect, dateOfToday, teacherID);
 
-                    Console.WriteLine("\nStudent ID\tStudent Name\t\tStudent Surname\t\tPresence (P/A)\n==========\t============\t\t===============\t\t==============");
+                    Console.WriteLine("\nID\tStudent Name\t\tSurname\t\t\tPresence\n=================================================================");
                     List<Student> students = businessLayer.GetAllStudentsFromGroup(groupToSelect);
                     foreach (Student student in students)
                     {
                         hasAttendanceBeenTaken = false;
                         do
                         {
-                            string attendanceRow = $"{student.StudentID}\t\t";
-                            if(student.Name.Length >= 6)
-                                attendanceRow += $"{student.Name}\t\t\t";
-                            else
-                                attendanceRow += $"{student.Name}\t\t\t";
-                            if (student.Surname.Length <= 6)
-                                attendanceRow += $"{student.Surname}\t\t\t\t";
-                            else
-                                attendanceRow += $"{student.Surname}\t\t\t";
+                            string attendanceRow = $"{student.StudentID}\t{student.Name}\t\t\t{student.Surname}\t\t\t";
                             Console.Write(attendanceRow);
 
                             inputFormatMatch = char.TryParse(Console.ReadLine(), out char presence);

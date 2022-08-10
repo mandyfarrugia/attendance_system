@@ -256,7 +256,7 @@ namespace PresentationLayer
                 else if (doesGroupNameExist)
                     DisplayMessage("Group name already exists!", MessageType.Error, false);
             }
-            while (isFieldEmpty && doesGroupNameExist);
+            while (isFieldEmpty || doesGroupNameExist);
 
             List<Course> courses = businessLayer.GetAllCourses();
             foreach(Course course in courses)

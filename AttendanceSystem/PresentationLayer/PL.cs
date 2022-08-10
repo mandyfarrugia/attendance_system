@@ -244,15 +244,19 @@ namespace PresentationLayer
             ClearConsole();
             DisplayTitle("Add New Group");
             string groupName;
+            bool doesGroupNameExist = true;
             do
             {
                 Console.Write("Group Name: ");
                 groupName = Console.ReadLine();
                 isFieldEmpty = groupName.Equals(string.Empty);
+                doesGroupNameExist = businessLayer.VerifyIfGroupExists(groupName);
                 if (isFieldEmpty)
                     DisplayMessage("Group name cannot be empty!", MessageType.Error, false);
+                else if (doesGroupNameExist)
+                    DisplayMessage("Group name already exists!", MessageType.Error, false);
             }
-            while (isFieldEmpty);
+            while (isFieldEmpty && doesGroupNameExist);
 
             List<Course> courses = businessLayer.GetAllCourses();
             foreach(Course course in courses)

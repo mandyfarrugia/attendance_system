@@ -289,10 +289,11 @@ namespace PresentationLayer
             {
                 Console.Write("Course Title: ");
                 courseTitle = Console.ReadLine();
-                if (courseTitle.Equals(string.Empty))
+                isFieldEmpty = courseTitle.Equals(string.Empty);
+                if (isFieldEmpty)
                     DisplayMessage("Course title cannot be empty!", MessageType.Error, false);
             }
-            while (courseTitle.Equals(string.Empty));
+            while (isFieldEmpty);
             businessLayer.AddNewCourse(courseTitle);
             DisplayMessage("Course added successfully!", MessageType.Success, true);
         }
@@ -369,59 +370,59 @@ namespace PresentationLayer
             {
                 Console.Write("Username: ");
                 username = Console.ReadLine();
-
-                if (username.Equals(string.Empty))
+                isFieldEmpty = username.Equals(string.Empty);
+                if (isFieldEmpty)
                     DisplayMessage("Username cannot be empty!", MessageType.Error, false);
                 else if (businessLayer.VerifyIfTeacherUsernameExists(username))
                     DisplayMessage("Username already exists!", MessageType.Error, false);
             }
-            while (username.Equals(string.Empty) || businessLayer.VerifyIfTeacherUsernameExists(username));
+            while (isFieldEmpty || businessLayer.VerifyIfTeacherUsernameExists(username));
 
             string password;
             do
             {
                 Console.Write("Password: ");
                 password = Console.ReadLine();
-
-                if (password.Equals(string.Empty))
+                isFieldEmpty = password.Equals(string.Empty);
+                if (isFieldEmpty)
                     DisplayMessage("Password cannot be empty!", MessageType.Error, false);
             }
-            while (password.Equals(string.Empty));
+            while (isFieldEmpty);
 
             string name;
             do
             {
                 Console.Write("Name: ");
                 name = Console.ReadLine();
-
-                if (name.Equals(string.Empty))
+                isFieldEmpty = name.Equals(string.Empty);
+                if (isFieldEmpty)
                     DisplayMessage("Name cannot be empty!", MessageType.Error, false);
             }
-            while (name.Equals(string.Empty));
+            while (isFieldEmpty);
 
             string surname;
             do
             {
                 Console.Write("Surname: ");
                 surname = Console.ReadLine();
-
-                if (surname.Equals(string.Empty))
+                isFieldEmpty = surname.Equals(string.Empty);
+                if (isFieldEmpty)
                     DisplayMessage("Surname cannot be empty!", MessageType.Error, false);
             }
-            while (surname.Equals(string.Empty));
+            while (isFieldEmpty);
 
             string email;
             do
             {
                 Console.Write("Email: ");
                 email = Console.ReadLine();
-
-                if (email.Equals(string.Empty))
+                isFieldEmpty = email.Equals(string.Empty);
+                if (isFieldEmpty)
                     DisplayMessage("Surname cannot be empty!", MessageType.Error, false);
                 else if (businessLayer.VerifyIfTeacherEmailExists(email))
                     DisplayMessage("Email already exists!", MessageType.Error, false);
             }
-            while (email.Equals(string.Empty) || businessLayer.VerifyIfTeacherEmailExists(email));
+            while (isFieldEmpty || businessLayer.VerifyIfTeacherEmailExists(email));
 
             businessLayer.AddNewTeacher(username, password, name, surname, email);
         }

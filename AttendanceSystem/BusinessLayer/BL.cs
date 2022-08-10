@@ -7,7 +7,7 @@ namespace BusinessLayer
 {
     public class BL
     {
-        static DL dataLayer = new DL();
+        static readonly DL dataLayer = new DL();
 
         public bool VerifyIfTeacherUsernameExists(string username)
         {
@@ -113,7 +113,7 @@ namespace BusinessLayer
         public string DisplayAttendancePercentageByStudentID(int studentID)
         {
             Student student = dataLayer.GetStudentByID(studentID);
-            string attendancePercentageResult = string.Empty;
+            string attendancePercentageResult;
             List<StudentAttendance> totalPresencesList = dataLayer.GetPresencesByStudentID(studentID);
             List<StudentAttendance> totalAttendancesList = dataLayer.GetAllAttendancesByStudentID(studentID);
             double totalPresencesCount = totalPresencesList.Count;

@@ -20,7 +20,6 @@ namespace PresentationLayer
         public static void Main(string[] args)
         {
             DisplayLoginMenu();
-            Console.ReadLine();
         }
 
         private static List<string> LoginMenuOptions
@@ -55,7 +54,7 @@ namespace PresentationLayer
                             AddNewTeacher();
                             break;
                         case 3:
-                            Console.WriteLine("Goodbye!");
+                            DisplayMessage("Goodbye!", true);
                             break;
                         default:
                             DisplayMessage("Invalid choice!", MessageType.Error, true);
@@ -113,7 +112,6 @@ namespace PresentationLayer
         {
             ClearConsole();
             List<string> teacherMenuOptions = TeacherMenuOptions;
-            inputFormatMatch = false;
             do
             {
                 ClearConsole();
@@ -157,14 +155,13 @@ namespace PresentationLayer
                             Logout();
                             break;
                         default:
-                            Console.WriteLine("Invalid choice!");
-                            Console.ReadKey();
+                            DisplayMessage("Invalid choice!", MessageType.Error, true);
                             ClearConsole();
                             break;
                     }
                 }
                 else
-                    Console.WriteLine("Incorrect input format! Please try again!");
+                    DisplayMessage("Incorrect input format! Please try again!", MessageType.Error, true);
             }
             while (choice != 10 || !inputFormatMatch);
         }
@@ -260,25 +257,26 @@ namespace PresentationLayer
             List<Course> courses = businessLayer.GetAllCourses();
             foreach(Course course in courses)
                 Console.WriteLine($"{course.CourseID}. {course.CourseTitle}");
-            inputFormatMatch = false;
+            bool doesCourseExist = false;
             do
             {
                 Console.Write("Select course: ");
                 inputFormatMatch = int.TryParse(Console.ReadLine(), out courseToSelect);
                 if (inputFormatMatch)
                 {
-                    if (businessLayer.VerifyIfCourseExistsById(courseToSelect))
+                    doesCourseExist = businessLayer.VerifyIfCourseExistsById(courseToSelect);
+                    if (doesCourseExist)
                     {
                         businessLayer.AddNewGroup(groupName, courseToSelect);
                         DisplayMessage("Group added successfully!", MessageType.Success, true);
                     }
                     else
-                        DisplayMessage("Could not find group with said ID!", MessageType.Error, true);
+                        DisplayMessage("Could not find course with said ID!", MessageType.Error, true);
                 }
                 else
                     DisplayMessage("Incorrect input format! Please try again!", MessageType.Error, true);
             }
-            while (!businessLayer.VerifyIfCourseExistsById(courseToSelect) || !inputFormatMatch);
+            while (!doesCourseExist || !inputFormatMatch);
         }
 
         private static void AddNewCourse()
@@ -339,25 +337,25 @@ namespace PresentationLayer
             }
             while (isFieldEmpty || doesEmailExist);
 
-            inputFormatMatch = false;
-            List<Group> groups = businessLayer.GetAllGroups();
-            foreach(Group group in groups)
-                Console.WriteLine($"{group.GroupID}. {group.Name}");
+            bool doesGroupExist = false;
+            Console.WriteLine(businessLayer.DisplayAllGroups());
             do
             {
                 Console.Write("Select a group: ");
                 inputFormatMatch = int.TryParse(Console.ReadLine(), out groupToSelect);
                 if(inputFormatMatch)
                 {
-                    if (!businessLayer.VerifyIfGroupExists(groupToSelect))
+                    doesGroupExist = businessLayer.VerifyIfGroupExists(groupToSelect);
+                    if (!doesGroupExist)
                         DisplayMessage("Group does not exist!", MessageType.Error, true);
                 }
                 else
                     DisplayMessage("Incorrect input format! Please try again!", MessageType.Error, true);
             }
-            while (!inputFormatMatch || !businessLayer.VerifyIfGroupExists(groupToSelect));
+            while (!inputFormatMatch || !doesGroupExist);
 
             businessLayer.AddNewStudent(name, surname, email, groupToSelect);
+            DisplayMessage("Student added successfully!", MessageType.Success, true);
         }
 
         private static void AddNewTeacher()
@@ -430,7 +428,6 @@ namespace PresentationLayer
         {
             ClearConsole();
             int studentID;
-            inputFormatMatch = false;
             DisplayTitle("Attendance Percentage");
             foreach (Student student in businessLayer.GetAllStudents())
                 Console.WriteLine($"{student.StudentID}. {student.Name} {student.Surname}");
@@ -450,54 +447,61 @@ namespace PresentationLayer
 
         private static void GetAllAttendancesOnParticularDay()
         {
-            ClearConsole();
-            int day, month, year;
+            try
+            {
+                ClearConsole();
+                int day, month, year;
 
-            DisplayTitle("Submitted Attendances");
-            do
-            {
-                Console.Write("Day: ");
-                inputFormatMatch = int.TryParse(Console.ReadLine(), out day);
-                if (!inputFormatMatch)
-                    DisplayMessage("Incorrect input format!", MessageType.Error, true);
-            }
-            while (!inputFormatMatch);
+                DisplayTitle("Submitted Attendances");
+                do
+                {
+                    Console.Write("Day: ");
+                    inputFormatMatch = int.TryParse(Console.ReadLine(), out day);
+                    if (!inputFormatMatch)
+                        DisplayMessage("Incorrect input format!", MessageType.Error, true);
+                }
+                while (!inputFormatMatch);
 
-            do
-            {
-                Console.Write("Month: ");
-                inputFormatMatch = int.TryParse(Console.ReadLine(), out month);
-                if (!inputFormatMatch)
-                    DisplayMessage("Incorrect input format!", MessageType.Error, true);
-            }
-            while (!inputFormatMatch);
+                do
+                {
+                    Console.Write("Month: ");
+                    inputFormatMatch = int.TryParse(Console.ReadLine(), out month);
+                    if (!inputFormatMatch)
+                        DisplayMessage("Incorrect input format!", MessageType.Error, true);
+                }
+                while (!inputFormatMatch);
 
-            do
-            {
-                Console.Write("Year: ");
-                inputFormatMatch = int.TryParse(Console.ReadLine(), out year);
-                if (!inputFormatMatch)
-                    DisplayMessage("Incorrect input format!", MessageType.Error, true);
-            }
-            while (!inputFormatMatch);
+                do
+                {
+                    Console.Write("Year: ");
+                    inputFormatMatch = int.TryParse(Console.ReadLine(), out year);
+                    if (!inputFormatMatch)
+                        DisplayMessage("Incorrect input format!", MessageType.Error, true);
+                }
+                while (!inputFormatMatch);
 
-            DateTime dateStart = new DateTime(year, month, day);
-            if (dateStart > DateTime.Now)
-            {
-                DisplayMessage("Date cannot be future date!", MessageType.Error, true);
-                return;
-            }
-            else
-            {
-                DateTime dateEnd = dateStart.AddDays(1);
-                int attendancesOnParticularDayCount = businessLayer.GetAllAttendancesOnParticularDay(teacherID, dateStart, dateEnd);
-                string result = $"You have submitted ";
-                if (attendancesOnParticularDayCount != 0)
-                    result += (attendancesOnParticularDayCount == 1) ? "only one attendance " : $"{attendancesOnParticularDayCount} attendances ";
+                DateTime dateStart = new DateTime(year, month, day);
+                if (dateStart > DateTime.Now)
+                {
+                    DisplayMessage("Date cannot be future date!", MessageType.Error, true);
+                    return;
+                }
                 else
-                    result += "no attendances ";
-                result += $"on { dateStart.ToShortDateString()}.";
-                DisplayMessage(result, true);
+                {
+                    DateTime dateEnd = dateStart.AddDays(1);
+                    int attendancesOnParticularDayCount = businessLayer.GetAllAttendancesOnParticularDay(teacherID, dateStart, dateEnd);
+                    string result = $"You have submitted ";
+                    if (attendancesOnParticularDayCount != 0)
+                        result += (attendancesOnParticularDayCount == 1) ? "only one attendance " : $"{attendancesOnParticularDayCount} attendances ";
+                    else
+                        result += "no attendances ";
+                    result += $"on { dateStart.ToShortDateString()}.";
+                    DisplayMessage(result, true);
+                }
+            }
+            catch(ArgumentException)
+            {
+                DisplayMessage("Invalid date!", MessageType.Error, true);
             }
         }
 
@@ -506,9 +510,7 @@ namespace PresentationLayer
             ClearConsole();
             DisplayTitle("Edit Student");
             string updates = string.Empty;
-            inputFormatMatch = false;
-            foreach (Student student in businessLayer.GetAllStudents())
-                Console.WriteLine($"{student.StudentID}. {student.Name} {student.Surname}");
+            Console.WriteLine(businessLayer.DisplayAllStudents());
             do
             {
                 Console.Write("Choose a student: ");
@@ -593,7 +595,7 @@ namespace PresentationLayer
         private static void EditTeacher()
         {
             ClearConsole();
-            Console.WriteLine("Edit Teacher\n============");
+            DisplayTitle("Edit Teacher");
             DisplayMessage("If you do not want to change a field, press ENTER to skip.\n", MessageType.Warning, false);
 
             string username;
@@ -649,7 +651,7 @@ namespace PresentationLayer
                     foregroundColour = ConsoleColor.Red;
                     break;
                 case MessageType.Success:
-                    foregroundColour = ConsoleColor.Green;
+                    foregroundColour = ConsoleColor.DarkGreen;
                     break;
                 case MessageType.Warning:
                     foregroundColour = ConsoleColor.DarkYellow;

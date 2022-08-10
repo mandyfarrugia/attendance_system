@@ -244,7 +244,7 @@ namespace PresentationLayer
             ClearConsole();
             DisplayTitle("Add New Group");
             string groupName;
-            bool doesGroupNameExist = true;
+            bool doesGroupNameExist;
             do
             {
                 Console.Write("Group Name: ");

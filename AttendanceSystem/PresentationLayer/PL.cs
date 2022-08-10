@@ -9,6 +9,7 @@ namespace PresentationLayer
     {
         static BL businessLayer = new BL();
         static int teacherID = 0;
+        static bool inputFormatMatch = false;
 
         public static void Main(string[] args)
         {
@@ -168,7 +169,7 @@ namespace PresentationLayer
         {
             ClearConsole();
             int groupToSelect = 0;
-            bool inputFormatMatch = false;
+            inputFormatMatch = false;
             Console.WriteLine("New Attendance\n==============");
             string groups = businessLayer.DisplayAllGroups();
             if (!groups.Contains("No groups"))
@@ -247,7 +248,7 @@ namespace PresentationLayer
             List<Course> courses = businessLayer.GetAllCourses();
             foreach(Course course in courses)
                 Console.WriteLine($"{course.CourseID}. {course.CourseTitle}");
-            bool inputFormatMatch = false;
+            inputFormatMatch = false;
             do
             {
                 Console.Write("Select course: ");
@@ -255,8 +256,12 @@ namespace PresentationLayer
                 if (inputFormatMatch)
                 {
                     if (businessLayer.VerifyIfCourseExistsById(courseToSelect))
+                    {
                         businessLayer.AddNewGroup(groupName, courseToSelect);
-                    DisplayMessage("Group added successfully!", MessageType.Success, true);
+                        DisplayMessage("Group added successfully!", MessageType.Success, true);
+                    }
+                    else
+                        DisplayMessage("Could not find group with said ID!", MessageType.Error, true);
                 }
                 else
                     DisplayMessage("Incorrect input format! Please try again!", MessageType.Error, true);
@@ -284,6 +289,7 @@ namespace PresentationLayer
         private static void AddNewStudent() 
         {
             ClearConsole();
+            bool isFieldEmpty;
             Console.WriteLine("Add New Student\n===============");
 
             string name = string.Empty;
@@ -291,35 +297,37 @@ namespace PresentationLayer
             {
                 Console.Write("Name: ");
                 name = Console.ReadLine();
-
-                if (name.Equals(string.Empty))
+                isFieldEmpty = name.Equals(string.Empty);
+                if (isFieldEmpty)
                     DisplayMessage("Name cannot be empty!", MessageType.Error, false);
             }
-            while (name.Equals(string.Empty));
+            while (isFieldEmpty);
 
             string surname = string.Empty;
             do
             {
                 Console.Write("Surname: ");
                 surname = Console.ReadLine();
-
-                if (surname.Equals(string.Empty))
+                isFieldEmpty = surname.Equals(string.Empty);
+                if (isFieldEmpty)
                     DisplayMessage("Surname cannot be empty!", MessageType.Error, false);
             }
-            while (surname.Equals(string.Empty));
+            while (isFieldEmpty);
 
             string email = string.Empty;
+            bool doesStudentEmailExist = true;
             do
             {
                 Console.Write("Email: ");
                 email = Console.ReadLine();
-
-                if (email.Equals(string.Empty))
-                    DisplayMessage("Surname cannot be empty!", MessageType.Error, false);
-                else if (businessLayer.VerifyIfStudentEmailExists(email))
+                isFieldEmpty = email.Equals(string.Empty);
+                doesStudentEmailExist = businessLayer.VerifyIfStudentEmailExists(email);
+                if (isFieldEmpty)
+                    DisplayMessage("Email cannot be empty!", MessageType.Error, false);
+                else if (doesStudentEmailExist)
                     DisplayMessage("Email already exists!", MessageType.Error, false);
             }
-            while (email.Equals(string.Empty) || businessLayer.VerifyIfStudentEmailExists(email));
+            while (isFieldEmpty || doesStudentEmailExist);
 
             int groupToSelect = 0;
             bool inputFormatMatch = false;
@@ -426,8 +434,10 @@ namespace PresentationLayer
             while (!inputFormatMatch);
 
             string attendancePercentageResult = businessLayer.DisplayAttendancePercentageByStudentID(studentID);
-            if(attendancePercentageResult.Contains("no attendance records"))
+            if (attendancePercentageResult.Contains("no attendance records"))
                 DisplayMessage(attendancePercentageResult, MessageType.Error, true);
+            else
+                DisplayMessage(attendancePercentageResult, true);
         }
 
         private static void GetAllAttendancesOnParticularDay()
@@ -517,16 +527,18 @@ namespace PresentationLayer
             Console.Write("Surname: ");
             surname = Console.ReadLine();
 
+            bool doesStudentEmailExist = true;
             string email = string.Empty;
             do
             {
                 Console.Write("Email: ");
                 email = Console.ReadLine();
 
-                if (businessLayer.VerifyIfStudentEmailExists(email))
+                doesStudentEmailExist = businessLayer.VerifyIfStudentEmailExists(email);
+                if (doesStudentEmailExist)
                     DisplayMessage("Email already exists!", MessageType.Error, false);
             }
-            while (businessLayer.VerifyIfStudentEmailExists(email));
+            while (doesStudentEmailExist);
 
             int groupToSelect = 0;
             inputFormatMatch = false;
@@ -580,7 +592,7 @@ namespace PresentationLayer
             Console.WriteLine("Edit Teacher\n============");
             DisplayMessage("If you do not want to change a field, press ENTER to skip.\n", MessageType.Warning, false);
 
-            string username = string.Empty;
+            string username;
             do
             {
                 Console.Write("Username: ");
@@ -590,17 +602,14 @@ namespace PresentationLayer
             }
             while (businessLayer.VerifyIfTeacherUsernameExists(username));
 
-            string password = string.Empty;
             Console.Write("Password: ");
-            password = Console.ReadLine();
+            string password = Console.ReadLine();
 
-            string name = string.Empty;
             Console.Write("Name: ");
-            name = Console.ReadLine();
+            string name = Console.ReadLine();
 
-            string surname = string.Empty;
             Console.Write("Surname: ");
-            surname = Console.ReadLine();
+            string surname = Console.ReadLine();
 
             string email = string.Empty;
             do

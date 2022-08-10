@@ -173,7 +173,7 @@ namespace PresentationLayer
         {
             ClearConsole();
             inputFormatMatch = false;
-            Console.WriteLine("New Attendance\n==============");
+            DisplayTitle("Add New Attendance");
             string groups = businessLayer.DisplayAllGroups();
             if (!groups.Contains("No groups"))
             {
@@ -245,7 +245,7 @@ namespace PresentationLayer
         private static void AddNewGroup()
         {
             ClearConsole();
-            Console.WriteLine("Add New Group\n=============");
+            DisplayTitle("Add New Group");
             string groupName;
             do
             {
@@ -284,7 +284,7 @@ namespace PresentationLayer
         private static void AddNewCourse()
         {
             ClearConsole();
-            Console.WriteLine("Add New Course\n==============");
+            DisplayTitle("Add New Course");
             string courseTitle;
             do
             {
@@ -302,8 +302,7 @@ namespace PresentationLayer
         private static void AddNewStudent() 
         {
             ClearConsole();
-            Console.WriteLine("Add New Student\n===============");
-
+            DisplayTitle("Add New Student");
             string name;
             do
             {
@@ -364,8 +363,7 @@ namespace PresentationLayer
         private static void AddNewTeacher()
         {
             ClearConsole();
-            Console.WriteLine("Add New Teacher\n===============");
-
+            DisplayTitle("Add New Teacher");
             string username;
             do
             {
@@ -433,7 +431,7 @@ namespace PresentationLayer
             ClearConsole();
             int studentID;
             inputFormatMatch = false;
-            Console.WriteLine("Attendance Percentage\n=====================");
+            DisplayTitle("Attendance Percentage");
             foreach (Student student in businessLayer.GetAllStudents())
                 Console.WriteLine($"{student.StudentID}. {student.Name} {student.Surname}");
             do
@@ -454,9 +452,8 @@ namespace PresentationLayer
         {
             ClearConsole();
             int day, month, year;
-            inputFormatMatch = false;
-            Console.WriteLine("Submitted Attendances\n=====================");
 
+            DisplayTitle("Submitted Attendances");
             do
             {
                 Console.Write("Day: ");
@@ -507,7 +504,7 @@ namespace PresentationLayer
         private static void EditStudent()
         {
             ClearConsole();
-            Console.WriteLine("Edit Teacher\n============");
+            DisplayTitle("Edit Student");
             string updates = string.Empty;
             inputFormatMatch = false;
             foreach (Student student in businessLayer.GetAllStudents())

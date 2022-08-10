@@ -7,7 +7,7 @@ namespace BusinessLayer
 {
     public class BL
     {
-        static DL dataLayer = new DL();
+        static readonly DL dataLayer = new DL();
 
         public bool VerifyIfTeacherUsernameExists(string username)
         {
@@ -119,9 +119,20 @@ namespace BusinessLayer
             double totalPresencesCount = totalPresencesList.Count;
             double totalAttendancesCount = totalAttendancesList.Count;
             double attendancePercentage = Math.Round(totalPresencesCount / totalAttendancesCount * 100);
-            attendancePercentageResult = $"\nTotal Attendance Percentage for {student.Name} {student.Surname}\n===========================\n";
             if (attendancePercentage > 0)
-                attendancePercentageResult += $"{totalPresencesCount}/{totalAttendancesCount} ({attendancePercentage}%)";
+            {
+                string title = $"\nTotal Attendance Percentage for {student.Name} {student.Surname}:\n";
+                attendancePercentageResult += title;
+                for (int titlePos = 0; titlePos < title.Length; titlePos++)
+                {
+                    attendancePercentageResult += "=";
+                    if (titlePos == title.Length - 1)
+                        attendancePercentageResult += "\n";
+                }
+                attendancePercentageResult += $"Total lectures attended: {totalPresencesCount} out of {totalAttendancesCount}\n";
+                attendancePercentageResult += $"Lectures missed: {totalAttendancesCount - totalPresencesCount}\n";
+                attendancePercentageResult += $"Attendance percentage: {attendancePercentage}%"; 
+            }
             else
                 attendancePercentageResult = "There are no attendance records for this student!";
             return attendancePercentageResult;

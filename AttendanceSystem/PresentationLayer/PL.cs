@@ -596,7 +596,7 @@ namespace PresentationLayer
         private static void EditTeacher()
         {
             ClearConsole();
-            Console.WriteLine("Edit Teacher\n============");
+            DisplayTitle("Edit Teacher");
             DisplayMessage("If you do not want to change a field, press ENTER to skip.\n", MessageType.Warning, false);
 
             string username;

@@ -436,12 +436,19 @@ namespace PresentationLayer
             DisplayTitle("Attendance Percentage");
             foreach (Student student in businessLayer.GetAllStudents())
                 Console.WriteLine($"{student.StudentID}. {student.Name} {student.Surname}");
+            bool doesStudentExist = false;
             do
             {
                 Console.Write("Choose a student: ");
                 inputFormatMatch = int.TryParse(Console.ReadLine(), out studentID);
+                if (inputFormatMatch)
+                {
+                    doesStudentExist = businessLayer.VerifyIfStudentExists(studentID);
+                    if (!doesStudentExist)
+                        DisplayMessage("Student does not exist!", MessageType.Error, true);
+                }
             } 
-            while (!inputFormatMatch);
+            while (!inputFormatMatch || !doesStudentExist);
 
             string attendancePercentageResult = businessLayer.DisplayAttendancePercentageByStudentID(studentID);
             if (attendancePercentageResult.Contains("no attendance records"))
@@ -571,7 +578,7 @@ namespace PresentationLayer
             }
             while (!inputFormatMatch || !isConsentCorrect);
 
-            bool doesGroupExist;
+            bool doesGroupExist = false;
             if(inputFormatMatch)
             {
                 if(groupUpdateConsent.Equals('y') || groupUpdateConsent.Equals('Y'))
@@ -582,14 +589,14 @@ namespace PresentationLayer
                         inputFormatMatch = int.TryParse(Console.ReadLine(), out groupToSelect);
                         if (inputFormatMatch)
                         {
-                            doesStudentExist = businessLayer.VerifyIfGroupExists(groupToSelect);
-                            if (!doesStudentExist)
+                            doesGroupExist = businessLayer.VerifyIfGroupExists(groupToSelect);
+                            if (!doesGroupExist)
                                 DisplayMessage("Group does not exist!", MessageType.Error, true);
                         }
                         else
                             DisplayMessage("Incorrect input format! Please try again!", MessageType.Error, true);
                     }
-                    while (!inputFormatMatch || !doesStudentExist);
+                    while (!inputFormatMatch || !doesGroupExist);
                     updates = businessLayer.EditStudent(studentToSelect, name, surname, email, groupToSelect);
                 }
                 else if(groupUpdateConsent.Equals('n') || groupUpdateConsent.Equals('N'))

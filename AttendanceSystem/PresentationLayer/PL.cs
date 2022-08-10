@@ -430,7 +430,6 @@ namespace PresentationLayer
         {
             ClearConsole();
             int studentID;
-            inputFormatMatch = false;
             DisplayTitle("Attendance Percentage");
             foreach (Student student in businessLayer.GetAllStudents())
                 Console.WriteLine($"{student.StudentID}. {student.Name} {student.Surname}");
@@ -450,54 +449,61 @@ namespace PresentationLayer
 
         private static void GetAllAttendancesOnParticularDay()
         {
-            ClearConsole();
-            int day, month, year;
+            try
+            {
+                ClearConsole();
+                int day, month, year;
 
-            DisplayTitle("Submitted Attendances");
-            do
-            {
-                Console.Write("Day: ");
-                inputFormatMatch = int.TryParse(Console.ReadLine(), out day);
-                if (!inputFormatMatch)
-                    DisplayMessage("Incorrect input format!", MessageType.Error, true);
-            }
-            while (!inputFormatMatch);
+                DisplayTitle("Submitted Attendances");
+                do
+                {
+                    Console.Write("Day: ");
+                    inputFormatMatch = int.TryParse(Console.ReadLine(), out day);
+                    if (!inputFormatMatch)
+                        DisplayMessage("Incorrect input format!", MessageType.Error, true);
+                }
+                while (!inputFormatMatch);
 
-            do
-            {
-                Console.Write("Month: ");
-                inputFormatMatch = int.TryParse(Console.ReadLine(), out month);
-                if (!inputFormatMatch)
-                    DisplayMessage("Incorrect input format!", MessageType.Error, true);
-            }
-            while (!inputFormatMatch);
+                do
+                {
+                    Console.Write("Month: ");
+                    inputFormatMatch = int.TryParse(Console.ReadLine(), out month);
+                    if (!inputFormatMatch)
+                        DisplayMessage("Incorrect input format!", MessageType.Error, true);
+                }
+                while (!inputFormatMatch);
 
-            do
-            {
-                Console.Write("Year: ");
-                inputFormatMatch = int.TryParse(Console.ReadLine(), out year);
-                if (!inputFormatMatch)
-                    DisplayMessage("Incorrect input format!", MessageType.Error, true);
-            }
-            while (!inputFormatMatch);
+                do
+                {
+                    Console.Write("Year: ");
+                    inputFormatMatch = int.TryParse(Console.ReadLine(), out year);
+                    if (!inputFormatMatch)
+                        DisplayMessage("Incorrect input format!", MessageType.Error, true);
+                }
+                while (!inputFormatMatch);
 
-            DateTime dateStart = new DateTime(year, month, day);
-            if (dateStart > DateTime.Now)
-            {
-                DisplayMessage("Date cannot be future date!", MessageType.Error, true);
-                return;
-            }
-            else
-            {
-                DateTime dateEnd = dateStart.AddDays(1);
-                int attendancesOnParticularDayCount = businessLayer.GetAllAttendancesOnParticularDay(teacherID, dateStart, dateEnd);
-                string result = $"You have submitted ";
-                if (attendancesOnParticularDayCount != 0)
-                    result += (attendancesOnParticularDayCount == 1) ? "only one attendance " : $"{attendancesOnParticularDayCount} attendances ";
+                DateTime dateStart = new DateTime(year, month, day);
+                if (dateStart > DateTime.Now)
+                {
+                    DisplayMessage("Date cannot be future date!", MessageType.Error, true);
+                    return;
+                }
                 else
-                    result += "no attendances ";
-                result += $"on { dateStart.ToShortDateString()}.";
-                DisplayMessage(result, true);
+                {
+                    DateTime dateEnd = dateStart.AddDays(1);
+                    int attendancesOnParticularDayCount = businessLayer.GetAllAttendancesOnParticularDay(teacherID, dateStart, dateEnd);
+                    string result = $"You have submitted ";
+                    if (attendancesOnParticularDayCount != 0)
+                        result += (attendancesOnParticularDayCount == 1) ? "only one attendance " : $"{attendancesOnParticularDayCount} attendances ";
+                    else
+                        result += "no attendances ";
+                    result += $"on { dateStart.ToShortDateString()}.";
+                    DisplayMessage(result, true);
+                }
+            }
+            catch(ArgumentException)
+            {
+                DisplayMessage("Invalid date!", MessageType.Error, true);
             }
         }
 

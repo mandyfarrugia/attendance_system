@@ -426,6 +426,7 @@ namespace PresentationLayer
             while (isFieldEmpty || businessLayer.VerifyIfTeacherEmailExists(email));
 
             businessLayer.AddNewTeacher(username, password, name, surname, email);
+            DisplayMessage("Teacher added successfully!", MessageType.Success, true);
         }
 
         private static void CheckStudentAttendancePercentage()
@@ -514,6 +515,7 @@ namespace PresentationLayer
             ClearConsole();
             DisplayTitle("Edit Student");
             string updates = string.Empty;
+            bool doesStudentExist = false;
             Console.WriteLine(businessLayer.DisplayAllStudents());
             do
             {
@@ -521,13 +523,14 @@ namespace PresentationLayer
                 inputFormatMatch = int.TryParse(Console.ReadLine(), out studentToSelect);
                 if(inputFormatMatch)
                 {
-                    if (!businessLayer.VerifyIfStudentExists(studentToSelect))
+                    doesStudentExist = businessLayer.VerifyIfStudentExists(studentToSelect);
+                    if (!doesStudentExist)
                         DisplayMessage("The entered ID does not exist in our system!", MessageType.Error, true);
                 }
                 else
                     DisplayMessage("Incorrect input format! Please try again!", MessageType.Error, true);
             }
-            while (!inputFormatMatch || !businessLayer.VerifyIfStudentExists(studentToSelect));
+            while (!inputFormatMatch || !doesStudentExist);
 
             DisplayMessage("\nIf you do not want to change a field, press ENTER to skip.\n", MessageType.Warning, false);
 
@@ -551,7 +554,7 @@ namespace PresentationLayer
             }
             while (doesEmailExist);
 
-            inputFormatMatch = false;
+            bool isConsentCorrect;
             List<Group> groups = businessLayer.GetAllGroups();
             foreach (Group group in groups)
                 Console.WriteLine($"{group.GroupID}. {group.Name}");
@@ -560,13 +563,15 @@ namespace PresentationLayer
             {
                 Console.Write("Would you like to change the class group?: ");
                 inputFormatMatch = char.TryParse(Console.ReadLine(), out groupUpdateConsent);
+                isConsentCorrect = (groupUpdateConsent.Equals('Y') || groupUpdateConsent.Equals('y')) && !(groupUpdateConsent.Equals('N') || groupUpdateConsent.Equals('n'));
                 if (!inputFormatMatch)
                     DisplayMessage("Incorrect input format!", MessageType.Error, true);
-                else if (!(groupUpdateConsent.Equals('Y') || groupUpdateConsent.Equals('y')) && !(groupUpdateConsent.Equals('N') || groupUpdateConsent.Equals('n')))
+                else if (!isConsentCorrect)
                     DisplayMessage("You must enter either Y/y (Yes) or N/n!", MessageType.Error, true);
             }
-            while (!inputFormatMatch || !(groupUpdateConsent.Equals('Y') || groupUpdateConsent.Equals('y')) && !(groupUpdateConsent.Equals('N') || groupUpdateConsent.Equals('n')));
+            while (!inputFormatMatch || !isConsentCorrect);
 
+            bool doesGroupExist;
             if(inputFormatMatch)
             {
                 if(groupUpdateConsent.Equals('y') || groupUpdateConsent.Equals('Y'))
@@ -577,13 +582,14 @@ namespace PresentationLayer
                         inputFormatMatch = int.TryParse(Console.ReadLine(), out groupToSelect);
                         if (inputFormatMatch)
                         {
-                            if (!businessLayer.VerifyIfGroupExists(groupToSelect))
+                            doesStudentExist = businessLayer.VerifyIfGroupExists(groupToSelect);
+                            if (!doesStudentExist)
                                 DisplayMessage("Group does not exist!", MessageType.Error, true);
                         }
                         else
                             DisplayMessage("Incorrect input format! Please try again!", MessageType.Error, true);
                     }
-                    while (!inputFormatMatch || !businessLayer.VerifyIfGroupExists(groupToSelect));
+                    while (!inputFormatMatch || !doesStudentExist);
                     updates = businessLayer.EditStudent(studentToSelect, name, surname, email, groupToSelect);
                 }
                 else if(groupUpdateConsent.Equals('n') || groupUpdateConsent.Equals('N'))
@@ -602,15 +608,17 @@ namespace PresentationLayer
             DisplayTitle("Edit Teacher");
             DisplayMessage("If you do not want to change a field, press ENTER to skip.\n", MessageType.Warning, false);
 
+            bool doesTeacherUsernameExist;
             string username;
             do
             {
                 Console.Write("Username: ");
                 username = Console.ReadLine();
-                if (businessLayer.VerifyIfTeacherUsernameExists(username))
+                doesTeacherUsernameExist = businessLayer.VerifyIfTeacherUsernameExists(username);
+                if (doesTeacherUsernameExist)
                     DisplayMessage("Username already exists!", MessageType.Error, false);
             }
-            while (businessLayer.VerifyIfTeacherUsernameExists(username));
+            while (doesTeacherUsernameExist);
 
             Console.Write("Password: ");
             string password = Console.ReadLine();
@@ -621,15 +629,17 @@ namespace PresentationLayer
             Console.Write("Surname: ");
             string surname = Console.ReadLine();
 
+            bool doesTeacherEmailExist;
             string email;
             do
             {
                 Console.Write("Email: ");
                 email = Console.ReadLine();
-                if (businessLayer.VerifyIfTeacherEmailExists(email))
+                doesTeacherEmailExist = businessLayer.VerifyIfTeacherEmailExists(email);
+                if (doesTeacherEmailExist)
                     DisplayMessage("Email already exists!", MessageType.Error, false);
             }
-            while (businessLayer.VerifyIfTeacherEmailExists(email));
+            while (doesTeacherEmailExist);
 
             string updates = businessLayer.EditTeacher(teacherID, username, password, name, surname, email);
             if (updates.Equals(string.Empty))

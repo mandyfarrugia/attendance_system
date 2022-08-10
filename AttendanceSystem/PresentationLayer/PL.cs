@@ -39,7 +39,7 @@ namespace PresentationLayer
             do
             {
                 ClearConsole();
-                Console.WriteLine("Main Menu\n=========");
+                DisplayTitle("Main Menu");
                 for (int optionPos = 0; optionPos < loginMenuOptions.Count; optionPos++)
                     Console.WriteLine($"{optionPos + 1}. {loginMenuOptions[optionPos]}");
                 Console.Write("Enter choice: ");
@@ -673,6 +673,13 @@ namespace PresentationLayer
             ChangeForegroundColour(messageType);
             DisplayMessage(message, promptKeyPress);
             Console.ResetColor();
+        }
+
+        private static void DisplayTitle(string title)
+        {
+            DisplayMessage($"{title}\n", false);
+            for (int titlePos = 0; titlePos < title.Length; titlePos++)
+                Console.Write("=");
         }
 
         private static void ClearConsole()

@@ -193,14 +193,24 @@ namespace PresentationLayer
                     DateTime dateOfToday = DateTime.Now;
                     businessLayer.AddNewLesson(groupToSelect, dateOfToday, teacherID);
 
-                    Console.WriteLine("\nStudent ID\tStudent Name\tStudent Surname\t\t\tPresence (P/A)\n==========\t============\t===============\t\t==============");
+                    Console.WriteLine("\nStudent ID\tStudent Name\t\tStudent Surname\t\tPresence (P/A)\n==========\t============\t\t===============\t\t==============");
                     List<Student> students = businessLayer.GetAllStudentsFromGroup(groupToSelect);
                     foreach (Student student in students)
                     {
                         hasAttendanceBeenTaken = false;
                         do
                         {
-                            Console.Write($"{student.StudentID}\t\t{student.Name}\t\t{student.Surname}\t\t");
+                            string attendanceRow = $"{student.StudentID}\t\t";
+                            if(student.Name.Length >= 6)
+                                attendanceRow += $"{student.Name}\t\t\t";
+                            else
+                                attendanceRow += $"{student.Name}\t\t\t";
+                            if (student.Surname.Length <= 6)
+                                attendanceRow += $"{student.Surname}\t\t\t\t";
+                            else
+                                attendanceRow += $"{student.Surname}\t\t\t";
+                            Console.Write(attendanceRow);
+
                             inputFormatMatch = char.TryParse(Console.ReadLine(), out presence);
                             if (inputFormatMatch)
                             {
@@ -234,7 +244,7 @@ namespace PresentationLayer
         {
             ClearConsole();
             Console.WriteLine("Add New Group\n=============");
-            string groupName = string.Empty;
+            string groupName;
             do
             {
                 Console.Write("Group Name: ");

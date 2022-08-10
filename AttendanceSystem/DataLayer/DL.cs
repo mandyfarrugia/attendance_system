@@ -8,7 +8,7 @@ namespace DataLayer
 {
     public class DL
     {
-        public static AttendanceSystemEntities ctx = new AttendanceSystemEntities();
+        static readonly AttendanceSystemEntities ctx = new AttendanceSystemEntities();
 
         public Teacher VerifyIfTeacherUsernameExists(string username)
         {

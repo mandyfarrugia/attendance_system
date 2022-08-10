@@ -72,7 +72,7 @@ namespace PresentationLayer
         private static void Login()
         {
             ClearConsole();
-            Console.WriteLine("Login\n=====");
+            DisplayTitle("Login");
             Console.Write("Username: ");
             string username = Console.ReadLine();
             if (businessLayer.VerifyIfTeacherUsernameExists(username))
@@ -117,7 +117,7 @@ namespace PresentationLayer
             do
             {
                 ClearConsole();
-                Console.WriteLine("Teacher's Menu\n==============");
+                DisplayTitle("Teacher's Menu");
                 for (int optionPos = 0; optionPos < teacherMenuOptions.Count; optionPos++)
                     Console.WriteLine($"{optionPos + 1}. {teacherMenuOptions[optionPos]}");
                 Console.Write("Enter choice: ");
@@ -496,7 +496,7 @@ namespace PresentationLayer
                 int attendancesOnParticularDayCount = businessLayer.GetAllAttendancesOnParticularDay(teacherID, dateStart, dateEnd);
                 string result = $"You have submitted ";
                 if (attendancesOnParticularDayCount != 0)
-                    result += (attendancesOnParticularDayCount == 1) ? "only one attendance " : $"{attendancesOnParticularDayCount} attendances";
+                    result += (attendancesOnParticularDayCount == 1) ? "only one attendance " : $"{attendancesOnParticularDayCount} attendances ";
                 else
                     result += "no attendances ";
                 result += $"on { dateStart.ToShortDateString()}.";
@@ -677,9 +677,13 @@ namespace PresentationLayer
 
         private static void DisplayTitle(string title)
         {
-            DisplayMessage($"{title}\n", false);
+            DisplayMessage(title, false);
             for (int titlePos = 0; titlePos < title.Length; titlePos++)
+            {
                 Console.Write("=");
+                if (titlePos == title.Length - 1)
+                    Console.Write("\n");
+            }
         }
 
         private static void ClearConsole()

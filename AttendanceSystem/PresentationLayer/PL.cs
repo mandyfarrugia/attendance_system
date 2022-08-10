@@ -512,7 +512,6 @@ namespace PresentationLayer
             ClearConsole();
             DisplayTitle("Edit Student");
             string updates = string.Empty;
-            inputFormatMatch = false;
             foreach (Student student in businessLayer.GetAllStudents())
                 Console.WriteLine($"{student.StudentID}. {student.Name} {student.Surname}");
             do

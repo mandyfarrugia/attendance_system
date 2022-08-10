@@ -236,6 +236,14 @@ namespace DataLayer
             return matchingGroup;
         }
 
+        public Group VerifyIfGroupExists(string groupName)
+        {
+            Group matchingGroup = new List<Group>(from grp in ctx.Group
+                                                  where grp.Name.Equals(groupName)
+                                                  select grp).FirstOrDefault();
+            return matchingGroup;
+        }
+
         public Course VerifyIfCourseExistsById(int courseID)
         {
             Course matchingCourse = new List<Course>(from course in ctx.Course

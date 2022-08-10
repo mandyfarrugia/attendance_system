@@ -105,9 +105,33 @@ namespace BusinessLayer
         {
             string studentsFromGroup = string.Empty;
             List<Student> allStudentsFromGroup = this.GetAllStudentsFromGroup(groupID);
-            foreach (Student studentFromGroup in allStudentsFromGroup)
-                studentsFromGroup += $"{studentFromGroup.StudentID}. {studentFromGroup.Name} {studentFromGroup.Surname}\n";
+            if (allStudentsFromGroup != null || allStudentsFromGroup.Count != 0)
+            {
+                foreach (Student studentFromGroup in allStudentsFromGroup)
+                    studentsFromGroup += $"{studentFromGroup.StudentID}. {studentFromGroup.Name} {studentFromGroup.Surname}\n";
+            }
+            else
+                studentsFromGroup = "No students to show!";
             return studentsFromGroup;
+        }
+
+        public string DisplayAllStudents()
+        {
+            string allStudentsInAttendance = string.Empty;
+            List<Student> allStudents = this.GetAllStudents();
+            if (allStudents != null || allStudents.Count != 0)
+            {
+                for (int studentPos = 0; studentPos < allStudents.Count; studentPos++)
+                {
+                    if (studentPos == allStudents.Count - 1)
+                        allStudentsInAttendance += $"{allStudents[studentPos].StudentID}. {allStudents[studentPos].Name} {allStudents[studentPos].Surname}";
+                    else
+                        allStudentsInAttendance += $"{allStudents[studentPos].StudentID}. {allStudents[studentPos].Name} {allStudents[studentPos].Surname}\n";
+                }
+            }
+            else
+                allStudentsInAttendance = "No students to show!";
+            return allStudentsInAttendance;
         }
 
         public string DisplayAttendancePercentageByStudentID(int studentID)

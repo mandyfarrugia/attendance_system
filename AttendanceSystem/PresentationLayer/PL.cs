@@ -113,7 +113,6 @@ namespace PresentationLayer
         {
             ClearConsole();
             List<string> teacherMenuOptions = TeacherMenuOptions;
-            inputFormatMatch = false;
             do
             {
                 ClearConsole();
@@ -512,8 +511,7 @@ namespace PresentationLayer
             ClearConsole();
             DisplayTitle("Edit Student");
             string updates = string.Empty;
-            foreach (Student student in businessLayer.GetAllStudents())
-                Console.WriteLine($"{student.StudentID}. {student.Name} {student.Surname}");
+            Console.WriteLine(businessLayer.DisplayAllStudents());
             do
             {
                 Console.Write("Choose a student: ");

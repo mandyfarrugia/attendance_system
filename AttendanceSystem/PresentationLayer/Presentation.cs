@@ -44,13 +44,15 @@ namespace PresentationLayer
 
         public static void DisplayTitle(string title)
         {
+            string underline = string.Empty;
             DisplayMessage(title, false);
             for (int titlePos = 0; titlePos < title.Length; titlePos++)
             {
-                Console.Write("=");
+                underline += "=";
                 if (titlePos == title.Length - 1)
-                    Console.Write("\n");
+                    underline += "\n";
             }
+            Console.Write(underline);
         }
 
         public static void ClearConsole()

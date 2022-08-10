@@ -55,7 +55,7 @@ namespace PresentationLayer
                             AddNewTeacher();
                             break;
                         case 3:
-                            Console.WriteLine("Goodbye!");
+                            DisplayMessage("Goodbye!", true);
                             break;
                         default:
                             DisplayMessage("Invalid choice!", MessageType.Error, true);
@@ -157,14 +157,13 @@ namespace PresentationLayer
                             Logout();
                             break;
                         default:
-                            Console.WriteLine("Invalid choice!");
-                            Console.ReadKey();
+                            DisplayMessage("Invalid choice!", MessageType.Error, true);
                             ClearConsole();
                             break;
                     }
                 }
                 else
-                    Console.WriteLine("Incorrect input format! Please try again!");
+                    DisplayMessage("Incorrect input format! Please try again!", MessageType.Error, true);
             }
             while (choice != 10 || !inputFormatMatch);
         }
@@ -260,25 +259,26 @@ namespace PresentationLayer
             List<Course> courses = businessLayer.GetAllCourses();
             foreach(Course course in courses)
                 Console.WriteLine($"{course.CourseID}. {course.CourseTitle}");
-            inputFormatMatch = false;
+            bool doesCourseExist = false;
             do
             {
                 Console.Write("Select course: ");
                 inputFormatMatch = int.TryParse(Console.ReadLine(), out courseToSelect);
                 if (inputFormatMatch)
                 {
-                    if (businessLayer.VerifyIfCourseExistsById(courseToSelect))
+                    doesCourseExist = businessLayer.VerifyIfCourseExistsById(courseToSelect);
+                    if (doesCourseExist)
                     {
                         businessLayer.AddNewGroup(groupName, courseToSelect);
                         DisplayMessage("Group added successfully!", MessageType.Success, true);
                     }
                     else
-                        DisplayMessage("Could not find group with said ID!", MessageType.Error, true);
+                        DisplayMessage("Could not find course with said ID!", MessageType.Error, true);
                 }
                 else
                     DisplayMessage("Incorrect input format! Please try again!", MessageType.Error, true);
             }
-            while (!businessLayer.VerifyIfCourseExistsById(courseToSelect) || !inputFormatMatch);
+            while (!doesCourseExist || !inputFormatMatch);
         }
 
         private static void AddNewCourse()

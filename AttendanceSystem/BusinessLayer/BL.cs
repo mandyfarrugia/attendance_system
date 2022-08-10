@@ -50,6 +50,12 @@ namespace BusinessLayer
             return dataLayer.GetAllGroups();
         }
 
+        public bool VerifyIfGroupExists(string groupName)
+        {
+            Group group = dataLayer.VerifyIfGroupExists(groupName);
+            return group != null;
+        }
+
         public bool VerifyIfGroupExists(int groupID)
         {
             Group group = dataLayer.VerifyIfGroupExists(groupID);
